@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+{% load static%}
+<html lang="en" data-bs-theme="light"><head>
+	<title>BonApart - Аренда квартир.</title>
+
+	<!-- Meta Tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="bonapart.com">
+	<meta name="description" content="BonApart - Аренда квартир.">
+
+
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="{% static 'images/logo.jpg' %}">
+
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Poppins:wght@400;500;700&amp;display=swap">
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-icons.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/tiny-slider.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/glightbox.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/flatpickr.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/choices.min.css' %}">
+
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+<!-- Header START -->
+<header class="navbar-light header-sticky">
+	<!-- Logo Nav START -->
+	<nav class="navbar navbar-expand-xl">
+		<div class="container">
+			<!-- Logo START -->
+			<a class="navbar-brand d-flex align-items-center" href="index.html">
+			    <img style="border-radius: 50px;" class="light-mode-item navbar-brand-item" src="{% static 'images/logo.jpg' %}" alt="logo">
+			    <p style="margin: 0; padding: 0; margin-left: 8px;"><b>BonApart</b></p>
+			</a>
+
+			<!-- Logo END -->
+
+			<!-- Responsive navbar toggler -->
+			<button class="navbar-toggler ms-auto ms-sm-0 p-0 p-sm-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+
+			</button>
+
+			<!-- Responsive category toggler -->
+			<button class="navbar-toggler ms-sm-auto mx-3 me-md-0 p-0 p-sm-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCategoryCollapse" aria-controls="navbarCategoryCollapse" aria-expanded="false" aria-label="Toggle navigation">
+				<i class="bi bi-grid-3x3-gap-fill fa-fw"></i><span class="d-none d-sm-inline-block small">Категории</span>
+			</button>
+
+
+			<!-- Nav category menu START -->
+			<div class="navbar-collapse collapse" id="navbarCategoryCollapse">
+				<ul class="navbar-nav navbar-nav-scroll nav-pills-primary-soft text-center mx-auto p-2 p-xl-0">
+					<!-- Nav item Hotel -->
+					<li class="nav-item"> <a class="nav-link" href="{% url 'website:home' %}"><i class="fa-solid fa-hotel me-2"></i>Главная</a>	</li>
+
+					<!-- Nav item Cabs -->
+					<li class="nav-item"><a class="nav-link active" href="{% url 'website:apartments' %}"><i class="fa-solid fa-building me-2"></i>Квартиры</a></li>
+					<li class="nav-item"><a class="nav-link" href="{% url 'website:stock' %}"><i class="fa-solid fa-tags me-2"></i>Акции</a></li>
+					<li class="nav-item"><a class="nav-link" href="{% url 'website:collaboration' %}"><i class="fa-solid fa-handshake me-2"></i>Сотрудничество</a></li>
+					<li class="nav-item"><a class="nav-link" href="{% url 'website:transfers' %}"><i class="fa-solid fa-shuttle-van me-2"></i>Трансфер</a></li>
+					<li class="nav-item"><a class="nav-link" href="{% url 'website:about' %}"><i class="fa-solid fa-info-circle me-2"></i>О нас</a></li>
+
+				</ul>
+			</div>
+			<!-- Nav category menu END -->
+
+			<!-- Profile and Notification START -->
+			{% if user.is_authenticated %}
+				<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+
+				<!-- Notification dropdown START -->
+				<li class="nav-item dropdown ms-0 ms-md-3">
+					<!-- Notification button -->
+					<a class="nav-notification btn btn-light p-0 mb-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+						<i class="bi bi-bell fa-fw"></i>
+					</a>
+					<!-- Notification dote -->
+                    {% if notifications %}
+					    <span class="notif-badge animation-blink"></span>
+                    {% endif %}
+					<!-- Notification dropdown menu START -->
+					<div class="dropdown-menu dropdown-animation dropdown-menu-end dropdown-menu-size-md shadow-lg p-0">
+						<div class="card bg-transparent">
+							<!-- Card header -->
+							<div class="card-header bg-transparent d-flex justify-content-between align-items-center border-bottom">
+								<h6 class="m-0">Уведомления <span class="badge bg-danger bg-opacity-10 text-danger ms-2">{{ notifications|length }} новое</span></h6>
+							</div>
+
+							<!-- Card body START -->
+							<div class="card-body p-0">
+								<ul class="list-group list-group-flush list-unstyled p-2">
+									{% for notification in notifications %}
+									<li>
+										<a href="{% url 'users:notifications' %}" class="list-group-item list-group-item-action rounded notif-unread border-0 mb-1 p-3">
+											<h6 class="mb-2">{{ notification.event_type }}</h6>
+											<p class="mb-0 small">{{ notification.message }}</p>
+											<span>{{ notification.timestamp }}</span>
+										</a>
+									</li>
+                                    {% endfor %}
+								</ul>
+							</div>
+							<!-- Card body END -->
+
+							<!-- Card footer -->
+							<div class="card-footer bg-transparent text-center border-top">
+								<a href="{% url 'users:notifications' %}" class="btn btn-sm btn-link mb-0 p-0">Посмотреть все</a>
+							</div>
+						</div>
+					</div>
+					<!-- Notification dropdown menu END -->
+				</li>
+				<!-- Notification dropdown END -->
+
+				<!-- Profile dropdown START -->
+				<li class="nav-item ms-3 dropdown">
+					<!-- Avatar -->
+					<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+						{% if user.photo %}
+							<img class="avatar-img rounded-circle shadow" src="{{ user.photo.url }}" alt="avatar">
+						{% else %}
+							<img class="avatar-img rounded-circle shadow" src="{% static 'images/user.png' %}" alt="avatar">
+						{% endif %}
+					</a>
+
+					<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
+						<!-- Profile info -->
+						<li class="px-3 mb-3">
+							<div class="d-flex align-items-center">
+								<!-- Avatar -->
+								<div class="avatar me-3">
+									{% if user.photo %}
+										<img class="avatar-img rounded-circle shadow" src="{{ user.photo.url }}" alt="avatar">
+									{% else %}
+										<img class="avatar-img rounded-circle shadow" src="{% static 'images/user.png' %}" alt="avatar">
+									{% endif %}
+								</div>
+								<div>
+									<a class="h7 mt-2 mt-sm-0" href="{% url 'users:profile' %}">{{user.first_name}} {{user.last_name}}</a>
+									<p class="small m-0">{{ user.email }}</p>
+								</div>
+							</div>
+						</li>
+
+						<!-- Links -->
+						<li> <hr class="dropdown-divider"></li>
+						<li><a class="dropdown-item" href="#"><i class="bi bi-bookmark-check fa-fw me-2"></i>Заметки</a></li>
+						<li><a class="dropdown-item" href="#"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
+						<li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
+						<li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
+                        {% if user.is_staff %}
+                            <li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="bi bi-person fa-fw me-2"></i>Админ-панель</a></li>
+                        {% endif %}
+						<li> <hr class="dropdown-divider"></li>
+						<li><a class="dropdown-item bg-danger-soft-hover" href="{% url 'users:logout' %}"><i class="bi bi-power fa-fw me-2"></i>Выйти</a></li>
+					</ul>
+				</li>
+				<!-- Profile dropdown END -->
+			</ul>
+			{% else %}
+				<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+					<a href="{% url 'users:signin' %}" class="btn btn-primary mb-0">Войти</a>
+				</ul>
+			{% endif %}
+			<!-- Profile and Notification START -->
+
+		</div>
+	</nav>
+	<!-- Logo Nav END -->
+</header>
+<!-- Header END -->
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+	
+<!-- =======================
+Main Banner START -->
+<section class="pt-4">
+	<div class="container position-relative">
+		<!-- Title and button START -->
+		<div class="row">
+			<div class="col-12">
+				<!-- Meta -->
+				<div class="d-flex justify-content-between align-items-lg-center">
+					<!-- Title -->
+					<ul class="nav nav-divider align-items-center mb-0">
+						<li class="nav-item h4">г. Астана, Казахстан</li>
+					</ul>
+
+					<!-- Buttons -->
+					<div class="ms-3">
+						<!-- Share button -->
+						<a href="#" class="btn btn-sm btn-light px-2 mb-0" role="button" id="dropdownShare" data-bs-toggle="dropdown" aria-expanded="false">
+							<i class="fa-solid fa-fw fa-share-alt"></i>
+						</a>
+						<!-- dropdown button -->
+						<ul class="dropdown-menu dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare">
+							<li><a class="dropdown-item" href="#"><i class="fab fa-twitter-square me-2"></i>Twitter</a></li>
+							<li><a class="dropdown-item" href="#"><i class="fab fa-facebook-square me-2"></i>Facebook</a></li>
+							<li><a class="dropdown-item" href="#"><i class="fab fa-linkedin me-2"></i>LinkedIn</a></li>
+							<li><a class="dropdown-item" href="#"><i class="fa-solid fa-copy me-2"></i>Copy link</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Title and button END -->
+	</div>
+</section>
+<!-- =======================
+Main Banner END -->
+
+<!-- =======================
+Main Content START -->
+<section class="pt-0">
+	<div class="container" data-sticky-container="">
+		<div class="row g-4">
+
+			<!-- Main content START -->
+			<div class="col-xl-8">
+				<div class="vstack gap-5">
+
+					<!-- Main cab list START -->
+					<div class="card border p-4">
+						<!-- Card body START -->
+						<div class="card-body p-0">
+							<div class="row g-4 align-items-center">
+								<!-- Image -->
+								<div class="col-md-4">
+									<div class="bg-light rounded-3 px-1 py-1">
+										<img style="border-radius: 10px;" src="{{ detail.image.url }}" alt="">
+									</div>
+								</div>
+
+								<!-- card body -->
+								<div class="col-md-8">
+									<!-- Title and rating -->
+									<div class="d-sm-flex justify-content-sm-between">
+										<!-- Card title -->
+										<div>
+											<h4 class="card-title mb-2">{{ detail.brand }} {{ detail.model }}</h4>
+											<ul class="nav nav-divider h6 fw-normal mb-2">
+												<li class="nav-item">{{ detail.body.title }}</li>
+												<li class="nav-item">AC</li>
+                                                <li class="nav-item">{{ detail.capacity }} персон</li>
+											</ul>
+										</div>
+										<!-- Rating Star -->
+										<ul class="list-inline mb-0">
+											<li class="list-inline-item me-0"><i class="fa-solid fa-star text-warning"></i></li>
+											<li class="list-inline-item me-0"><i class="fa-solid fa-star text-warning"></i></li>
+											<li class="list-inline-item me-0"><i class="fa-solid fa-star text-warning"></i></li>
+											<li class="list-inline-item me-0"><i class="fa-solid fa-star text-warning"></i></li>
+											<li class="list-inline-item"><i class="fa-solid fa-star-half-alt text-warning"></i></li>
+										</ul>
+									</div>
+
+									<!-- List -->
+									<ul class="list-group list-group-borderless mt-2 mb-0">
+										<li class="list-group-item d-flex pb-0 mb-0">
+											<span class="h6 fw-normal mb-0"><i class="bi bi-check-circle me-2"></i>600Kms included. After that $15/Kms</span>
+										</li>
+										<li class="list-group-item d-flex pb-0 mb-0">
+											<span class="h6 fw-normal mb-0"><i class="bi bi-check-circle me-2"></i>2 luggage bags </span>
+										</li>
+										<li class="list-group-item d-flex pb-0 mb-0">
+											<span class="h6 fw-normal mb-0"><i class="bi bi-check-circle me-2"></i>Diesel Car</span>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>	
+						<!-- Card body END -->
+
+						<!-- Card footer -->
+						<div class="card-footer p-0 pt-4">
+							<div class="hstack gap-3 flex-wrap">
+								<!-- Item -->
+								<h6 class="bg-success bg-opacity-10 text-success fw-light rounded-2 d-inline-block mb-0 py-2 px-4">
+									Free Cancellation, till 1 hour of Pick up
+								</h6>
+			
+								<!-- Item -->
+								<h6 class="bg-success bg-opacity-10 text-success fw-light rounded-2 d-inline-block mb-0 py-2 px-4">
+									Free waiting up to 45 minutes
+								</h6>
+							</div>
+						</div>
+					</div>
+					<!-- Main cab list END -->
+
+
+
+					<!-- Driver and cab detail START -->
+					<div class="card bg-transparent">
+
+						<!-- Card header -->
+						<div class="card-header border-bottom bg-transparent px-0 pt-0">
+							<h4 class="mb-0">Driver and Cab details</h4>
+						</div>
+
+						<!-- Card body -->
+						<div class="card-body pt-4 p-0">
+							<!-- List -->
+							<ul>
+								<li class="mb-2">Cab and driver details will be shared on your registered phone. (22 Jan 2021 at 6:55 pm) </li>
+								<li class="mb-2">Due to traffic or any other unavoidable reason, the pickup may be delayed for 30 minutes.</li>
+								<li>For nighttime driving (between 11:00 pm to 7:00 am) on any of the nights, there will be a night driver charge of $100.</li>
+							</ul>
+
+						</div>	
+
+					</div>
+					<!-- Driver and cab detail END -->
+					
+					<!-- Inclusion & Exclusion START -->
+					<div class="card bg-transparent">
+						<!-- Card header -->
+						<div class="card-header border-bottom bg-transparent px-0 pt-0">
+							<h4 class="mb-0">Inclusion &amp; Exclusion</h4>
+						</div>
+
+						<!-- Card body START -->
+						<div class="card-body pt-4 p-0">
+							<!-- Detail START -->
+							<div class="row g-3">
+								<!-- List -->
+								<div class="col-sm-6">
+									<h5>Included in your price</h5>
+									<ul class="list-group list-group-borderless mb-0">
+										<li class="list-group-item mb-0 pb-0"><i class="fa-solid fa-check text-success me-1"></i>
+											State tax
+										</li>
+										<li class="list-group-item mb-0 pb-0"><i class="fa-solid fa-check text-success me-1"></i>
+											Toll charge
+										</li>
+										<li class="list-group-item mb-0 pb-0"><i class="fa-solid fa-check text-success me-1"></i>
+											Driver Allowance
+										</li>
+										<li class="list-group-item mb-0 pb-0"><i class="fa-solid fa-check text-success me-1"></i>
+											Only one pickup and drop
+										</li>
+									</ul>
+								</div>
+
+								<!-- List -->
+								<div class="col-sm-6">
+									<h5>Extra charge</h5>
+									<ul class="list-group list-group-borderless mb-0">
+										<li class="list-group-item mb-0 pb-0"><i class="bi bi-x-lg text-danger me-1"></i>
+											Fare beyond 600kms
+										</li>
+										<li class="list-group-item mb-0 pb-0"><i class="bi bi-x-lg text-danger me-1"></i>
+											Airport entry charge
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- Detail END -->
+						</div>
+						<!-- Card body END -->
+					</div>
+					<!-- Inclusion & Exclusion END -->
+
+					<!-- Safety Guidelines START -->
+					<div class="card bg-transparent">
+						<!-- Card header -->
+						<div class="card-header border-bottom bg-transparent px-0 pt-0">
+							<h4 class="mb-0">Safety Guidelines</h4>
+						</div>
+
+						<!-- Card body START -->
+						<div class="card-body pt-4 p-0">
+							<ul class="list-group list-group-borderless mb-0">
+								<li class="list-group-item h6 fw-light d-flex mb-0">
+									<i class="bi bi-arrow-right me-2"></i>All passengers coming to the state by road must show a COVID negative report (RT-PCR) not more than 72 hours old or a valid vaccination certificate. (Travel period should commence after 14 days from the 2nd dose)
+								</li>
+								<li class="list-group-item h6 fw-light d-flex mb-0">
+									<i class="bi bi-arrow-right me-2"></i>Dependent on so extremely delivered by. Yet no jokes worse her why. Bed one supposing breakfast day fulfilled off depending questions.
+								</li>
+								<li class="list-group-item h6 fw-light d-flex mb-0">
+									<i class="bi bi-arrow-right me-2"></i>Whatever boy her exertion his extended. Ecstatic followed handsome drawings entirely Mrs one yet outweigh.
+								</li>
+								<li class="list-group-item h6 fw-light d-flex mb-0">
+									<i class="bi bi-arrow-right me-2"></i>Meant balls it if up doubt small purse. Required his you put the outlived answered position. A pleasure exertion if believed provided to. 
+								</li>
+								<li class="list-group-item h6 fw-light d-flex mb-0">
+									<i class="bi bi-arrow-right me-2"></i>All led out world this music while asked. Paid mind even sons does he door no. Attended overcame repeated it is perceived Marianne in.
+								</li>
+							</ul>
+						</div>
+						<!-- Card body END -->
+					</div>
+					<!-- Safety Guidelines END -->
+				</div>
+			</div>
+			<!-- Main content END -->
+
+			<!-- Sidebar START -->
+			<aside class="col-xl-4">
+				<div data-sticky="" data-margin-top="80" data-sticky-for="1199">
+					<div class="card card-body bg-light p-4">
+						<!-- Title -->
+						<h6 class="text-danger fw-normal">Hurry! Limited cars left</h6>
+
+						<!-- List -->
+						<ul class="list-group list-group-borderless mb-0">
+							<li class="list-group-item d-flex justify-content-between">
+								<span class="h6 fw-light mb-0">Base Price</span>
+								<span class="h6 fw-light mb-0">$260</span>
+							</li>
+							<li class="list-group-item d-flex justify-content-between">
+								<span class="h6 fw-light mb-0">State Tax</span>
+								<span class="h6 fw-light mb-0">$50</span>
+							</li>
+							<li class="list-group-item d-flex justify-content-between">
+								<span class="h6 fw-light mb-0">Night Charge</span>
+								<span class="h6 fw-light mb-0">$100</span>
+							</li>
+							<li class="list-group-item d-flex justify-content-between">
+								<span class="h6 fw-light mb-0">Convenience Fee</span>
+								<span class="h6 fw-light mb-0">$25</span>
+							</li>
+							<li class="list-group-item py-0"><hr class="my-0"></li> 
+							<!-- Divider -->
+							<li class="list-group-item d-flex justify-content-between pb-0">
+								<span class="h5 fw-normal mb-0">Total</span>
+								<span class="h5 fw-normal mb-0">$435</span>
+							</li>
+						</ul>
+
+						<div class="d-grid mt-4 gap-2">
+							<div class="form-check form-check-inline mb-0">
+								<input class="form-check-input" type="radio" name="discountOptions" id="discount1" value="option1" checked="">
+								<label class="form-check-label h6 fw-normal mb-0" for="discount1">Pay $220 now (Half Payment)</label>
+							</div>
+
+							<div class="form-check form-check-inline mb-0">
+								<input class="form-check-input" type="radio" name="discountOptions" id="discount2" value="option2">
+								<label class="form-check-label h6 fw-normal mb-0" for="discount2">Pay $435 now (Full payment)</label>
+							</div>
+
+							<!-- Button -->
+							<a href="cab-booking.html" class="btn btn-dark mb-0 mt-2">Pay Now</a>
+						</div>
+					</div>
+				</div> 
+			</aside>
+			<!-- Sidebar END -->
+		</div>
+	</div>
+</section>
+</main>
+
+<footer class="bg-dark pt-5">
+	<div class="container">
+		<!-- Row START -->
+		<div class="row g-4">
+
+			<!-- Widget 1 START -->
+			<div class="col-lg-3">
+				<!-- logo -->
+				<a href="index.html" style="display: flex;">
+					<img class="h-40px" style="border-radius: 50px;" src="{% static 'images/logo.jpg' %}" alt="logo">
+					<p style="margin: auto; margin-left: 10px; color: white;"><b>BonApart</b></p>
+				</a>
+				<p class="my-3 text-body-secondary">BonApart - больше чем просто крыша!</p>
+				<p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+7 (778) 980 71 02</a> </p>
+				<p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+7 (778) 706 61 00</a> </p>
+				<p class="mb-0"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-envelope me-2"></i>example@gmail.com</a></p>
+			</div>
+			<!-- Widget 1 END -->
+
+			<!-- Widget 2 START -->
+			<div class="col-lg-8 ms-auto">
+				<div class="row g-4">
+					<!-- Link block -->
+					<div class="col-6 col-md-3">
+						<h5 class="text-white mb-2 mb-md-4">Страницы</h5>
+						<ul class="nav flex-column text-primary-hover">
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="index.html">Главная</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="apartments_list.html">Квартиры</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Акции</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Сотрудничество</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Трансфер</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">О нас</a></li>
+						</ul>
+					</div>
+
+					<!-- Link block -->
+					<div class="col-6 col-md-3">
+						<h5 class="text-white mb-2 mb-md-4">Ссылки</h5>
+						<ul class="nav flex-column text-primary-hover">
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Регистрация</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Войти</a></li
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Поддержка</a></li>
+						</ul>
+					</div>
+
+					<!-- Link block -->
+					<div class="col-6 col-md-3">
+						<h5 class="text-white mb-2 mb-md-4">BonApart</h5>
+						<ul class="nav flex-column text-primary-hover">
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">WhatsApp</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Instagram</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- Widget 2 END -->
+
+		</div><!-- Row END -->
+
+
+		<!-- Payment and card -->
+		<div class="row g-4 justify-content-between mt-0 mt-md-2">
+
+			<!-- Social media icon -->
+			<div class="col-sm-5 col-md-6 col-lg-3 text-sm-end">
+				<h5 class="text-white mb-2">Подпишись</h5>
+				<ul class="list-inline mb-0 mt-3">
+					<li class="list-inline-item"> <a class="btn btn-sm px-2 bg-facebook mb-0" href="#"><i class="fab fa-fw fa-facebook-f"></i></a> </li>
+					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-instagram mb-0" href="#"><i class="fab fa-fw fa-instagram"></i></a> </li>
+					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-twitter mb-0" href="#"><i class="fab fa-fw fa-twitter"></i></a> </li>
+					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-linkedin mb-0" href="#"><i class="fab fa-fw fa-linkedin-in"></i></a> </li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- Divider -->
+		<hr class="mt-4 mb-0">
+
+		<!-- Bottom footer -->
+		<div class="row">
+			<div class="container">
+				<div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
+					<!-- copyright text -->
+					<div class="text-body-secondary text-primary-hover"> Copyrights ©2023 BonApart. Создано <a href="http://workbenchkz.pythonanywhere.com/" class="text-body-secondary">WorkBench</a>. </div>
+					<!-- copyright links-->
+					<div class="nav mt-2 mt-lg-0">
+						<ul class="list-inline text-primary-hover mx-auto mb-0">
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="#">Политика конфиденциальности</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="#">Условия использования</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="#">Поддержка</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+
+
+<!-- Back to top -->
+<div class="back-top"></div>
+
+<!-- Bootstrap JS -->
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- Vendors -->
+<script src="{% static 'js/sticky.min.js' %}"></script>
+<script src="{% static 'js/glightbox.js' %}"></script>
+<script src="{% static 'js/flatpickr.min.js' %}"></script>
+<script src="{% static 'js/tiny-slider.js' %}"></script>
+
+<!-- ThemeFunctions -->
+<script src="{% static 'js/functions.js' %}"></script>
+
+
+</body>
+</html>

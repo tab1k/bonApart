@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru" data-bs-theme="light">
+<head>
+	<title>BonApart - Аренда квартир.</title>
+
+		<!-- Meta Tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="author" content="bonapart.com">
+		<meta name="description" content="BonApart - Аренда квартир.">
+
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="{% static 'images/logo.jpg' %}">
+
+		<!-- Google Font -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+		<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+
+		<!-- Plugins CSS -->
+		<link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-icons.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/glightbox.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/flatpickr.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/choices.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/tiny-slider.css' %}">
+
+		<!-- Theme CSS -->
+		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+<!-- Header START -->
+<header class="navbar-light header-sticky">
+	<!-- Logo Nav START -->
+	<nav class="navbar navbar-expand-xl">
+		<div class="container">
+			<!-- Logo START -->
+			<a class="navbar-brand d-flex align-items-center" href="index.html">
+			    <img style="border-radius: 50px;" class="light-mode-item navbar-brand-item" src="{% static 'images/logo.jpg' %}" alt="logo">
+			    <p style="margin: 0; padding: 0; margin-left: 8px;"><b>BonApart</b></p>
+			</a>
+
+			<!-- Logo END -->
+
+			<!-- Responsive navbar toggler -->
+			<button class="navbar-toggler ms-auto ms-sm-0 p-0 p-sm-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+
+			</button>
+
+			<!-- Responsive category toggler -->
+			<button class="navbar-toggler ms-sm-auto mx-3 me-md-0 p-0 p-sm-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCategoryCollapse" aria-controls="navbarCategoryCollapse" aria-expanded="false" aria-label="Toggle navigation">
+				<i class="bi bi-grid-3x3-gap-fill fa-fw"></i><span class="d-none d-sm-inline-block small">Категории</span>
+			</button>
+
+
+			<!-- Nav category menu START -->
+			<div class="navbar-collapse collapse" id="navbarCategoryCollapse">
+				<ul class="navbar-nav navbar-nav-scroll nav-pills-primary-soft text-center mx-auto p-2 p-xl-0">
+					<!-- Nav item Hotel -->
+					<li class="nav-item"> <a class="nav-link" href="{% url 'website:home' %}"><i class="fa-solid fa-hotel me-2"></i>Главная</a>	</li>
+
+					<!-- Nav item Cabs -->
+					<li class="nav-item"><a class="nav-link active" href="{% url 'website:apartments' %}"><i class="fa-solid fa-building me-2"></i>Квартиры</a></li>
+					<li class="nav-item"><a class="nav-link" href="{% url 'website:stock' %}"><i class="fa-solid fa-tags me-2"></i>Акции</a></li>
+					<li class="nav-item"><a class="nav-link" href="{% url 'website:collaboration' %}"><i class="fa-solid fa-handshake me-2"></i>Сотрудничество</a></li>
+					<li class="nav-item"><a class="nav-link" href="{% url 'website:transfers' %}"><i class="fa-solid fa-shuttle-van me-2"></i>Трансфер</a></li>
+					<li class="nav-item"><a class="nav-link" href="{% url 'website:about' %}"><i class="fa-solid fa-info-circle me-2"></i>О нас</a></li>
+
+				</ul>
+			</div>
+			<!-- Nav category menu END -->
+
+			<!-- Profile and Notification START -->
+			{% if user.is_authenticated %}
+				<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+
+				<!-- Notification dropdown START -->
+				<li class="nav-item dropdown ms-0 ms-md-3">
+					<!-- Notification button -->
+					<a class="nav-notification btn btn-light p-0 mb-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+						<i class="bi bi-bell fa-fw"></i>
+					</a>
+					<!-- Notification dote -->
+                    {% if notifications %}
+					    <span class="notif-badge animation-blink"></span>
+                    {% endif %}
+					<!-- Notification dropdown menu START -->
+					<div class="dropdown-menu dropdown-animation dropdown-menu-end dropdown-menu-size-md shadow-lg p-0">
+						<div class="card bg-transparent">
+							<!-- Card header -->
+							<div class="card-header bg-transparent d-flex justify-content-between align-items-center border-bottom">
+								<h6 class="m-0">Уведомления <span class="badge bg-danger bg-opacity-10 text-danger ms-2">{{ notifications|length }} новое</span></h6>
+							</div>
+
+							<!-- Card body START -->
+							<div class="card-body p-0">
+								<ul class="list-group list-group-flush list-unstyled p-2">
+									{% for notification in notifications %}
+									<li>
+										<a href="{% url 'users:notifications' %}" class="list-group-item list-group-item-action rounded notif-unread border-0 mb-1 p-3">
+											<h6 class="mb-2">{{ notification.event_type }}</h6>
+											<p class="mb-0 small">{{ notification.message }}</p>
+											<span>{{ notification.timestamp }}</span>
+										</a>
+									</li>
+                                    {% endfor %}
+								</ul>
+							</div>
+							<!-- Card body END -->
+
+							<!-- Card footer -->
+							<div class="card-footer bg-transparent text-center border-top">
+								<a href="{% url 'users:notifications' %}" class="btn btn-sm btn-link mb-0 p-0">Посмотреть все</a>
+							</div>
+						</div>
+					</div>
+					<!-- Notification dropdown menu END -->
+				</li>
+				<!-- Notification dropdown END -->
+
+				<!-- Profile dropdown START -->
+				<li class="nav-item ms-3 dropdown">
+					<!-- Avatar -->
+					<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+						{% if user.photo %}
+							<img class="avatar-img rounded-circle shadow" src="{{ user.photo.url }}" alt="avatar">
+						{% else %}
+							<img class="avatar-img rounded-circle shadow" src="{% static 'images/user.png' %}" alt="avatar">
+						{% endif %}
+					</a>
+
+					<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
+						<!-- Profile info -->
+						<li class="px-3 mb-3">
+							<div class="d-flex align-items-center">
+								<!-- Avatar -->
+								<div class="avatar me-3">
+									{% if user.photo %}
+										<img class="avatar-img rounded-circle shadow" src="{{ user.photo.url }}" alt="avatar">
+									{% else %}
+										<img class="avatar-img rounded-circle shadow" src="{% static 'images/user.png' %}" alt="avatar">
+									{% endif %}
+								</div>
+								<div>
+									<a class="h7 mt-2 mt-sm-0" href="{% url 'users:profile' %}">{{user.first_name}} {{user.last_name}}</a>
+									<p class="small m-0">{{ user.email }}</p>
+								</div>
+							</div>
+						</li>
+
+						<!-- Links -->
+						<li> <hr class="dropdown-divider"></li>
+						<li><a class="dropdown-item" href="#"><i class="bi bi-bookmark-check fa-fw me-2"></i>Заметки</a></li>
+						<li><a class="dropdown-item" href="#"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
+						<li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
+						<li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
+                        {% if user.is_staff %}
+                            <li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="bi bi-person fa-fw me-2"></i>Админ-панель</a></li>
+                        {% endif %}
+						<li> <hr class="dropdown-divider"></li>
+						<li><a class="dropdown-item bg-danger-soft-hover" href="{% url 'users:logout' %}"><i class="bi bi-power fa-fw me-2"></i>Выйти</a></li>
+					</ul>
+				</li>
+				<!-- Profile dropdown END -->
+			</ul>
+			{% else %}
+				<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+					<a href="{% url 'users:signin' %}" class="btn btn-primary mb-0">Войти</a>
+				</ul>
+			{% endif %}
+			<!-- Profile and Notification START -->
+
+		</div>
+	</nav>
+	<!-- Logo Nav END -->
+</header>
+<!-- Header END -->
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+
+
+<!-- =======================
+Main Title START -->
+
+<section class="py-0 pt-sm-5">
+	<div class="container position-relative">
+		<!-- Title and button START -->
+		<div class="row mb-3">
+			<div class="col-12">
+				<!-- Meta -->
+				<div class="d-lg-flex justify-content-lg-between mb-1">
+					<!-- Title -->
+					<div class="mb-2 mb-lg-0">
+						<h1 class="fs-2">{{ detail.name }}</h1>
+						<!-- Location -->
+						<p class="fw-bold mb-0"><i class="bi bi-geo-alt me-2"></i>{{ detail.address }}
+							<a href="#" class="ms-2 text-decoration-underline" data-bs-toggle="modal" data-bs-target="#mapmodal">
+								<i class="bi bi-eye-fill me-1"></i>Посмотреть на карте
+							</a>
+						</p>
+					</div>
+
+					<!-- Buttons -->
+					<ul class="list-inline text-end">
+						<!-- Heart icon -->
+						<li class="list-inline-item">
+							<a href="#" class="btn btn-sm btn-light px-2"><i class="fa-solid fa-fw fa-heart"></i></a>
+						</li>
+						<!-- Share icon -->
+						<li class="list-inline-item dropdown">
+							<!-- Share button -->
+							<a href="#" class="btn btn-sm btn-light px-2" role="button" id="dropdownShare" data-bs-toggle="dropdown" aria-expanded="false">
+								<i class="fa-solid fa-fw fa-share-alt"></i>
+							</a>
+							<!-- dropdown button -->
+							<ul class="dropdown-menu dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare">
+								<li><a class="dropdown-item" href="#"><i class="fab fa-twitter-square me-2"></i>Twitter</a></li>
+								<li><a class="dropdown-item" href="#"><i class="fab fa-facebook-square me-2"></i>Facebook</a></li>
+								<li><a class="dropdown-item" href="#"><i class="fab fa-linkedin me-2"></i>LinkedIn</a></li>
+								<li><a class="dropdown-item" href="#"><i class="fa-solid fa-copy me-2"></i>Copy link</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- Title and button END -->
+	</div>
+</section>
+
+<!-- =======================
+Main Title END -->
+
+<!-- =======================
+Image gallery START -->
+<section class="pt-4">
+	<div class="container">
+
+		<!-- Slider START -->
+		<div class="tiny-slider arrow-round arrow-blur">
+			<div class="tiny-slider-inner" data-autoplay="true" data-arrow="true" data-edge="0" data-dots="false" data-items="2" data-items-sm="1">
+				<!-- Slider item -->
+				<div>
+					<a class="w-100 h-100" data-glightbox="" data-gallery="gallery" href="{{ detail.image1.url }}">
+						<div class="card card-element-hover card-overlay-hover overflow-hidden">
+							<!-- Image -->
+							<img src="{{ detail.image1.url }}" class="rounded-3" alt="">
+							<!-- Full screen button -->
+							<div class="hover-element w-100 h-100">
+								<i class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
+							</div>
+						</div>
+					</a>
+				</div>
+
+				<!-- Slider item -->
+				<div>
+					<a class="w-100 h-100" data-glightbox="" data-gallery="gallery" href="{% static 'assets/images/gallery/16.jpg' %}">
+						<div class="card card-element-hover card-overlay-hover overflow-hidden">
+							<!-- Image -->
+							<img src="{{ detail.image2.url }}" class="rounded-3" alt="">
+							<!-- Full screen button -->
+							<div class="hover-element w-100 h-100">
+								<i class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
+							</div>
+						</div>
+					</a>
+				</div>
+
+				<!-- Slider item -->
+				<div>
+					<a class="w-100 h-100" data-glightbox="" data-gallery="gallery" href="{{ detail.image3.url }}">
+						<div class="card card-element-hover card-overlay-hover overflow-hidden">
+							<!-- Image -->
+							<img src="{{ detail.image3.url }}" class="rounded-3" alt="">
+							<!-- Full screen button -->
+							<div class="hover-element w-100 h-100">
+								<i class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
+							</div>
+						</div>
+					</a>
+				</div>
+
+				<!-- Slider item -->
+				<div>
+					<a class="w-100 h-100" data-glightbox="" data-gallery="gallery" href="{{ detail.image4.url }}">
+						<div class="card card-element-hover card-overlay-hover overflow-hidden">
+							<!-- Image -->
+							<img src="{{ detail.image4.url }}" class="rounded-3" alt="">
+							<!-- Full screen button -->
+							<div class="hover-element w-100 h-100">
+								<i class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
+							</div>
+						</div>
+					</a>
+				</div>
+                <div>
+					<a class="w-100 h-100" data-glightbox="" data-gallery="gallery" href="{{ detail.image5.url }}">
+						<div class="card card-element-hover card-overlay-hover overflow-hidden">
+							<!-- Image -->
+							<img src="{{ detail.image5.url }}" class="rounded-3" alt="">
+							<!-- Full screen button -->
+							<div class="hover-element w-100 h-100">
+								<i class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+		<!-- Slider START -->
+	</div>
+</section>
+
+<section class="pt-0">
+	<div class="container" data-sticky-container="">
+
+		<div class="row g-4 g-xl-5">
+			<!-- Content START -->
+			<div class="col-xl-7 order-1">
+				<div class="vstack gap-5">
+
+					<!-- About hotel START -->
+					<div class="card bg-transparent">
+						<!-- Card header -->
+						<div class="card-header border-bottom bg-transparent px-0 pt-0">
+							<h3 class="mb-0">Немного об этой квартире</h3>
+						</div>
+
+						<!-- Card body START -->
+						<div class="card-body pt-4 p-0">
+							<h5 class="fw-light mb-4">Основные моменты</h5>
+
+							<!-- Highlights Icons -->
+							<div class="hstack gap-3 mb-3">
+								<div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Free wifi">
+									<i class="fa-solid fa-wifi"></i>
+								</div>
+								<div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Swimming Pool">
+									<i class="fa-solid fa-swimming-pool"></i>
+								</div>
+								<div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Central AC">
+									<i class="fa-solid fa-snowflake"></i>
+								</div>
+								<div class="icon-lg bg-light h5 rounded-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Free Service">
+									<i class="fa-solid fa-concierge-bell"></i>
+								</div>
+							</div>
+
+							<p class="mb-3"><b>{{ detail.description }}</b></p>
+
+							<a class="p-0 mb-4 mt-2 btn-more d-flex align-items-center collapsed" data-bs-toggle="collapse" href="#collapseContent" role="button" aria-expanded="false" aria-controls="collapseContent">
+								 <span class="see-more ms-1">Больше</span><span class="see-less ms-1">less</span><i class="fa-solid fa-angle-down ms-2"></i>
+							</a>
+
+{#							<!-- List -->#}
+{#							<h5 class="fw-light mb-2">Преимущества</h5>#}
+{#							<ul class="list-group list-group-borderless mb-0">#}
+{#								<li class="list-group-item h6 fw-light d-flex mb-0"><i class="bi bi-patch-check-fill text-success me-2"></i>Every hotel staff to have Proper PPT kit for COVID-19</li>#}
+{#								<li class="list-group-item h6 fw-light d-flex mb-0"><i class="bi bi-patch-check-fill text-success me-2"></i>Every staff member wears face masks and gloves at all service times.</li>#}
+{#								<li class="list-group-item h6 fw-light d-flex mb-0"><i class="bi bi-patch-check-fill text-success me-2"></i>Hotel staff ensures to maintain social distancing at all times.</li>#}
+{#								<li class="list-group-item h6 fw-light d-flex mb-0"><i class="bi bi-patch-check-fill text-success me-2"></i>The hotel has In-Room Dining options available </li>#}
+{#							</ul>#}
+						</div>
+						<!-- Card body END -->
+					</div>
+					<!-- About hotel START -->
+
+					<!-- Amenities START -->
+					<div class="card bg-transparent">
+						<!-- Card header -->
+						<div class="card-header border-bottom bg-transparent px-0 pt-0">
+							<h3 class="card-title mb-0">Что входит?</h3>
+						</div>
+
+						<!-- Card body START -->
+						<div class="card-body pt-4 p-0">
+							<div class="row g-4">
+								<!-- Activities -->
+								<div class="col-sm-6">
+									<h6><i class="fa-solid fa-biking me-2"></i>Что есть в квартире?</h6>
+									<!-- List -->
+									<ul class="list-group list-group-borderless mt-2 mb-0">
+										<li class="list-group-item pb-0">
+											<i class="fa-solid fa-check-circle text-success me-2"></i>Swimming pool
+										</li>
+										<li class="list-group-item pb-0">
+											<i class="fa-solid fa-check-circle text-success me-2"></i>Spa
+										</li>
+										<li class="list-group-item pb-0">
+											<i class="fa-solid fa-check-circle text-success me-2"></i>Kids' play area
+										</li>
+										<li class="list-group-item pb-0">
+											<i class="fa-solid fa-check-circle text-success me-2"></i>Gym
+										</li>
+									</ul>
+								</div>
+
+								<!-- Payment Method -->
+								<div class="col-sm-6">
+									<h6><i class="fa-solid fa-credit-card me-2"></i>Способ оплаты</h6>
+									<!-- List -->
+									<ul class="list-group list-group-borderless mt-2 mb-0">
+										<li class="list-group-item pb-0">
+											<i class="fa-solid fa-check-circle text-success me-2"></i>Kaspi Bank
+										</li>
+									</ul>
+								</div>
+
+								<!-- Services -->
+								<div class="col-sm-6">
+									<h6><i class="fa-solid fa-concierge-bell me-2"></i>Сервисы</h6>
+									<!-- List -->
+									<ul class="list-group list-group-borderless mt-2 mb-0">
+										<li class="list-group-item pb-0">
+											<i class="fa-solid fa-check-circle text-success me-2"></i>Dry cleaning
+										</li>
+										<li class="list-group-item pb-0">
+											<i class="fa-solid fa-check-circle text-success me-2"></i>Room Service
+										</li>
+										<li class="list-group-item pb-0">
+											<i class="fa-solid fa-check-circle text-success me-2"></i>Special service
+										</li>
+										<li class="list-group-item pb-0">
+											<i class="fa-solid fa-check-circle text-success me-2"></i>Waiting Area
+										</li>
+										<li class="list-group-item pb-0">
+											<i class="fa-solid fa-check-circle text-success me-2"></i>Secrete smoking area
+										</li>
+										<li class="list-group-item pb-0">
+											<i class="fa-solid fa-check-circle text-success me-2"></i>Concierge
+										</li>
+										<li class="list-group-item pb-0">
+											<i class="fa-solid fa-check-circle text-success me-2"></i>Laundry facilities
+										</li>
+										<li class="list-group-item pb-0">
+											<i class="fa-solid fa-check-circle text-success me-2"></i>Ironing Service
+										</li>
+										<li class="list-group-item pb-0">
+											<i class="fa-solid fa-check-circle text-success me-2"></i>Lift
+										</li>
+									</ul>
+								</div>
+
+								<!-- Safety & Security -->
+								<div class="col-sm-6">
+									<h6><i class="bi bi-shield-fill-check me-2"></i>Безопасность</h6>
+									<!-- List -->
+									<ul class="list-group list-group-borderless mt-2 mb-4 mb-sm-5">
+										<li class="list-group-item pb-0">
+											<i class="fa-solid fa-check-circle text-success me-2"></i>Служба безопасности 24/7
+
+										</li>
+                                        <li class="list-group-item pb-0">
+											<i class="fa-solid fa-check-circle text-success me-2"></i>Умный замок
+										</li>
+
+									</ul>
+								</div>
+
+							</div>
+						</div>
+						<!-- Card body END -->
+					</div>
+
+                    <div class="card bg-transparent">
+						<!-- Card header -->
+						<div class="card-header border-bottom bg-transparent px-0 pt-0">
+							<h3 class="mb-0">Регламент проживания:</h3>
+						</div>
+
+						<!-- Card body START -->
+						<div class="card-body pt-4 p-0">
+
+							<ul class="list-group list-group-borderless mb-2">
+								<li class="list-group-item h6 fw-light d-flex mb-0">
+									<i class="bi bi-arrow-right me-2"></i>Заезд: с 14:00 часов
+								</li>
+								<li class="list-group-item h6 fw-light d-flex mb-0">
+									<i class="bi bi-arrow-right me-2"></i>Выезд: до 12:00 часов
+								</li>
+								<li class="list-group-item h6 fw-light d-flex mb-0">
+									<i class="bi bi-arrow-right me-2"></i>Курить запрещается
+								</li>
+								<li class="list-group-item h6 fw-light d-flex mb-0">
+									<i class="bi bi-arrow-right me-2"></i>Не нарушать тишину после 23:00
+								</li>
+								<li class="list-group-item h6 fw-light d-flex mb-0">
+									<i class="bi bi-arrow-right me-2"></i>Проживание с животными - запрещается!
+								</li>
+							</ul>
+						</div>
+						<!-- Card body END -->
+					</div>
+			
+
+					<!-- Customer Review START -->
+					<div class="card bg-transparent">
+						<!-- Card header -->
+						<div class="card-header border-bottom bg-transparent px-0 pt-0">
+							<h3 class="card-title mb-0">Комментарии</h3>
+						</div>
+
+						<!-- Card body START -->
+						<div class="card-body pt-4 p-0">
+							<!-- Progress bar and rating START -->
+							<div class="card bg-light p-4 mb-4">
+								<div class="row g-4 align-items-center">
+									<!-- Rating info -->
+									<div class="col-md-4">
+										<div class="text-center">
+											<!-- Info -->
+											<h2 class="mb-0">4.5</h2>
+											<p class="mb-2">Based on 120 Reviews</p>
+											<!-- Star -->
+											<ul class="list-inline mb-0">
+												<li class="list-inline-item me-0"><i class="fa-solid fa-star text-warning"></i></li>
+												<li class="list-inline-item me-0"><i class="fa-solid fa-star text-warning"></i></li>
+												<li class="list-inline-item me-0"><i class="fa-solid fa-star text-warning"></i></li>
+												<li class="list-inline-item me-0"><i class="fa-solid fa-star text-warning"></i></li>
+												<li class="list-inline-item me-0"><i class="fa-solid fa-star-half-alt text-warning"></i></li>
+											</ul>
+										</div>
+									</div>
+
+									<!-- Progress-bar START -->
+									<div class="col-md-8">
+										<div class="card-body p-0">
+											<div class="row gx-3 g-2 align-items-center">
+												<!-- Progress bar and Rating -->
+												<div class="col-9 col-sm-10">
+													<!-- Progress item -->
+													<div class="progress progress-sm bg-warning bg-opacity-15">
+														<div class="progress-bar bg-warning" role="progressbar" style="width: 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
+														</div>
+													</div>
+												</div>
+												<!-- Percentage -->
+												<div class="col-3 col-sm-2 text-end">
+													<span class="h6 fw-light mb-0">85%</span>
+												</div>
+
+												<!-- Progress bar and Rating -->
+												<div class="col-9 col-sm-10">
+													<!-- Progress item -->
+													<div class="progress progress-sm bg-warning bg-opacity-15">
+														<div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+														</div>
+													</div>
+												</div>
+												<!-- Percentage -->
+												<div class="col-3 col-sm-2 text-end">
+													<span class="h6 fw-light mb-0">75%</span>
+												</div>
+
+												<!-- Progress bar and Rating -->
+												<div class="col-9 col-sm-10">
+													<!-- Progress item -->
+													<div class="progress progress-sm bg-warning bg-opacity-15">
+														<div class="progress-bar bg-warning" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+														</div>
+													</div>
+												</div>
+												<!-- Percentage -->
+												<div class="col-3 col-sm-2 text-end">
+													<span class="h6 fw-light mb-0">60%</span>
+												</div>
+
+												<!-- Progress bar and Rating -->
+												<div class="col-9 col-sm-10">
+													<!-- Progress item -->
+													<div class="progress progress-sm bg-warning bg-opacity-15">
+														<div class="progress-bar bg-warning" role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100">
+														</div>
+													</div>
+												</div>
+												<!-- Percentage -->
+												<div class="col-3 col-sm-2 text-end">
+													<span class="h6 fw-light mb-0">35%</span>
+												</div>
+
+												<!-- Progress bar and Rating -->
+												<div class="col-9 col-sm-10">
+													<!-- Progress item -->
+													<div class="progress progress-sm bg-warning bg-opacity-15">
+														<div class="progress-bar bg-warning" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+														</div>
+													</div>
+												</div>
+												<!-- Percentage -->
+												<div class="col-3 col-sm-2 text-end">
+													<span class="h6 fw-light mb-0">15%</span>
+												</div>
+											</div> <!-- Row END -->
+										</div>
+									</div>
+									<!-- Progress-bar END -->
+
+								</div>
+							</div>
+							<!-- Progress bar and rating END -->
+
+							<!-- Leave review START -->
+							<form class="mb-5">
+								<!-- Rating -->
+								<div class="form-control-bg-light mb-3">
+									<select class="form-select js-choice">
+										<option selected="">★★★★★ (5/5)</option>
+										<option>★★★★☆ (4/5)</option>
+										<option>★★★☆☆ (3/5)</option>
+										<option>★★☆☆☆ (2/5)</option>
+										<option>★☆☆☆☆ (1/5)</option>
+									</select>
+								</div>
+								<!-- Message -->
+								<div class="form-control-bg-light mb-3">
+									<textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Your review" rows="3"></textarea>
+								</div>
+								<!-- Button -->
+								<button type="submit" class="btn btn-lg btn-primary mb-0">Post review <i class="bi fa-fw bi-arrow-right ms-2"></i></button>
+							</form>
+							<!-- Leave review END -->
+
+							<!-- Review item START -->
+							<div class="d-md-flex my-4">
+								<!-- Avatar -->
+								<div class="avatar avatar-lg me-3 flex-shrink-0">
+									<img class="avatar-img rounded-circle" src="{% static 'images/09.jpg' %}" alt="avatar">
+								</div>
+								<!-- Text -->
+								<div>
+									<div class="d-flex justify-content-between mt-1 mt-md-0">
+										<div>
+											<h6 class="me-3 mb-0">Jacqueline Miller</h6>
+											<!-- Info -->
+											<ul class="nav nav-divider small mb-2">
+												<li class="nav-item">Stayed 13 Nov 2022</li>
+												<li class="nav-item">4 Reviews written</li>
+											</ul>
+										</div>
+										<!-- Review star -->
+										<div class="icon-md rounded text-bg-warning fs-6">4.5</div>
+									</div>
+
+									<p class="mb-2">Handsome met debating sir dwelling age material. As style lived he worse dried. Offered related so visitors we private removed. Moderate do subjects to distance. </p>
+
+									<!-- Images -->
+									<div class="row g-4">
+										<div class="col-4 col-sm-3 col-lg-2">
+											<img src="{% static 'images/07.jpg' %}" class="rounded" alt="">
+										</div>
+										<div class="col-4 col-sm-3 col-lg-2">
+											<img src="{% static 'images/08_1.jpg' %}" class="rounded" alt="">
+										</div>
+										<div class="col-4 col-sm-3 col-lg-2">
+											<img src="{% static 'images/05.jpg' %}" class="rounded" alt="">
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Child review START -->
+							<div class="my-4 ps-2 ps-md-3">
+								<div class="d-md-flex p-3 bg-light rounded-3">
+									<img class="avatar avatar-sm rounded-circle me-3" src="{% static 'images/02_1.jpg' %}" alt="avatar">
+									<div class="mt-2 mt-md-0">
+										<h6 class="mb-1">Manager</h6>
+										<p class="mb-0">But discretion frequently sir she instruments unaffected admiration everything. </p>
+									</div>
+								</div>
+							</div>
+							<!-- Child review END -->
+
+							<!-- Divider -->
+							<hr>
+							<!-- Review item END -->
+
+							<!-- Review item START -->
+							<div class="d-md-flex my-4">
+								<!-- Avatar -->
+								<div class="avatar avatar-lg me-3 flex-shrink-0">
+									<img class="avatar-img rounded-circle" src="{% static 'images/08.jpg' %}" alt="avatar">
+								</div>
+								<!-- Text -->
+								<div>
+									<div class="d-flex justify-content-between mt-1 mt-md-0">
+										<div>
+											<h6 class="me-3 mb-0">Dennis Barrett</h6>
+											<!-- Info -->
+											<ul class="nav nav-divider small mb-2">
+												<li class="nav-item">Stayed 02 Nov 2022</li>
+												<li class="nav-item">2 Reviews written</li>
+											</ul>
+										</div>
+										<!-- Review star -->
+										<div class="icon-md rounded text-bg-warning fs-6">4.0</div>
+									</div>
+
+									<p class="mb-0">Delivered dejection necessary objection do Mr prevailed. Mr feeling does chiefly cordial in do. Water timed folly right aware if oh truth. Large above be to means. Dashwood does provide stronger is.</p>
+								</div>
+							</div>
+
+							<!-- Divider -->
+							<hr>
+							<!-- Review item END -->
+
+							<!-- Button -->
+							<div class="text-center">
+								<a href="#" class="btn btn-primary-soft mb-0">Load more</a>
+							</div>
+						</div>
+						<!-- Card body END -->
+					</div>
+
+				</div>
+			</div>
+			<!-- Content END -->
+
+			<!-- Right side content START -->
+			<aside class="col-xl-5 order-xl-2">
+				<div data-sticky="" data-margin-top="100" data-sticky-for="1199">
+					<!-- Book now START -->
+					<div class="card card-body border">
+
+						<!-- Title -->
+						<div class="d-sm-flex justify-content-sm-between align-items-center mb-3">
+							<div>
+								<span>Цена</span>
+								<h4 class="card-title mb-0">{{ detail.price }} тг</h4>
+							</div>
+							<div>
+								<h6 class="fw-normal mb-0">{{ detail.room }} комнатная</h6>
+								<small>{{ detail.square }} м2</small>
+							</div>
+						</div>
+
+						<!-- Rating -->
+						<ul class="list-inline mb-2">
+							<li class="list-inline-item me-1 h6 fw-light mb-0"><i class="bi bi-arrow-right me-2"></i>4.5</li>
+							<li class="list-inline-item me-0 small"><i class="fa-solid fa-star text-warning"></i></li>
+							<li class="list-inline-item me-0 small"><i class="fa-solid fa-star text-warning"></i></li>
+							<li class="list-inline-item me-0 small"><i class="fa-solid fa-star text-warning"></i></li>
+							<li class="list-inline-item me-0 small"><i class="fa-solid fa-star text-warning"></i></li>
+							<li class="list-inline-item me-0 small"><i class="fa-solid fa-star-half-alt text-warning"></i></li>
+						</ul>
+
+						<p class="h6 fw-light mb-4"><i class="bi bi-arrow-right me-2"></i>Free breakfast available</p>
+
+						<!-- Button -->
+						<div class="d-grid">
+							<a href="#room-options" class="btn btn-lg btn-primary-soft btn-green mb-0">Позвонить</a>
+						</div>
+                        <div class="d-grid">
+							<a href="#room-options" class="btn btn-lg btn-primary-soft mb-0 mt-2">Забронировать</a>
+						</div>
+					</div>
+					<!-- Book now END -->
+
+					<!-- Best deal START -->
+					<div class="mt-4 d-none d-xl-block">
+						<h4 class="mb-3">Приезжай с комфортом!</h4>
+
+						<div class="card shadow rounded-3 overflow-hidden">
+							<div class="row g-0 align-items-center">
+								<!-- Image -->
+								<div class="col-sm-6 col-md-12 col-lg-6">
+									<img src="{% static 'images/camry.jpeg' %}" class="card-img rounded-0" alt="">
+								</div>
+
+								<!-- Title and content -->
+								<div class="col-sm-6 col-md-12 col-lg-6">
+									<div class="card-body p-3">
+										<h6 class="card-title"><a href="{% url 'website:transfers' %}" class="stretched-link">Toyota Camry 70</a></h6>
+										<p class="mb-0">2.5 л. быстрее ветра!</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Best deal END -->
+				</div>
+			</aside>
+			<!-- Right side content END -->
+		</div> <!-- Row END -->
+	</div>
+</section>
+<!-- =======================
+About hotel END -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+
+<!-- =======================
+Footer START -->
+<footer class="bg-dark pt-5">
+	<div class="container">
+		<!-- Row START -->
+		<div class="row g-4">
+
+			<!-- Widget 1 START -->
+			<div class="col-lg-3">
+				<!-- logo -->
+				<a href="index.html" style="display: flex;">
+					<img class="h-40px" style="border-radius: 50px;" src="{% static 'images/logo.jpg' %}" alt="logo">
+					<p style="margin: auto; margin-left: 10px; color: white;"><b>BonApart</b></p>
+				</a>
+				<p class="my-3 text-body-secondary">BonApart - больше чем просто крыша!</p>
+				<p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+7 (778) 980 71 02</a> </p>
+				<p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+7 (778) 706 61 00</a> </p>
+				<p class="mb-0"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-envelope me-2"></i>example@gmail.com</a></p>
+			</div>
+			<!-- Widget 1 END -->
+
+			<!-- Widget 2 START -->
+			<div class="col-lg-8 ms-auto">
+				<div class="row g-4">
+					<!-- Link block -->
+					<div class="col-6 col-md-3">
+						<h5 class="text-white mb-2 mb-md-4">Страницы</h5>
+						<ul class="nav flex-column text-primary-hover">
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="index.html">Главная</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="apartments_list.html">Квартиры</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Акции</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Сотрудничество</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Трансфер</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">О нас</a></li>
+						</ul>
+					</div>
+
+					<!-- Link block -->
+					<div class="col-6 col-md-3">
+						<h5 class="text-white mb-2 mb-md-4">Ссылки</h5>
+						<ul class="nav flex-column text-primary-hover">
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Регистрация</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Войти</a></li
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Поддержка</a></li>
+						</ul>
+					</div>
+
+					<!-- Link block -->
+					<div class="col-6 col-md-3">
+						<h5 class="text-white mb-2 mb-md-4">BonApart</h5>
+						<ul class="nav flex-column text-primary-hover">
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">WhatsApp</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Instagram</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- Widget 2 END -->
+
+		</div><!-- Row END -->
+
+
+		<!-- Payment and card -->
+		<div class="row g-4 justify-content-between mt-0 mt-md-2">
+
+			<!-- Social media icon -->
+			<div class="col-sm-5 col-md-6 col-lg-3 text-sm-end">
+				<h5 class="text-white mb-2">Подпишись</h5>
+				<ul class="list-inline mb-0 mt-3">
+					<li class="list-inline-item"> <a class="btn btn-sm px-2 bg-facebook mb-0" href="#"><i class="fab fa-fw fa-facebook-f"></i></a> </li>
+					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-instagram mb-0" href="#"><i class="fab fa-fw fa-instagram"></i></a> </li>
+					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-twitter mb-0" href="#"><i class="fab fa-fw fa-twitter"></i></a> </li>
+					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-linkedin mb-0" href="#"><i class="fab fa-fw fa-linkedin-in"></i></a> </li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- Divider -->
+		<hr class="mt-4 mb-0">
+
+		<!-- Bottom footer -->
+		<div class="row">
+			<div class="container">
+				<div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
+					<!-- copyright text -->
+					<div class="text-body-secondary text-primary-hover"> Copyrights ©2023 BonApart. Создано <a href="http://workbenchkz.pythonanywhere.com/" class="text-body-secondary">WorkBench</a>. </div>
+					<!-- copyright links-->
+					<div class="nav mt-2 mt-lg-0">
+						<ul class="list-inline text-primary-hover mx-auto mb-0">
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="#">Политика конфиденциальности</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="#">Условия использования</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="#">Поддержка</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<!-- =======================
+Footer END -->
+
+<!-- Map modal START -->
+<div class="modal fade" id="mapmodal" tabindex="-1" aria-labelledby="mapmodalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content">
+			<!-- Title -->
+			<div class="modal-header">
+				<h5 class="modal-title" id="mapmodalLabel">{{ detail.address }}</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<!-- Map -->
+			<div class="modal-body p-0">
+				<iframe class="w-100" height="400" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.9663095343008!2d{{ geo_position.longitude }}!3d{{ geo_position.latitude }}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259bf5c1654f3%3A0xc80f9cfce5383d5d!2sGoogle!5e0!3m2!1en!2sin!4v1586000412513!5m2!1en!2sin" style="border:0;" aria-hidden="false" tabindex="0"></iframe>
+			</div>
+            <script>
+                // Получение координат из контекста (предполагается, что detail.latitude и detail.longitude доступны)
+                var apartmentLat = {{ geo_position.latitude }};
+                var apartmentLng = {{ geo_position.longitude }};
+
+                // Инициализация карты
+                var map = L.map('apartment-map').setView([apartmentLat, apartmentLng], 15);
+
+                // Добавление слоя карты OpenStreetMap
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                }).addTo(map);
+
+                // Добавление маркера на карте
+                L.marker([apartmentLat, apartmentLng]).addTo(map)
+                    .bindPopup('Местоположение квартиры')
+                    .openPopup();
+            </script>
+			<!-- Button -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-primary mb-0"><i class="bi fa-fw bi-pin-map-fill me-2"></i>Посмотреть в Google Картах</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Map modal END -->
+
+<!-- Room modal START -->
+<div class="modal fade" id="roomDetail" tabindex="-1" aria-labelledby="roomDetailLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content p-0">
+
+			<!-- Title -->
+			<div class="modal-header p-3">
+				<h5 class="modal-title mb-0" id="roomDetailLabel">Room detail</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+
+			<!-- Modal body -->
+			<div class="modal-body p-0">
+
+				<!-- Card START -->
+				<div class="card bg-transparent p-3">
+					<!-- Slider START -->
+					<div class="tiny-slider arrow-round arrow-dark overflow-hidden rounded-2">
+						<div class="tiny-slider-inner rounded-2 overflow-hidden" data-autoplay="true" data-arrow="true" data-dots="false" data-items="1">
+							<!-- Image item -->
+							<div> <img src="images/16.jpg" class="rounded-2" alt="Card image"></div>
+
+							<!-- Image item -->
+							<div> <img src="images/15.jpg" class="rounded-2" alt="Card image"> </div>
+
+							<!-- Image item -->
+							<div> <img src="images/13.jpg" class="rounded-2" alt="Card image"> </div>
+
+							<!-- Image item -->
+							<div> <img src="images/12.jpg" class="rounded-2" alt="Card image"> </div>
+						</div>
+					</div>
+					<!-- Slider END -->
+
+					<!-- Card header -->
+					<div class="card-header bg-transparent pb-0">
+						<h3 class="card-title mb-0">Deluxe Pool View</h3>
+					</div>
+
+					<!-- Card body START -->
+					<div class="card-body">
+						<!-- Content -->
+						<p>Club rooms are well furnished with air conditioner, 32 inch LCD television and a mini bar. They have attached bathroom with showerhead and hair dryer and 24 hours supply of hot and cold running water. Complimentary wireless internet access is available. Additional amenities include bottled water, a safe and a desk.</p>
+
+						<div class="row">
+							<h5 class="mb-0">Amenities</h5>
+
+							<!-- List -->
+							<div class="col-md-6">
+								<!-- List -->
+								<ul class="list-group list-group-borderless mt-2 mb-0">
+									<li class="list-group-item d-flex mb-0">
+										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">Swimming pool</span>
+									</li>
+									<li class="list-group-item d-flex mb-0">
+										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">Spa</span>
+									</li>
+									<li class="list-group-item d-flex mb-0">
+										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">Kids play area.</span>
+									</li>
+									<li class="list-group-item d-flex mb-0">
+										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">Gym</span>
+									</li>
+								</ul>
+							</div>
+
+							<!-- List -->
+							<div class="col-md-6">
+								<!-- List -->
+								<ul class="list-group list-group-borderless mt-2 mb-0">
+									<li class="list-group-item d-flex mb-0">
+										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">TV</span>
+									</li>
+									<li class="list-group-item d-flex mb-0">
+										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">Mirror</span>
+									</li>
+									<li class="list-group-item d-flex mb-0">
+										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">AC</span>
+									</li>
+									<li class="list-group-item d-flex mb-0">
+										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">Slippers</span>
+									</li>
+								</ul>
+							</div>
+						</div> <!-- Row END -->
+					</div>
+					<!-- Card body END -->
+				</div>
+				<!-- Card END -->
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Room modal END -->
+
+<!-- Back to top -->
+<div class="back-top"></div>
+
+<!-- Bootstrap JS -->
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- Vendors -->
+<script src="{% static 'js/glightbox.js' %}"></script>
+<script src="{% static 'js/flatpickr.min.js' %}"></script>
+<script src="{% static 'js/choices.min.js' %}"></script>
+<script src="{% static 'js/tiny-slider.js' %}"></script>
+<script src="{% static 'js/sticky.min.js' %}"></script>
+
+<!-- ThemeFunctions -->
+<script src="{% static 'js/functions.js' %}"></script>
+
+
+</body></html>

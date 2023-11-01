@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru" data-bs-theme="light">
+	<head>
+		<title>BonApart - Аренда квартир.</title>
+
+		<!-- Meta Tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="author" content="bonapart.com">
+		<meta name="description" content="BonApart - Аренда квартир.">
+	
+	
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="{% static 'images/logo.jpg' %}">
+	
+		<!-- Google Font -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+		<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+	
+		<!-- Plugins CSS -->
+		<link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-icons.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/glightbox.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/flatpickr.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/choices.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/tiny-slider.css' %}">
+	
+		<!-- Theme CSS -->
+		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+	<header class="navbar-light header-sticky">
+		<!-- Logo Nav START -->
+		<nav class="navbar navbar-expand-xl">
+			<div class="container">
+				<!-- Logo START -->
+				<a class="navbar-brand d-flex align-items-center" href="index.html">
+					<img style="border-radius: 50px;" class="light-mode-item navbar-brand-item" src="{% static 'images/logo.jpg' %}" alt="logo">
+					<p style="margin: 0; padding: 0; margin-left: 8px;"><b>BonApart</b></p>
+				</a>
+	
+				<!-- Logo END -->
+	
+				<!-- Responsive navbar toggler -->
+				<button class="navbar-toggler ms-auto ms-sm-0 p-0 p-sm-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+	
+				</button>
+	
+				<!-- Responsive category toggler -->
+				<button class="navbar-toggler ms-sm-auto mx-3 me-md-0 p-0 p-sm-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCategoryCollapse" aria-controls="navbarCategoryCollapse" aria-expanded="false" aria-label="Toggle navigation">
+					<i class="bi bi-grid-3x3-gap-fill fa-fw"></i><span class="d-none d-sm-inline-block small">Категории</span>
+				</button>
+	
+	
+				<!-- Nav category menu START -->
+				<div class="navbar-collapse collapse" id="navbarCategoryCollapse">
+					<ul class="navbar-nav navbar-nav-scroll nav-pills-primary-soft text-center mx-auto p-2 p-xl-0">
+						<!-- Nav item Hotel -->
+						<li class="nav-item"> <a class="nav-link" href="{% url 'website:home' %}"><i class="fa-solid fa-hotel me-2"></i>Главная</a>	</li>
+	
+						<!-- Nav item Cabs -->
+						<li class="nav-item"><a class="nav-link" href="{% url 'website:apartments' %}"><i class="fa-solid fa-building me-2"></i>Квартиры</a></li>
+						<li class="nav-item"><a class="nav-link" href="{% url 'website:stock' %}"><i class="fa-solid fa-tags me-2"></i>Акции</a></li>
+						<li class="nav-item"><a class="nav-link" href="{% url 'website:collaboration' %}"><i class="fa-solid fa-handshake me-2"></i>Сотрудничество</a></li>
+						<li class="nav-item"><a class="nav-link active" href="{% url 'website:transfers' %}"><i class="fa-solid fa-shuttle-van me-2"></i>Трансфер</a></li>
+						<li class="nav-item"><a class="nav-link" href="{% url 'website:about' %}"><i class="fa-solid fa-info-circle me-2"></i>О нас</a></li>
+	
+					</ul>
+				</div>
+				<!-- Nav category menu END -->
+	
+				<!-- Profile and Notification START -->
+				{% if user.is_authenticated %}
+				<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+
+				<!-- Notification dropdown START -->
+				<li class="nav-item dropdown ms-0 ms-md-3">
+					<!-- Notification button -->
+					<a class="nav-notification btn btn-light p-0 mb-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+						<i class="bi bi-bell fa-fw"></i>
+					</a>
+					<!-- Notification dote -->
+                    {% if notifications %}
+					    <span class="notif-badge animation-blink"></span>
+                    {% endif %}
+					<!-- Notification dropdown menu START -->
+					<div class="dropdown-menu dropdown-animation dropdown-menu-end dropdown-menu-size-md shadow-lg p-0">
+						<div class="card bg-transparent">
+							<!-- Card header -->
+							<div class="card-header bg-transparent d-flex justify-content-between align-items-center border-bottom">
+								<h6 class="m-0">Уведомления <span class="badge bg-danger bg-opacity-10 text-danger ms-2">{{ notifications|length }} новое</span></h6>
+							</div>
+
+							<!-- Card body START -->
+							<div class="card-body p-0">
+								<ul class="list-group list-group-flush list-unstyled p-2">
+									{% for notification in notifications %}
+									<li>
+										<a href="{% url 'users:notifications' %}" class="list-group-item list-group-item-action rounded notif-unread border-0 mb-1 p-3">
+											<h6 class="mb-2">{{ notification.event_type }}</h6>
+											<p class="mb-0 small">{{ notification.message }}</p>
+											<span>{{ notification.timestamp }}</span>
+										</a>
+									</li>
+                                    {% endfor %}
+								</ul>
+							</div>
+							<!-- Card body END -->
+
+							<!-- Card footer -->
+							<div class="card-footer bg-transparent text-center border-top">
+								<a href="{% url 'users:notifications' %}" class="btn btn-sm btn-link mb-0 p-0">Посмотреть все</a>
+							</div>
+						</div>
+					</div>
+					<!-- Notification dropdown menu END -->
+				</li>
+				<!-- Notification dropdown END -->
+
+				<!-- Profile dropdown START -->
+				<li class="nav-item ms-3 dropdown">
+					<!-- Avatar -->
+					<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+						{% if user.photo %}
+							<img class="avatar-img rounded-circle shadow" src="{{ user.photo.url }}" alt="avatar">
+						{% else %}
+							<img class="avatar-img rounded-circle shadow" src="{% static 'images/user.png' %}" alt="avatar">
+						{% endif %}
+					</a>
+
+					<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
+						<!-- Profile info -->
+						<li class="px-3 mb-3">
+							<div class="d-flex align-items-center">
+								<!-- Avatar -->
+								<div class="avatar me-3">
+									{% if user.photo %}
+										<img class="avatar-img rounded-circle shadow" src="{{ user.photo.url }}" alt="avatar">
+									{% else %}
+										<img class="avatar-img rounded-circle shadow" src="{% static 'images/user.png' %}" alt="avatar">
+									{% endif %}
+								</div>
+								<div>
+									<a class="h7 mt-2 mt-sm-0" href="{% url 'users:profile' %}">{{user.first_name}} {{user.last_name}}</a>
+									<p class="small m-0">{{ user.email }}</p>
+								</div>
+							</div>
+						</li>
+
+						<!-- Links -->
+						<li> <hr class="dropdown-divider"></li>
+						<li><a class="dropdown-item" href="#"><i class="bi bi-bookmark-check fa-fw me-2"></i>Заметки</a></li>
+						<li><a class="dropdown-item" href="#"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
+						<li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
+						<li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
+                        {% if user.is_staff %}
+                            <li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="bi bi-person fa-fw me-2"></i>Админ-панель</a></li>
+                        {% endif %}
+						<li> <hr class="dropdown-divider"></li>
+						<li><a class="dropdown-item bg-danger-soft-hover" href="{% url 'users:logout' %}"><i class="bi bi-power fa-fw me-2"></i>Выйти</a></li>
+					</ul>
+				</li>
+				<!-- Profile dropdown END -->
+			</ul>
+			{% else %}
+				<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+					<a href="{% url 'users:signin' %}" class="btn btn-primary mb-0">Войти</a>
+				</ul>
+			{% endif %}
+				<!-- Profile and Notification START -->
+	
+			</div>
+		</nav>
+		<!-- Logo Nav END -->
+	</header>
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+
+	
+<!-- =======================
+Titles START -->
+<section class="pt-6">
+	<div class="container position-relative">
+
+		<!-- Title and button START -->
+		<div class="row">
+			<div class="col-12">
+				<div class="d-sm-flex justify-content-sm-between align-items-center">
+					<!-- Title -->
+					<div class="mb-2 mb-sm-0">
+						<h1 class="fs-3 mb-2">10+ разновидностей машин</h1>
+						<!-- Divider -->
+						<ul class="nav nav-divider h6 mb-2">
+							<li class="nav-item">Доставили</li>
+							<li class="nav-item">БОЛЕЕ</li>
+							<li class="nav-item">1000 довольных клиентов</li>
+						</ul>
+					</div>
+
+					<!-- Offcanvas Button -->
+					<button class="btn btn-primary-soft btn-primary-check d-xl-none mb-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+						<i class="fa-solid fa-sliders-h me-1"></i>Фильтр
+					</button>
+				</div>	
+			</div>
+		</div>
+		<!-- Title and button END -->
+
+	</div>
+</section>
+<!-- =======================
+Titles END -->
+
+<!-- =======================
+Cab list START -->
+<section class="pt-0">
+	<div class="container" data-sticky-container="">
+		<div class="row">
+
+			<!-- Left sidebar START -->
+			<aside class="col-xl-4 col-xxl-3">
+				<div data-sticky="" data-margin-top="80" data-sticky-for="1199">
+					<!-- Responsive offcanvas body START -->
+					<div class="offcanvas-xl offcanvas-end" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+						<div class="offcanvas-header">
+							<h5 class="offcanvas-title" id="offcanvasSidebarLabel">Advance Filters</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasSidebar" aria-label="Close"></button>
+						</div>
+						<!-- Offcanvas body -->
+						<div class="offcanvas-body flex-column p-3 p-xl-0">
+							<form class="rounded-3 shadow" method="get" action="">
+
+
+
+								<!-- Car model START -->
+								<div class="card card-body rounded-0 rounded-bottom p-4">
+									<!-- Title -->
+									<h6 class="mb-4">Класс машины</h6>
+									<!-- Checkbox -->
+									<select name="class_choice" class="form-control">
+                                        <option value="comfort">Комфорт</option>
+                                        <option value="business">Бизнес</option>
+                                    </select>
+
+								</div>
+								<div class="d-flex justify-content-between p-2 p-xl-3" style="margin-bottom: 1.6rem !important;">
+                                    <button type="reset" class="btn btn-link p-0 mb-0">Очистить</button>
+                                    <button class="btn btn-primary mb-0">Показать все</button>
+                                </div>
+							</form>
+						</div>
+
+						<!-- Buttons -->
+
+					</div>
+					<!-- Responsive offcanvas body END -->
+				</div> 	
+			</aside>
+			<!-- Left sidebar END -->
+
+			<!-- Main content START -->
+			<div class="col-xl-8 col-xxl-9">
+				<div class="vstack gap-4">
+
+					<!-- Cab item START -->
+                    {% for i in cars %}
+					<div class="card border p-4">
+						<!-- Card body START -->
+						<div class="card-body p-0">
+							<div class="row g-2 g-sm-4 mb-4">
+								<!-- Card image -->
+								<div class="col-md-1 col-xl-3">
+									<div class="bg-light rounded-3 px-2 py-2">
+										<img style="border-radius: 10px;" src="{{ i.image.url }}" alt="">
+									</div>
+								</div>
+
+								<!-- Card title and rating -->
+								<div class="col-sm-6 col-md-4 col-xl-6">
+									<h4 class="card-title mb-2"><a href="#" class="stretched-link">{{ i.brand }} {{ i.model }}</a></h4>
+									<!-- Nav divider -->
+									<ul class="nav nav-divider h6 fw-normal mb-2">
+										<li class="nav-item">{{ i.equipment.title }}</li>
+										<li class="nav-item">AC</li>
+										<li class="nav-item">{{ i.capacity }} персоны</li>
+									</ul> 
+									
+									<!-- Rating Star -->
+									<ul class="list-inline mb-0">
+										<li class="list-inline-item h6 fw-normal me-1 mb-0">4.8</li>
+										<li class="list-inline-item me-0"><i class="fa-solid fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0"><i class="fa-solid fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0"><i class="fa-solid fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0"><i class="fa-solid fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0"><i class="fa-solid fa-star-half-alt text-warning"></i></li>
+									</ul>
+                                    <p>Автомобили предоставляет компания - TED AutoRent</p>
+                                    <a class="btn btn-sm shadow px-2 bg-instagram mb-0" href="https://instagram.com/ted_autorent?igshid=OGQ5ZDc2ODk2ZA=="><i class="fab fa-fw fa-instagram"></i>  ted_autorent</a>
+								</div>
+
+								<!-- Button -->
+								<div class="col-sm-6 col-md-4 col-xl-3 text-sm-end">
+									<!-- Discount -->
+									<p class="text-danger mb-0">10% скидка!</p>
+									<!-- Price -->
+									<ul class="list-inline mb-1">
+										<li class="list-inline-item h5 mb-0">{{ i.price }} тг</li>
+									</ul>
+                                    <a href="#" class="btn btn-dark mb-2 mt-3" style="background-color:green;">Позвонить</a>
+								</div>
+							</div> <!-- Row END -->
+						</div>
+
+					</div>
+                    {% endfor %}
+					<!-- Cab item END -->
+
+
+					<!-- Pagination -->
+					<nav class="d-flex justify-content-center" aria-label="navigation">
+						<ul class="pagination pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+							<li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i class="fa-solid fa-angle-left"></i></a></li>
+							<li class="page-item mb-0"><a class="page-link" href="#">1</a></li>
+							<li class="page-item mb-0 active"><a class="page-link" href="#">2</a></li>
+							<li class="page-item mb-0"><a class="page-link" href="#">..</a></li>
+							<li class="page-item mb-0"><a class="page-link" href="#">6</a></li>
+							<li class="page-item mb-0"><a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+			<!-- Main content END -->
+
+		</div> <!-- Row END -->
+
+	</div>
+</section>
+<!-- =======================
+Cab list END -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+
+<!-- =======================
+Footer START -->
+<footer class="bg-dark pt-5">
+	<div class="container">
+		<!-- Row START -->
+		<div class="row g-4">
+
+			<!-- Widget 1 START -->
+			<div class="col-lg-3">
+				<!-- logo -->
+				<a href="index.html" style="display: flex;">
+					<img class="h-40px" style="border-radius: 50px;" src="{% static 'images/logo.jpg' %}" alt="logo">
+					<p style="margin: auto; margin-left: 10px; color: white;"><b>BonApart</b></p>
+				</a>
+				<p class="my-3 text-body-secondary">BonApart - больше чем просто крыша!</p>
+				<p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+7 (778) 980 71 02</a> </p>
+				<p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+7 (778) 706 61 00</a> </p>
+				<p class="mb-0"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-envelope me-2"></i>example@gmail.com</a></p>
+			</div>
+			<!-- Widget 1 END -->
+
+			<!-- Widget 2 START -->
+			<div class="col-lg-8 ms-auto">
+				<div class="row g-4">
+					<!-- Link block -->
+					<div class="col-6 col-md-3">
+						<h5 class="text-white mb-2 mb-md-4">Страницы</h5>
+						<ul class="nav flex-column text-primary-hover">
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="index.html">Главная</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="apartments_list.html">Квартиры</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Акции</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Сотрудничество</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Трансфер</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">О нас</a></li>
+						</ul>
+					</div>
+
+					<!-- Link block -->
+					<div class="col-6 col-md-3">
+						<h5 class="text-white mb-2 mb-md-4">Ссылки</h5>
+						<ul class="nav flex-column text-primary-hover">
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Регистрация</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Войти</a></li
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Поддержка</a></li>
+						</ul>
+					</div>
+
+					<!-- Link block -->
+					<div class="col-6 col-md-3">
+						<h5 class="text-white mb-2 mb-md-4">BonApart</h5>
+						<ul class="nav flex-column text-primary-hover">
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">WhatsApp</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Instagram</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- Widget 2 END -->
+
+		</div><!-- Row END -->
+
+
+		<!-- Payment and card -->
+		<div class="row g-4 justify-content-between mt-0 mt-md-2">
+
+			<!-- Social media icon -->
+			<div class="col-sm-5 col-md-6 col-lg-3 text-sm-end">
+				<h5 class="text-white mb-2">Подпишись</h5>
+				<ul class="list-inline mb-0 mt-3">
+					<li class="list-inline-item"> <a class="btn btn-sm px-2 bg-facebook mb-0" href="#"><i class="fab fa-fw fa-facebook-f"></i></a> </li>
+					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-instagram mb-0" href="#"><i class="fab fa-fw fa-instagram"></i></a> </li>
+					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-twitter mb-0" href="#"><i class="fab fa-fw fa-twitter"></i></a> </li>
+					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-linkedin mb-0" href="#"><i class="fab fa-fw fa-linkedin-in"></i></a> </li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- Divider -->
+		<hr class="mt-4 mb-0">
+
+		<!-- Bottom footer -->
+		<div class="row">
+			<div class="container">
+				<div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
+					<!-- copyright text -->
+					<div class="text-body-secondary text-primary-hover"> Copyrights ©2023 BonApart. Создано <a href="http://workbenchkz.pythonanywhere.com/" class="text-body-secondary">WorkBench</a>. </div>
+					<!-- copyright links-->
+					<div class="nav mt-2 mt-lg-0">
+						<ul class="list-inline text-primary-hover mx-auto mb-0">
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="#">Политика конфиденциальности</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="#">Условия использования</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="#">Поддержка</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<!-- =======================
+Footer END -->
+
+<!-- Back to top -->
+<div class="back-top"></div>
+
+<!-- Bootstrap JS -->
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- Vendors -->
+<script src="{% static 'js/sticky.min.js' %}"></script>
+<script src="{% static 'js/flatpickr.min.js' %}"></script>
+<script src="{% static 'js/choices.min.js' %}"></script>
+<script src="{% static 'js/nouislider.min.js' %}"></script>
+
+<!-- ThemeFunctions -->
+<script src="{% static 'js/functions.js' %}"></script>
+
+
+</body></html>

@@ -153,7 +153,7 @@
 
 						<!-- Links -->
 						<li> <hr class="dropdown-divider"></li>
-						<li><a class="dropdown-item" href="#"><i class="bi bi-bookmark-check fa-fw me-2"></i>Заметки</a></li>
+
 						<li><a class="dropdown-item" href="#"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
 						<li><a class="dropdown-item" href="{% url 'users:profile' %}"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
 						<li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
@@ -280,7 +280,7 @@ Main Banner START -->
 				<h5 class="d-none d-xl-block mb-3 mt-5">Проверить наличие свободных квартир</h5>
 
 				<!-- Booking from START -->
-				<form class="card shadow rounded-3 position-relative p-4 pe-md-5 pb-5 pb-md-4">
+				<form method="get" class="card shadow rounded-3 position-relative p-4 pe-md-5 pb-5 pb-md-4">
 					<div class="row g-4 align-items-center">
 						<!-- Location -->
 						<div class="col-lg-4">
@@ -289,14 +289,14 @@ Main Banner START -->
 								<i class="bi bi-geo-alt fs-3 me-2 mt-2"></i>
 								<!-- Select input -->
 								<div class="flex-grow-1">
-									<label class="form-label">Локация</label>
-									<select class="form-select js-choice" data-search-enabled="true">
+									<label for="district_choice" class="form-label">Локация</label>
+									<select id="district_choice" name="district_choice" class="form-select js-choice" data-search-enabled="true">
 										<option value="">Выберите локацию</option>
-										<option>Алматинский район</option>
-										<option>Байконурский район</option>
-										<option>Есильский район</option>
-                                        <option>Нуринский район</option>
-                                        <option>Сарыаркинский район</option>
+										<option value="Алматинский район">Алматинский район</option>
+										<option value="Байконурский район">Байконурский район</option>
+										<option value="Есильский район">Есильский район</option>
+                                        <option value="Нуринский район">Нуринский район</option>
+                                        <option value="Сарыаркинский район">Сарыаркинский район</option>
 									</select>
 								</div>
 							</div>
@@ -310,7 +310,7 @@ Main Banner START -->
 								<!-- Date input -->
 								<div class="form-control-border form-control-transparent form-fs-md">
 									<label class="form-label">Заезд - выезд</label>
-									<input type="text" class="form-control flatpickr" data-mode="range" placeholder="Select date" value="19 Sep to 28 Sep">
+									<input type="text" class="form-control flatpickr" data-mode="range" placeholder="Выберите дату" value="19 Сен до 28 Сен">
 								</div>
 							</div>
 						</div>
@@ -324,7 +324,7 @@ Main Banner START -->
 								<div class="w-100">
 									<label class="form-label">Люди &amp; комнаты</label>
 									<div class="dropdown guest-selector me-2">
-										<input type="text" class="form-guest-selector form-control selection-result" value="2 Guests 1 Room" data-bs-auto-close="outside" data-bs-toggle="dropdown">
+										<input type="text" class="form-guest-selector form-control selection-result" value="2 чел 1 комната" data-bs-auto-close="outside" data-bs-toggle="dropdown">
 
 										<!-- dropdown items -->
 										<ul class="dropdown-menu guest-selector-dropdown">
@@ -366,7 +366,7 @@ Main Banner START -->
 					</div>
 					<!-- Button -->
 					<div class="btn-position-md-middle">
-						<a class="icon-lg btn btn-round btn-primary mb-0" href="{% url 'website:home' %}"><i class="bi bi-search fa-fw"></i></a>
+						<a type="submit" class="icon-lg btn btn-round btn-primary mb-0" href="{% url 'website:apartments' %}"><i class="bi bi-search fa-fw"></i></a>
 					</div>
 				</form>
 				<!-- Booking from END -->
@@ -421,59 +421,7 @@ Main Banner START -->
 					</div>
 				</div>
                 {% endfor %}
-				<div class="col-sm-6 col-xl-3">
-					<!-- Card START -->
-					<div class="card card-img-scale overflow-hidden bg-transparent">
-						<!-- Image and overlay -->
-						<div class="card-img-scale-wrapper rounded-3">
-							<!-- Image -->
-							<img src="{% static 'images/01_3.jpg' %}" class="card-img" alt="hotel image">
-							<!-- Badge -->
-							<div class="position-absolute bottom-0 start-0 p-3">
-								<div class="badge text-bg-dark fs-6 rounded-pill stretched-link"><i class="bi bi-geo-alt me-2"></i>Астана</div>
-							</div>
-						</div>
-	
-						<!-- Card body -->
-						<div class="card-body px-2">
-							<!-- Title -->
-							<h5 class="card-title"><a href="detail.html" class="stretched-link">Мангилик Ел 53</a></h5>
-							<!-- Price and rating -->
-							<div class="d-flex justify-content-between align-items-center">
-								<h6 class="text-success mb-0">от 15.000 тг <small class="fw-light"></small> </h6>
-								<h6 class="mb-0">4.5<i class="fa-solid fa-star text-warning ms-1"></i></h6>
-							</div>
-						</div>
-					</div>
-				</div>
 
-				<!-- Slider item -->
-				<div class="col-sm-6 col-xl-3">
-					<!-- Card START -->
-					<div class="card card-img-scale overflow-hidden bg-transparent">
-						<!-- Image and overlay -->
-						<div class="card-img-scale-wrapper rounded-3">
-							<!-- Image -->
-							<img src="{% static 'images/01_3.jpg' %}" class="card-img" alt="hotel image">
-							<!-- Badge -->
-							<div class="position-absolute bottom-0 start-0 p-3">
-								<div class="badge text-bg-dark fs-6 rounded-pill stretched-link"><i class="bi bi-geo-alt me-2"></i>Астана</div>
-							</div>
-						</div>
-	
-						<!-- Card body -->
-						<div class="card-body px-2">
-							<!-- Title -->
-							<h5 class="card-title"><a href="detail.html" class="stretched-link">Мангилик Ел 53</a></h5>
-							<!-- Price and rating -->
-							<div class="d-flex justify-content-between align-items-center">
-								<h6 class="text-success mb-0">от 15.000 тг <small class="fw-light"></small> </h6>
-								<h6 class="mb-0">4.5<i class="fa-solid fa-star text-warning ms-1"></i></h6>
-							</div>
-						</div>
-					</div>
-					<!-- Card END -->
-				</div>
 
 			</div>
 		</div>
@@ -791,6 +739,20 @@ Best deal END -->
 	  </div>
 	</div>
   </section>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/65432483f2439e1631eadedd/1he74d9d4';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+<!--End of Tawk.to Script-->
 
 
 </main>

@@ -130,6 +130,31 @@ class Car(models.Model):
 
 
 class Reservation(models.Model):
-    name = models.CharField(max_length=255)
-    surname = models.CharField(max_length=255)
-    phone = models.CharField(max_length=20)
+    name = models.CharField(max_length=255, verbose_name='Имя')
+    surname = models.CharField(max_length=255, verbose_name='Фамилия')
+    phone = models.CharField(max_length=20, verbose_name='Номер телефона')
+
+    def __str__(self):
+        return f'{self.name} | {self.phone}'
+
+    class Meta:
+        verbose_name = 'Заявка'
+        verbose_name_plural = 'Заявки'
+
+
+class Stock(models.Model):
+    title = models.CharField(max_length=255, verbose_name='Хэштег')
+    stock = models.CharField(max_length=255, verbose_name='Акция')
+    about = models.TextField(blank=True, null=True, verbose_name='О акции')
+    photo = models.ImageField(upload_to='stock_images', blank=True, null=True, verbose_name='Задний фон')
+    start_date = models.DateField(blank=True, null=True, verbose_name='Начало акции')  # Дата начала акции
+    end_date = models.DateField(blank=True, null=True, verbose_name='Конец акции')  # Дата окончания акции
+    valid = models.BooleanField(default=True, blank=True, null=True, verbose_name='Действует акция?')
+
+    def str(self):
+        return self.stock
+
+    class Meta:
+        verbose_name = 'Акция'
+        verbose_name_plural = 'Акции'
+

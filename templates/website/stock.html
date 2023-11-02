@@ -155,7 +155,6 @@
 
 						<!-- Links -->
 						<li> <hr class="dropdown-divider"></li>
-						<li><a class="dropdown-item" href="#"><i class="bi bi-bookmark-check fa-fw me-2"></i>Заметки</a></li>
 						<li><a class="dropdown-item" href="#"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
 						<li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
 						<li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
@@ -188,22 +187,23 @@ Main banner START -->
 <section class="py-0 mb-6 mt-4">
 	<div class="container">
 		<!-- Background image -->
-		<div class="rounded-3 p-4 p-sm-5" style="background-image: url({% static 'images/07.jpg' %}); background-position: center center; background-repeat: no-repeat; background-size: cover;">
+        {% for s in stock %}
+		<div class="rounded-3 p-4 p-sm-5 mt-5" style="background-image: url({{ s.photo.url }}); background-position: center center; background-repeat: no-repeat; background-size: cover;">
 			<div class="row">
 				<div class="col-md-6">
 					<!-- Title -->
-					<h1 class="h2 text-white mb-3">#Weekly Saving on Remove.com</h1>
+					<h1 class="h2 text-white mb-3">#{{ s.title }}</h1>
 					<!-- Offer title -->
 					<div class="bg-warning rounded-2 p-3 mb-3">
-						<h5 class="text-dark">Get Up To</h5>
-						<h4 class="text-dark mb-0">25% Off on Travel Booking</h4>
+						<h4 class="text-dark mb-0">{{ s.stock }}</h4>
 					</div>
 					<!-- Text and button -->
-					<p class="text-white mb-3">Expand knowledge by reading book Two before narrow not relied on.</p>
-					<a href="#" class="btn btn-dark mb-0">View all Listing<i class="bi bi-arrow-right fa-fw ms-2"></i></a>
+					<p class="text-white mb-3">{{ s.about }}</p>
+					<a href="#" class="btn btn-dark mb-0">Подробнее<i class="bi bi-arrow-right fa-fw ms-2"></i></a>
 				</div>
 			</div>
-		</div>	
+		</div>
+        {% endfor %}
 	</div>
 </section>
 

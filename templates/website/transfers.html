@@ -154,7 +154,6 @@
 
 						<!-- Links -->
 						<li> <hr class="dropdown-divider"></li>
-						<li><a class="dropdown-item" href="#"><i class="bi bi-bookmark-check fa-fw me-2"></i>Заметки</a></li>
 						<li><a class="dropdown-item" href="#"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
 						<li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
 						<li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
@@ -324,15 +323,24 @@ Cab list START -->
 
 					<!-- Pagination -->
 					<nav class="d-flex justify-content-center" aria-label="navigation">
-						<ul class="pagination pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
-							<li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i class="fa-solid fa-angle-left"></i></a></li>
-							<li class="page-item mb-0"><a class="page-link" href="#">1</a></li>
-							<li class="page-item mb-0 active"><a class="page-link" href="#">2</a></li>
-							<li class="page-item mb-0"><a class="page-link" href="#">..</a></li>
-							<li class="page-item mb-0"><a class="page-link" href="#">6</a></li>
-							<li class="page-item mb-0"><a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a></li>
-						</ul>
-					</nav>
+                        <ul class="pagination pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+                          {% if cars.has_previous %}
+                            <li class="page-item mb-0"><a class="page-link" href="?page=1" tabindex="-1"><i class="fa-solid fa-angle-left"></i></a></li>
+                            <li class="page-item mb-0"><a class="page-link" href="?page={{ cars.previous_page_number }}">Предыдущая</a></li>
+                          {% endif %}
+
+                          {% for page_number in cars.paginator.page_range %}
+                            <li class="page-item mb-0 {% if page_number == cars.number %}active{% endif %}">
+                              <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                            </li>
+                          {% endfor %}
+
+                          {% if cars.has_next %}
+                            <li class="page-item mb-0"><a class="page-link" href="?page={{ cars.next_page_number }}">Следующая</a></li>
+                            <li class="page-item mb-0"><a class="page-link" href="?page={{ cars.paginator.num_pages }}"><i class="fa-solid fa-angle-right"></i></a></li>
+                          {% endif %}
+                        </ul>
+                      </nav>
 				</div>
 			</div>
 			<!-- Main content END -->

@@ -5,6 +5,7 @@ app_name = 'website'
 
 urlpatterns = [
     path('', IndexView.as_view(), name='home'),
+    path('search_results/', SearchResultsView.as_view(), name='search_results'),
     path('apartments', ApartmentView.as_view(), name='apartments'),
     path('stock', StockView.as_view(), name='stock'),
     path('collaboration', CollaborationView.as_view(), name='collaboration'),

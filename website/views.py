@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
-
+from django.core.paginator import Paginator
 from users.models import Notification
 from .forms import ApartmentFilterForm, CarFilterForm, ReservationForm
 from website.models import *
@@ -32,10 +32,28 @@ class IndexView(View):
         return render(request, 'website/index.html', context)
 
 
+class SearchResultsView(View):
+    class SearchResultsView(View):
+        template_name = 'website/search_results.html'
+
+        def post(self, request):
+            # Обработка POST-запроса и выполнение поиска
+            class_choice = request.POST.get('class_choice')
+            price_choice = request.POST.get('price_choice')
+            rating_choice = request.POST.get('rating_choice')
+            # Дополнительная логика поиска на основе формы
+
+            # Перенаправление на страницу с результатами поиска
+            return redirect('search_results', class_choice=class_choice, price_choice=price_choice,
+                            rating_choice=rating_choice)
+
+
+
 class ApartmentView(View):
     template_name = 'website/apartments_list.html'
 
     def get(self, request):
+
         form = ApartmentFilterForm(request.GET)
         apartments = Apartment.objects.all()
         discount = Discount.objects.filter(apartment__in=apartments)
@@ -72,8 +90,13 @@ class ApartmentView(View):
                 for option in additional_choice:
                     apartments = apartments.filter(**{option: True})
 
+        paginator = Paginator(apartments, 10)  # 10 - количество элементов на странице
+
+        page_number = request.GET.get('page')
+        page = paginator.get_page(page_number)
+
         context = {
-            'apartment': apartments,
+            'apartment': page,
             'form': form,
             'discount': discount,
             'notifications': notifications,
@@ -97,9 +120,11 @@ class ApartmentView(View):
 class StockView(View):
 
     def get(self, request):
+        stock = Stock.objects.filter(valid=True).order_by('start_date')
         notifications = Notification.objects.filter(read=False).order_by('-timestamp')
 
         context = {
+            'stock' : stock,
             'notifications': notifications,
         }
         return render(request, 'website/stock.html', context)
@@ -129,8 +154,13 @@ class TransfersView(View):
             if class_choice:
                 cars = cars.filter(level=class_choice)
 
+        paginator = Paginator(cars, 10)  # 10 - количество элементов на странице
+
+        page_number = request.GET.get('page')
+        page = paginator.get_page(page_number)
+
         context = {
-            'cars': cars,
+            'cars': page,
             'form': form,
             'notifications': notifications,
         }

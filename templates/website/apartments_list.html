@@ -62,16 +62,17 @@
 			<div class="navbar-collapse collapse" id="navbarCategoryCollapse">
 				<ul class="navbar-nav navbar-nav-scroll nav-pills-primary-soft text-center mx-auto p-2 p-xl-0">
 					<!-- Nav item Hotel -->
-					<li class="nav-item"> <a class="nav-link" href="{% url 'website:home' %}"><i class="fa-solid fa-hotel me-2"></i>Главная</a>	</li>
+					<li class="nav-item"> <a style="color: black;" class="nav-link" href="{% url 'website:home' %}"><i class="fa-solid fa-hotel me-2"></i>Главная</a>	</li>
 
 					<!-- Nav item Cabs -->
-					<li class="nav-item"><a class="nav-link active" href="{% url 'website:apartments' %}"><i class="fa-solid fa-building me-2"></i>Квартиры</a></li>
-					<li class="nav-item"><a class="nav-link" href="{% url 'website:stock' %}"><i class="fa-solid fa-tags me-2"></i>Акции</a></li>
-					<li class="nav-item"><a class="nav-link" href="{% url 'website:collaboration' %}"><i class="fa-solid fa-handshake me-2"></i>Сотрудничество</a></li>
-					<li class="nav-item"><a class="nav-link" href="{% url 'website:transfers' %}"><i class="fa-solid fa-shuttle-van me-2"></i>Трансфер</a></li>
-					<li class="nav-item"><a class="nav-link" href="{% url 'website:about' %}"><i class="fa-solid fa-info-circle me-2"></i>О нас</a></li>
+					<li class="nav-item"><a style="color: var(--bs-primary);" class="nav-link active" href="{% url 'website:apartments' %}"><i class="fa-solid fa-building me-2"></i>Квартиры</a></li>
+					<li class="nav-item"><a style="color: black;" class="nav-link" href="{% url 'website:stock' %}"><i class="fa-solid fa-tags me-2"></i>Акции</a></li>
+					<li class="nav-item"><a style="color: black;" class="nav-link" href="{% url 'website:collaboration' %}"><i class="fa-solid fa-handshake me-2"></i>Сотрудничество</a></li>
+					<li class="nav-item"><a style="color: black;" class="nav-link" href="{% url 'website:transfers' %}"><i class="fa-solid fa-shuttle-van me-2"></i>Трансфер</a></li>
+					<li class="nav-item"><a style="color: black;" class="nav-link" href="{% url 'website:about' %}"><i class="fa-solid fa-info-circle me-2"></i>О нас</a></li>
 
 				</ul>
+
 			</div>
 			<!-- Nav category menu END -->
 
@@ -155,7 +156,6 @@
 
 						<!-- Links -->
 						<li> <hr class="dropdown-divider"></li>
-						<li><a class="dropdown-item" href="#"><i class="bi bi-bookmark-check fa-fw me-2"></i>Заметки</a></li>
 						<li><a class="dropdown-item" href="#"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
 						<li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
 						<li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
@@ -592,15 +592,24 @@ Hotel list START -->
 
 
 					<nav class="d-flex justify-content-center" aria-label="navigation">
-						<ul class="pagination pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
-							<li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i class="fa-solid fa-angle-left"></i></a></li>
-							<li class="page-item mb-0"><a class="page-link" href="#">1</a></li>
-							<li class="page-item mb-0 active"><a class="page-link" href="#">2</a></li>
-							<li class="page-item mb-0"><a class="page-link" href="#">..</a></li>
-							<li class="page-item mb-0"><a class="page-link" href="#">6</a></li>
-							<li class="page-item mb-0"><a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a></li>
-						</ul>
-					</nav>
+                        <ul class="pagination pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+                          {% if apartment.has_previous %}
+                            <li class="page-item mb-0"><a class="page-link" href="?page=1" tabindex="-1"><i class="fa-solid fa-angle-left"></i></a></li>
+                            <li class="page-item mb-0"><a class="page-link" href="?page={{ apartment.previous_page_number }}">Предыдущая</a></li>
+                          {% endif %}
+
+                          {% for page_number in apartment.paginator.page_range %}
+                            <li class="page-item mb-0 {% if page_number == apartment.number %}active{% endif %}">
+                              <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                            </li>
+                          {% endfor %}
+
+                          {% if apartment.has_next %}
+                            <li class="page-item mb-0"><a class="page-link" href="?page={{ apartment.next_page_number }}">Следующая</a></li>
+                            <li class="page-item mb-0"><a class="page-link" href="?page={{ apartment.paginator.num_pages }}"><i class="fa-solid fa-angle-right"></i></a></li>
+                          {% endif %}
+                        </ul>
+                      </nav>
 
 				</div>
 			</div>

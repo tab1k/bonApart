@@ -30,6 +30,30 @@
 		<!-- Theme CSS -->
 		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 
+        <style>
+        .nav-pills-primary-soft .nav-link.active, .nav-pills-primary-soft .nav-link:hover {
+          color: green;
+          background-color: #d2f4d2;
+        }
+        .icon-lg.btn.btn-round.btn-primary.mb-0 {
+          background-color: green;
+          border-color: green;
+        }
+        .btn-primary-soft {
+          color: green;
+          background-color: rgba(128, 255, 0, 0.1);
+        }
+        .btn-primary-soft:hover {
+          color: white;
+          background-color: green;
+          border-color: green;
+        }
+        .rellax.position-absolute.top-0.start-0.w-100.h-100.d-none.d-lg-block {
+          background-color: #169916;
+        }
+
+    </style>
+
 </head>
 
 <body>
@@ -249,8 +273,8 @@ Cab list START -->
 
 								</div>
 								<div class="d-flex justify-content-between p-2 p-xl-3" style="margin-bottom: 1.6rem !important;">
-                                    <button type="reset" class="btn btn-link p-0 mb-0">Очистить</button>
-                                    <button class="btn btn-primary mb-0">Показать все</button>
+                                    <button style="color: red;" type="reset" class="btn btn-link p-0 mb-0">Очистить</button>
+                                    <button style="background-color: green; border-color: green;" class="btn btn-primary mb-0">Показать все</button>
                                 </div>
 							</form>
 						</div>
@@ -300,7 +324,7 @@ Cab list START -->
 										<li class="list-inline-item me-0"><i class="fa-solid fa-star-half-alt text-warning"></i></li>
 									</ul>
                                     <p>Автомобили предоставляет компания - TED AutoRent</p>
-                                    <a class="btn btn-sm shadow px-2 bg-instagram mb-0" href="https://instagram.com/ted_autorent?igshid=OGQ5ZDc2ODk2ZA=="><i class="fab fa-fw fa-instagram"></i>  ted_autorent</a>
+                                    <a href="https://instagram.com/ted_autorent?igshid=OGQ5ZDc2ODk2ZA==" class="btn btn-sm shadow px-2 bg-instagram mb-0" ><i class="fab fa-fw fa-instagram"></i>  ted_autorent</a>
 								</div>
 
 								<!-- Button -->
@@ -311,7 +335,7 @@ Cab list START -->
 									<ul class="list-inline mb-1">
 										<li class="list-inline-item h5 mb-0">{{ i.price }} тг</li>
 									</ul>
-                                    <a href="#" class="btn btn-dark mb-2 mt-3" style="background-color:green;">Позвонить</a>
+                                    <a href="#" class="btn btn-dark mb-2 mt-3" style="background-color:green; border-color: green;">Позвонить</a>
 								</div>
 							</div> <!-- Row END -->
 						</div>
@@ -325,19 +349,19 @@ Cab list START -->
 					<nav class="d-flex justify-content-center" aria-label="navigation">
                         <ul class="pagination pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
                           {% if cars.has_previous %}
-                            <li class="page-item mb-0"><a class="page-link" href="?page=1" tabindex="-1"><i class="fa-solid fa-angle-left"></i></a></li>
-                            <li class="page-item mb-0"><a class="page-link" href="?page={{ cars.previous_page_number }}">Предыдущая</a></li>
+                            <li class="page-item mb-0"><a style="background-color: green;" class="page-link" href="?page=1" tabindex="-1"><i class="fa-solid fa-angle-left"></i></a></li>
+                            <li class="page-item mb-0"><a style="background-color: green;" class="page-link" href="?page={{ cars.previous_page_number }}">Предыдущая</a></li>
                           {% endif %}
 
                           {% for page_number in cars.paginator.page_range %}
                             <li class="page-item mb-0 {% if page_number == cars.number %}active{% endif %}">
-                              <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                              <a style="background-color: green;" class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
                             </li>
                           {% endfor %}
 
                           {% if cars.has_next %}
-                            <li class="page-item mb-0"><a class="page-link" href="?page={{ cars.next_page_number }}">Следующая</a></li>
-                            <li class="page-item mb-0"><a class="page-link" href="?page={{ cars.paginator.num_pages }}"><i class="fa-solid fa-angle-right"></i></a></li>
+                            <li class="page-item mb-0"><a style="background-color: green;" class="page-link" href="?page={{ cars.next_page_number }}">Следующая</a></li>
+                            <li class="page-item mb-0"><a style="background-color: green;" class="page-link" href="?page={{ cars.paginator.num_pages }}"><i class="fa-solid fa-angle-right"></i></a></li>
                           {% endif %}
                         </ul>
                       </nav>
@@ -458,6 +482,19 @@ Footer START -->
 Footer END -->
 
 <!-- Back to top -->
+<style>
+.back-top {
+    position: fixed; /* Fixed position so it stays on the screen */
+    left: 20px; /* Adjust the left position as needed */
+    bottom: 20px; /* Adjust the bottom position as needed */
+    background-color: #169916; /* Background color of the button */
+    color: #fff; /* Text color */
+    padding: 10px; /* Padding around the text */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Change the cursor to a pointer on hover */
+    z-index: 1000; /* Make sure it's above other elements */
+}
+</style>
 <div class="back-top"></div>
 
 <!-- Bootstrap JS -->

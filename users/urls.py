@@ -9,5 +9,6 @@ urlpatterns = [
     path('signup/', SignUpView.as_view(), name='signup'),
     path('profile/', ProfileView.as_view(), name='profile'),
     path('notifications/', NotificationView.as_view(), name='notifications'),
+    path('mark_notification_as_read/<int:notification_id>/', mark_notification_as_read, name='mark_notification_as_read'),
     path('logout/', LogoutView.as_view(), name='logout'),
 ]

@@ -65,3 +65,22 @@ class NotificationView(View):
                 photo=photo,
                 link=link
             )
+
+    def post(self, request):
+        notification_id = request.POST.get('notification_id')
+        if notification_id:
+            notification = Notification.objects.get(pk=notification_id)
+            notification.read = True
+            notification.save()
+        return redirect('users:notifications')
+
+
+from django.shortcuts import redirect
+from .models import Notification
+
+
+def mark_notification_as_read(request, notification_id):
+    notification = Notification.objects.get(pk=notification_id)
+    notification.read = True
+    notification.save()
+    return redirect('your_notification_page_name')

@@ -35,30 +35,39 @@
           background-color: #d2f4d2;
         }
         .icon-lg.btn.btn-round.btn-primary.mb-0 {
-          background-color: green;
-          border-color: green;
+          background-color: #169916;
+          border-color: #169916;
         }
         .btn-primary-soft {
-          color: green;
+          color: #169916;
           background-color: rgba(128, 255, 0, 0.1);
         }
         .btn-primary-soft:hover {
           color: white;
-          background-color: green;
-          border-color: green;
+          background-color: #169916;
+          border-color: #169916;
         }
-        .btn.btn-sm.btn-dark.mb-0.w-100 {
-          background-color: green;
-          border-color: green;
-        }
+
 
 
     </style>
 
 </head>
 
-<body>
-
+<body class="has-navbar-mobile">
+<!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/65432483f2439e1631eadedd/1he74d9d4';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
 <!-- Header START -->
 <header class="navbar-light header-sticky">
 	<!-- Logo Nav START -->
@@ -195,7 +204,10 @@
 			</ul>
 			{% else %}
 				<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
-					<a href="{% url 'users:signin' %}" class="btn btn-primary mb-0">Войти</a>
+					<a style="
+          background-color: #169916;
+          border-color: #169916;
+        " href="{% url 'users:signin' %}" class="btn btn-primary mb-0">Войти</a>
 				</ul>
 			{% endif %}
 			<!-- Profile and Notification START -->
@@ -214,11 +226,11 @@ Main Banner START -->
 <section class="pt-0">
 	<div class="container">
 		<!-- Background image -->
-		<div class="rounded-3 p-3 p-sm-5" style="background-image: url({% static 'images/05.jpg' %}); background-position: center center; background-repeat: no-repeat; background-size: cover;">
+		<div class="rounded-3 p-3 p-sm-5" style="background-image: url({% static 'images/1.jpeg' %}); background-position: center center; background-repeat: no-repeat; background-size: cover;">
 			<!-- Banner title -->
 			<div class="row my-2 my-xl-5"> 
 				<div class="col-md-8 mx-auto"> 
-					<h1 class="text-center text-white">150 Hotels in New York</h1>
+					<h1 class="text-center text-white">Более 10+ квартир Бизнес - Класса</h1>
 				</div>
 			</div>
 

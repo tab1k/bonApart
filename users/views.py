@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
@@ -11,6 +11,7 @@ from .models import Notification
 
 class SignInView(LoginView):
     template_name = 'signin.html'
+    authentication_form = CustomAuthenticationForm
 
     def form_valid(self, form):
         user = form.get_user()

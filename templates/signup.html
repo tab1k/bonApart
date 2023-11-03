@@ -24,10 +24,29 @@
 
 	<!-- Theme CSS -->
 	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <style>
+        .btn.btn-primary.mb-0 {
+          background-color: #169916;
+          border-color: #169916;
+        }
+    </style>
 
 </head>
 
 <body>
+<!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/65432483f2439e1631eadedd/1he74d9d4';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
 
 <!-- **************** MAIN CONTENT START **************** -->
 <main>
@@ -53,12 +72,13 @@ Main Content START -->
 						<div class="col-lg-6 order-1">
 							<div class="p-4 p-sm-6">
 								<!-- Logo -->
-								<a href="index.html">
-									<img class="h-50px mb-4" src="{% static 'images/logo-icon.svg' %}" alt="logo">
-								</a>
+								<a class="navbar-brand d-flex align-items-center justify-content-center mb-4" href="{% url 'website:home' %}">
+                                    <img style="border-radius: 50px; width: 50px;" class="light-mode-item navbar-brand-item" src="{% static 'images/logo.jpg' %}" alt="logo">
+                                    <p style="margin: 0; padding: 0; margin-left: 8px; font-size: 30px; color: black;"><b>BonApart</b></p>
+                                </a>
 								<!-- Title -->
 								<h1 class="mb-2 h3">Новый аккаунт</h1>
-								<p class="mb-0">Есть аккаунт?<a href="sign-in.html"> Войти</a></p>
+								<p class="mb-0">Есть аккаунт?<a href="{% url 'users:signin' %}"> Войти</a></p>
 
 								<!-- Form START -->
 								<form class="mt-4 text-start" method="post">
@@ -88,16 +108,12 @@ Main Content START -->
 Main Content END -->
 
 </main>
-<!-- **************** MAIN CONTENT END **************** -->
-
-<!-- Back to top -->
-<div class="back-top"></div>
 
 <!-- Bootstrap JS -->
-<script src="js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 
 <!-- ThemeFunctions -->
-<script src="js/functions.js"></script>
+<script src="{% static 'js/functions.js' %}"></script>
 
 
 </body></html>

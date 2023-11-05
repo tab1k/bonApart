@@ -14,4 +14,5 @@ urlpatterns = [
     path('apartaments-detail/<int:pk>/', ApartamentsDetailView.as_view(), name='apartaments-detail'),
     path('add_to_favorite/<int:apartment_id>/', AddToFavoriteView.as_view(), name='add_to_favorite'),
 
+
 ]

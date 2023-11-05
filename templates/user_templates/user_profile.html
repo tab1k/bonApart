@@ -347,6 +347,29 @@ Content START -->
                         </form>
                         <!-- Card body END -->
                     </div>
+                    <div class="text-center">
+                        <a type="submit" href="{% url 'users:delete_profile' %}" class="btn btn-primary btn-wide btn-red">Удалить аккаунт</a>
+                    </div>
+                    <style>
+                        .btn-wide {
+                            width: 100%;
+                            max-width: 200px;
+                        }
+
+                        .btn-red {
+                            background-color: red; /* Устанавливаем красный цвет фона */
+                            color: white; /* Устанавливаем белый цвет текста */
+                            border: none; /* Убираем границу */
+                            padding: 10px 20px; /* Настройка внутренних отступов (по желанию) */
+                            cursor: pointer; /* Изменение курсора при наведении */
+                        }
+
+                        .btn-red:hover {
+                            background-color: darkred; /* Изменяем цвет фона при наведении курсора */
+                        }
+
+                    </style>
+
 <!-- Update Password END -->
 
 

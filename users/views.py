@@ -75,8 +75,10 @@ class ProfileView(View):
 
         if password_form.is_valid():
             password_form.save()
-            update_session_auth_hash(request, user)  # Обновите сессию после изменения пароля
+            update_session_auth_hash(request, user)
             messages.success(request, 'Пароль успешно изменен.')
+        else:
+            messages.success(request, 'Пароль не изменен!')
 
         context = {
             'user': user,

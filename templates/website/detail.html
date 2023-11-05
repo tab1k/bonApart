@@ -543,7 +543,7 @@ Image gallery START -->
 						</div>
 
 						<!-- Card body START -->
-						<div class="card-body pt-4 p-0">
+						<div class="card-body pt-4 p-0" >
 							<!-- Progress bar and rating START -->
 							<div class="card bg-light p-4 mb-4">
 								<div class="row g-4 align-items-center">
@@ -552,7 +552,7 @@ Image gallery START -->
 										<div class="text-center">
 											<!-- Info -->
 											<h2 class="mb-0">4.5</h2>
-											<p class="mb-2">Based on 120 Reviews</p>
+											<p class="mb-2">На основе {{ comments.count }} отзывов</p>
 											<!-- Star -->
 											<ul class="list-inline mb-0">
 												<li class="list-inline-item me-0"><i class="fa-solid fa-star text-warning"></i></li>
@@ -642,113 +642,49 @@ Image gallery START -->
 							<!-- Progress bar and rating END -->
 
 							<!-- Leave review START -->
-							<form class="mb-5">
-								<!-- Rating -->
-								<div class="form-control-bg-light mb-3">
-									<select class="form-select js-choice">
-										<option selected="">★★★★★ (5/5)</option>
-										<option>★★★★☆ (4/5)</option>
-										<option>★★★☆☆ (3/5)</option>
-										<option>★★☆☆☆ (2/5)</option>
-										<option>★☆☆☆☆ (1/5)</option>
-									</select>
-								</div>
+							<form class="mb-5" method="post">
+                                {% csrf_token %}
 								<!-- Message -->
 								<div class="form-control-bg-light mb-3">
-									<textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Your review" rows="3"></textarea>
+                                    {{ comment_form.as_p }}
 								</div>
 								<!-- Button -->
-								<button type="submit" class="btn btn-lg btn-primary mb-0">Post review <i class="bi fa-fw bi-arrow-right ms-2"></i></button>
+								<button type="submit" class="btn btn-lg btn-primary mb-0">Опубликовать <i class="bi fa-fw bi-arrow-right ms-2"></i></button>
 							</form>
 							<!-- Leave review END -->
 
-							<!-- Review item START -->
-							<div class="d-md-flex my-4">
+                            {% for comment in comments %}
+							<div class="d-md-flex my-4" >
 								<!-- Avatar -->
 								<div class="avatar avatar-lg me-3 flex-shrink-0">
-									<img class="avatar-img rounded-circle" src="{% static 'images/09.jpg' %}" alt="avatar">
+									<img class="avatar-img rounded-circle" src="{% static 'images/user.png' %}" alt="avatar">
 								</div>
 								<!-- Text -->
 								<div>
 									<div class="d-flex justify-content-between mt-1 mt-md-0">
 										<div>
-											<h6 class="me-3 mb-0">Jacqueline Miller</h6>
+											<h6 class="me-3 mb-0">{{ comment.user.first_name }} {{ comment.user.last_name }}</h6>
 											<!-- Info -->
 											<ul class="nav nav-divider small mb-2">
-												<li class="nav-item">Stayed 13 Nov 2022</li>
-												<li class="nav-item">4 Reviews written</li>
+												<li class="nav-item">{{ comment.created_at }}</li>
 											</ul>
 										</div>
-										<!-- Review star -->
-										<div class="icon-md rounded text-bg-warning fs-6">4.5</div>
 									</div>
 
-									<p class="mb-2">Handsome met debating sir dwelling age material. As style lived he worse dried. Offered related so visitors we private removed. Moderate do subjects to distance. </p>
+									<p class="mb-2">{{ comment.text }}</p>
 
-									<!-- Images -->
-									<div class="row g-4">
-										<div class="col-4 col-sm-3 col-lg-2">
-											<img src="{% static 'images/07.jpg' %}" class="rounded" alt="">
-										</div>
-										<div class="col-4 col-sm-3 col-lg-2">
-											<img src="{% static 'images/08_1.jpg' %}" class="rounded" alt="">
-										</div>
-										<div class="col-4 col-sm-3 col-lg-2">
-											<img src="{% static 'images/05.jpg' %}" class="rounded" alt="">
-										</div>
-									</div>
 								</div>
 							</div>
+                            {% endfor %}
 
-							<!-- Child review START -->
-							<div class="my-4 ps-2 ps-md-3">
-								<div class="d-md-flex p-3 bg-light rounded-3">
-									<img class="avatar avatar-sm rounded-circle me-3" src="{% static 'images/02_1.jpg' %}" alt="avatar">
-									<div class="mt-2 mt-md-0">
-										<h6 class="mb-1">Manager</h6>
-										<p class="mb-0">But discretion frequently sir she instruments unaffected admiration everything. </p>
-									</div>
-								</div>
-							</div>
-							<!-- Child review END -->
 
-							<!-- Divider -->
+
 							<hr>
-							<!-- Review item END -->
-
-							<!-- Review item START -->
-							<div class="d-md-flex my-4">
-								<!-- Avatar -->
-								<div class="avatar avatar-lg me-3 flex-shrink-0">
-									<img class="avatar-img rounded-circle" src="{% static 'images/08.jpg' %}" alt="avatar">
-								</div>
-								<!-- Text -->
-								<div>
-									<div class="d-flex justify-content-between mt-1 mt-md-0">
-										<div>
-											<h6 class="me-3 mb-0">Dennis Barrett</h6>
-											<!-- Info -->
-											<ul class="nav nav-divider small mb-2">
-												<li class="nav-item">Stayed 02 Nov 2022</li>
-												<li class="nav-item">2 Reviews written</li>
-											</ul>
-										</div>
-										<!-- Review star -->
-										<div class="icon-md rounded text-bg-warning fs-6">4.0</div>
-									</div>
-
-									<p class="mb-0">Delivered dejection necessary objection do Mr prevailed. Mr feeling does chiefly cordial in do. Water timed folly right aware if oh truth. Large above be to means. Dashwood does provide stronger is.</p>
-								</div>
-							</div>
-
-							<!-- Divider -->
-							<hr>
-							<!-- Review item END -->
 
 							<!-- Button -->
 							<div class="text-center">
-								<a href="#" class="btn btn-primary-soft mb-0">Load more</a>
-							</div>
+                                <a href="#" class="btn btn-primary-soft mb-0" id="load-more-button">Load more</a>
+                            </div>
 						</div>
 						<!-- Card body END -->
 					</div>

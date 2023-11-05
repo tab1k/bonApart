@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
-from users.models import Notification, FavoriteApartment
+
+from users.forms import CommentForm
+from users.models import Notification, FavoriteApartment, Comment
 from .forms import ApartmentFilterForm, CarFilterForm, ReservationForm
 from website.models import *
 from django.shortcuts import render
-from django.views import View
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+from django.views import View
+
 
 
 
@@ -100,7 +104,6 @@ class ApartmentView(View):
 
     def post(self, request, apartment_id):
         form = ReservationForm(request.POST)
-        context = {}  # Инициализация переменной context
 
         if form.is_valid():
             form.save()
@@ -162,8 +165,6 @@ class TransfersView(View):
         return render(request, 'website/transfers.html', context)
 
 
-
-
 class AboutView(View):
 
     def get(self, request):
@@ -177,24 +178,44 @@ class AboutView(View):
 
 
 class ApartamentsDetailView(View):
-
     def get(self, request, pk):
         notifications = Notification.objects.filter(read=False).order_by('-timestamp')
         apartments_detail = Apartment.objects.get(pk=pk)
-        # geo_position = GeoPosition.objects.get(apartment=apartments_detail)
-
+        comments = Comment.objects.filter(apartment=apartments_detail)
+        comment_form = CommentForm()  # Создайте экземпляр формы для комментариев
 
         context = {
             'detail': apartments_detail,
-            # 'geo_position': geo_position,
+            'comments': comments,
             'notifications': notifications,
+            'comment_form': comment_form,  # Передайте форму в контекст
         }
 
         return render(request, 'website/detail.html', context)
 
+    def post(self, request, pk):
+        apartments_detail = Apartment.objects.get(pk=pk)
+        comment_form = CommentForm(request.POST)  # Получите данные POST-запроса
 
-from django.http import JsonResponse
-from django.views import View
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.apartment = apartments_detail
+            new_comment.user = request.user  # Привяжите комментарий к текущему пользователю
+            new_comment.save()
+            return redirect('website:apartments_detail', pk=pk)  # Перенаправьте пользователя на страницу квартиры
+
+        # Если форма не действительна, возвращайтесь на ту же страницу
+        comments = Comment.objects.filter(apartment=apartments_detail)
+        notifications = Notification.objects.filter(read=False).order_by('-timestamp')
+
+        context = {
+            'detail': apartments_detail,
+            'comments': comments,
+            'notifications': notifications,
+            'comment_form': comment_form,
+        }
+
+        return render(request, 'website/apartments_list.html', context)
 
 
 

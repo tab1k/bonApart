@@ -8,3 +8,4 @@ admin.site.register(Discount)
 admin.site.register(Reservation)
 admin.site.register(Stock)
 
+

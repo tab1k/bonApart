@@ -190,9 +190,9 @@
 
 						<!-- Links -->
 						<li> <hr class="dropdown-divider"></li>
-						<li><a class="dropdown-item" href="#"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
-						<li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
-						<li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
+						<li><a class="dropdown-item" href="{% url 'users:favorites' %}"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
+						<li><a class="dropdown-item" href="{% url 'users:profile' %}"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
+						<li><a class="dropdown-item" href="https://wa.link/0ywk3x"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
                         {% if user.is_staff %}
                             <li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="bi bi-person fa-fw me-2"></i>Админ-панель</a></li>
                         {% endif %}
@@ -448,16 +448,11 @@ Hotel list START -->
                                 <button style="color: red; " class="btn btn-link p-0 mb-0">Очистить</button>
                                 <button style="background-color: green;border-color: green;" class="btn btn-primary mb-0">Искать</button>
                             </div>
-						</form><!-- Form End -->
+						</form>
 					</div>
-					<!-- Buttons -->
-
 				</div>
-				<!-- Responsive offcanvas body END -->
 			</aside>
-			<!-- Left sidebar END -->
 
-			<!-- Main content START -->
 			<div class="col-xl-8 col-xxl-9">
 				<div class="vstack gap-4">
                 {% if apartment %}
@@ -519,9 +514,23 @@ Hotel list START -->
 
 										<ul class="list-inline mb-0 z-index-2">
 											<!-- Heart icon -->
-											<li class="list-inline-item">
-												<a href="#" class="btn btn-sm btn-round btn-light"><i class="fa-solid fa-fw fa-heart"></i></a>
-											</li>
+											<a href="#" class="btn btn-sm btn-round btn-light favorite-button" data-apartment-id="{{ i.pk }}">
+                                                <i class="fa-solid fa-fw fa-heart"></i>
+                                            </a>
+                                            <style>
+                                                .favorite-button {
+                                                    transition: color 0.3s; /* Плавное изменение цвета */
+                                                }
+
+                                                .favorite-button:hover {
+                                                    color: red; /* Изменяет цвет иконки на красный при наведении */
+                                                }
+
+                                                .heart-active {
+                                                    color: red; /* Изменяет цвет иконки на красный при нажатии (активном состоянии) */
+                                                }
+                                            </style>
+
 											<!-- Share icon -->
 											<li class="list-inline-item dropdown">
 												<!-- Share button -->
@@ -620,10 +629,39 @@ Hotel list START -->
 						</div>
 					</div>
                     {% endfor %}
-
                 {% else %}
                     <p>Извините, но результаты не найдены.</p>
                 {% endif %}
+
+                <script>
+                        document.querySelectorAll('.favorite-button').forEach(button => {
+                            button.addEventListener('click', async (event) => {
+                                event.preventDefault();
+                                const apartmentId = button.getAttribute('data-apartment-id');
+
+                                button.classList.toggle('heart-active');
+
+                                fetch(`/add_to_favorite/${apartmentId}/`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'X-CSRFToken': getCookie('csrftoken')
+                                    }
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    // Здесь вы можете выполнить какие-либо действия на основе ответа сервера
+                                    if (data.message === 'Квартира успешно добавлена в избранное') {
+                                        alert('Квартира успешно добавлена в избранное');
+                                    } else {
+                                        alert('Квартира успешно удалена из избранного');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Ошибка при выполнении запроса:', error);
+                                });
+                            });
+                        });
+                        </script>
 
 
 
@@ -667,7 +705,7 @@ Hotel list START -->
 			<!-- Widget 1 START -->
 			<div class="col-lg-3">
 				<!-- logo -->
-				<a href="index.html" style="display: flex;">
+				<a href="{% url 'website:home' %}" style="display: flex;">
 					<img class="h-40px" style="border-radius: 50px;" src="{% static 'images/logo.jpg' %}" alt="logo">
 					<p style="margin: auto; margin-left: 10px; color: white;"><b>BonApart</b></p>
 				</a>
@@ -685,12 +723,12 @@ Hotel list START -->
 					<div class="col-6 col-md-3">
 						<h5 class="text-white mb-2 mb-md-4">Страницы</h5>
 						<ul class="nav flex-column text-primary-hover">
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="index.html">Главная</a></li>
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="apartments_list.html">Квартиры</a></li>
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Акции</a></li>
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Сотрудничество</a></li>
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Трансфер</a></li>
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">О нас</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:home' %}">Главная</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:apartments' %}">Квартиры</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:stock' %}">Акции</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:collaboration' %}">Сотрудничество</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:transfers' %}">Трансфер</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:about' %}">О нас</a></li>
 						</ul>
 					</div>
 

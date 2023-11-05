@@ -1,6 +1,4 @@
 from django.db import models
-from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill
 
 
 class Apartment(models.Model):
@@ -147,8 +145,9 @@ class Stock(models.Model):
     stock = models.CharField(max_length=255, verbose_name='Акция')
     about = models.TextField(blank=True, null=True, verbose_name='О акции')
     photo = models.ImageField(upload_to='stock_images', blank=True, null=True, verbose_name='Задний фон')
-    start_date = models.DateField(blank=True, null=True, verbose_name='Начало акции')  # Дата начала акции
-    end_date = models.DateField(blank=True, null=True, verbose_name='Конец акции')  # Дата окончания акции
+    start_date = models.DateField(blank=True, null=True, verbose_name='Начало акции')
+    end_date = models.DateField(blank=True, null=True, verbose_name='Конец акции')
+    link = models.URLField(blank=True, null=True)
     valid = models.BooleanField(default=True, blank=True, null=True, verbose_name='Действует акция?')
 
     def str(self):

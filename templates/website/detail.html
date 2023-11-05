@@ -76,7 +76,7 @@
 	<nav class="navbar navbar-expand-xl">
 		<div class="container">
 			<!-- Logo START -->
-			<a class="navbar-brand d-flex align-items-center" href="index.html">
+			<a class="navbar-brand d-flex align-items-center" href="{% url 'website:home' %}">
 			    <img style="border-radius: 50px;" class="light-mode-item navbar-brand-item" src="{% static 'images/logo.jpg' %}" alt="logo">
 			    <p style="margin: 0; padding: 0; margin-left: 8px;"><b>BonApart</b></p>
 			</a>
@@ -191,9 +191,9 @@
 
 						<!-- Links -->
 						<li> <hr class="dropdown-divider"></li>
-						<li><a class="dropdown-item" href="#"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
-						<li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
-						<li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
+						<li><a class="dropdown-item" href="{% url 'users:favorites' %}"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
+						<li><a class="dropdown-item" href="{% url 'users:profile' %}"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
+						<li><a class="dropdown-item" href="https://wa.link/0ywk3x"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
                         {% if user.is_staff %}
                             <li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="bi bi-person fa-fw me-2"></i>Админ-панель</a></li>
                         {% endif %}
@@ -841,7 +841,7 @@ Footer START -->
 			<!-- Widget 1 START -->
 			<div class="col-lg-3">
 				<!-- logo -->
-				<a href="index.html" style="display: flex;">
+				<a href="{% url 'website:home' %}" style="display: flex;">
 					<img class="h-40px" style="border-radius: 50px;" src="{% static 'images/logo.jpg' %}" alt="logo">
 					<p style="margin: auto; margin-left: 10px; color: white;"><b>BonApart</b></p>
 				</a>
@@ -859,12 +859,12 @@ Footer START -->
 					<div class="col-6 col-md-3">
 						<h5 class="text-white mb-2 mb-md-4">Страницы</h5>
 						<ul class="nav flex-column text-primary-hover">
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="index.html">Главная</a></li>
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="apartments_list.html">Квартиры</a></li>
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Акции</a></li>
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Сотрудничество</a></li>
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Трансфер</a></li>
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">О нас</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:home' %}">Главная</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:apartments' %}">Квартиры</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:stock' %}">Акции</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:collaboration' %}">Сотрудничество</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:transfers' %}">Трансфер</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:about' %}">О нас</a></li>
 						</ul>
 					</div>
 

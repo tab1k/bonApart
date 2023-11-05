@@ -2,6 +2,7 @@ from django.urls import path
 from users.views import *
 from django.contrib.auth.views import LogoutView
 
+
 app_name = 'users'
 
 urlpatterns = [
@@ -10,5 +11,7 @@ urlpatterns = [
     path('profile/', ProfileView.as_view(), name='profile'),
     path('notifications/', NotificationView.as_view(), name='notifications'),
     path('mark_notification_as_read/<int:notification_id>/', mark_notification_as_read, name='mark_notification_as_read'),
+    path('favorites/', FavoritesView.as_view(), name='favorites'),
+    path('delete_profile/', DeleteProfileView.as_view(), name='delete_profile'),
     path('logout/', LogoutView.as_view(), name='logout'),
 ]

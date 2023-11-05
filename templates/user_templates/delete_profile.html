@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="ru" data-bs-theme="light">
-	<head>
-		<title>BonApart - Аренда квартир.</title>
+<html lang="en" data-bs-theme="light">
+<head>
+	<title>BonApart - Удаление профиля.</title>
 
 		<!-- Meta Tags -->
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta name="author" content="bonapart.com">
 		<meta name="description" content="BonApart - Аренда квартир.">
-	
-	
+
 		<!-- Favicon -->
 		<link rel="shortcut icon" href="{% static 'images/logo.jpg' %}">
-	
+
 		<!-- Google Font -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 		<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
-	
+
 		<!-- Plugins CSS -->
 		<link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-icons.css' %}">
@@ -26,94 +25,80 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'css/flatpickr.min.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'css/choices.min.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'css/tiny-slider.css' %}">
-	
+
 		<!-- Theme CSS -->
 		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 
         <style>
-        .nav-pills-primary-soft .nav-link.active, .nav-pills-primary-soft .nav-link:hover {
-          color: green;
-          background-color: #d2f4d2;
-        }
-        .icon-lg.btn.btn-round.btn-primary.mb-0 {
-          background-color: green;
-          border-color: green;
-        }
-        .btn-primary-soft {
-          color: green;
-          background-color: rgba(128, 255, 0, 0.1);
-        }
-        .btn-primary-soft:hover {
-          color: white;
-          background-color: green;
-          border-color: green;
-        }
-        .btn.btn-primary.mb-0 {
-          background-color: #169916;
-          border-color: #169916;
-        }
+            .nav-pills-primary-soft .nav-link.active, .nav-pills-primary-soft .nav-link:hover {
+              color: green;
+              background-color: #d2f4d2;
+            }
+            .icon-lg.btn.btn-round.btn-primary.mb-0 {
+              background-color: green;
+              border-color: green;
+            }
+            .btn-primary-soft {
+              color: green;
+              background-color: rgba(128, 255, 0, 0.1);
+            }
+            .btn-primary-soft:hover {
+              color: white;
+              background-color: green;
+              border-color: green;
+            }
+            .btn.btn-primary.mb-0 {
+              background-color: #169916;
+              border-color: #169916;
+            }
 
-    </style>
-
+        </style>
 </head>
 
-<body>
-    <!--Start of Tawk.to Script-->
-    <script type="text/javascript">
-        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-        (function(){
-        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-        s1.async=true;
-        s1.src='https://embed.tawk.to/65432483f2439e1631eadedd/1he74d9d4';
-        s1.charset='UTF-8';
-        s1.setAttribute('crossorigin','*');
-        s0.parentNode.insertBefore(s1,s0);
-        })();
-    </script>
-    <!--End of Tawk.to Script-->
+<body class="dashboard">
 
-	<header class="navbar-light header-sticky">
-		<!-- Logo Nav START -->
-		<nav class="navbar navbar-expand-xl">
-			<div class="container">
-				<!-- Logo START -->
-				<a class="navbar-brand d-flex align-items-center" href="{% url 'website:home' %}">
-					<img style="border-radius: 50px;" class="light-mode-item navbar-brand-item" src="{% static 'images/logo.jpg' %}" alt="logo">
-					<p style="margin: 0; padding: 0; margin-left: 8px;"><b>BonApart</b></p>
-				</a>
-	
-				<!-- Logo END -->
-	
-				<!-- Responsive navbar toggler -->
-				<button class="navbar-toggler ms-auto ms-sm-0 p-0 p-sm-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-	
-				</button>
-	
-				<!-- Responsive category toggler -->
-				<button class="navbar-toggler ms-sm-auto mx-3 me-md-0 p-0 p-sm-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCategoryCollapse" aria-controls="navbarCategoryCollapse" aria-expanded="false" aria-label="Toggle navigation">
-					<i class="bi bi-grid-3x3-gap-fill fa-fw"></i><span class="d-none d-sm-inline-block small">Категории</span>
-				</button>
-	
-	
-				<!-- Nav category menu START -->
-				<div class="navbar-collapse collapse" id="navbarCategoryCollapse">
-					<ul class="navbar-nav navbar-nav-scroll nav-pills-primary-soft text-center mx-auto p-2 p-xl-0">
-						<!-- Nav item Hotel -->
-						<li class="nav-item"> <a class="nav-link" href="{% url 'website:home' %}"><i class="fa-solid fa-hotel me-2"></i>Главная</a>	</li>
-	
-						<!-- Nav item Cabs -->
-						<li class="nav-item"><a class="nav-link" href="{% url 'website:apartments' %}"><i class="fa-solid fa-building me-2"></i>Квартиры</a></li>
-						<li class="nav-item"><a class="nav-link" href="{% url 'website:stock' %}"><i class="fa-solid fa-tags me-2"></i>Акции</a></li>
-						<li class="nav-item"><a class="nav-link active" href="{% url 'website:collaboration' %}"><i class="fa-solid fa-handshake me-2"></i>Сотрудничество</a></li>
-						<li class="nav-item"><a class="nav-link " href="{% url 'website:transfers' %}"><i class="fa-solid fa-shuttle-van me-2"></i>Трансфер</a></li>
-						<li class="nav-item"><a class="nav-link" href="{% url 'website:about' %}"><i class="fa-solid fa-info-circle me-2"></i>О нас</a></li>
-	
-					</ul>
-				</div>
-				<!-- Nav category menu END -->
-	
-				<!-- Profile and Notification START -->
-				{% if user.is_authenticated %}
+<header class="navbar-light header-sticky">
+	<!-- Logo Nav START -->
+	<nav class="navbar navbar-expand-xl">
+		<div class="container">
+			<!-- Logo START -->
+			<a class="navbar-brand d-flex align-items-center" href="{% url 'website:home' %}">
+			    <img style="border-radius: 50px;" class="light-mode-item navbar-brand-item" src="{% static 'images/logo.jpg' %}" alt="logo">
+			    <p style="margin: 0; padding: 0; margin-left: 8px;"><b>BonApart</b></p>
+			</a>
+
+			<!-- Logo END -->
+
+			<!-- Responsive navbar toggler -->
+			<button class="navbar-toggler ms-auto ms-sm-0 p-0 p-sm-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+
+			</button>
+
+			<!-- Responsive category toggler -->
+			<button class="navbar-toggler ms-sm-auto mx-3 me-md-0 p-0 p-sm-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCategoryCollapse" aria-controls="navbarCategoryCollapse" aria-expanded="false" aria-label="Toggle navigation">
+				<i class="bi bi-grid-3x3-gap-fill fa-fw"></i><span class="d-none d-sm-inline-block small">Категории</span>
+			</button>
+
+
+			<!-- Nav category menu START -->
+			<div class="navbar-collapse collapse" id="navbarCategoryCollapse">
+				<ul class="navbar-nav navbar-nav-scroll nav-pills-primary-soft text-center mx-auto p-2 p-xl-0">
+					<!-- Nav item Hotel -->
+					<li class="nav-item"> <a class="nav-link active" href="{% url 'website:home' %}"><i class="fa-solid fa-hotel me-2"></i>Главная</a>	</li>
+
+					<!-- Nav item Cabs -->
+					<li class="nav-item"><a class="nav-link" href="{% url 'website:apartments' %}"><i class="fa-solid fa-building me-2"></i>Квартиры</a></li>
+					<li class="nav-item"><a class="nav-link" href="{% url 'website:stock' %}"><i class="fa-solid fa-tags me-2"></i>Акции</a></li>
+					<li class="nav-item"><a class="nav-link" href="{% url 'website:collaboration' %}"><i class="fa-solid fa-handshake me-2"></i>Сотрудничество</a></li>
+					<li class="nav-item"><a class="nav-link" href="{% url 'website:transfers' %}"><i class="fa-solid fa-shuttle-van me-2"></i>Трансфер</a></li>
+					<li class="nav-item"><a class="nav-link" href="{% url 'website:about' %}"><i class="fa-solid fa-info-circle me-2"></i>О нас</a></li>
+
+				</ul>
+			</div>
+			<!-- Nav category menu END -->
+
+			<!-- Profile and Notification START -->
+			{% if user.is_authenticated %}
 				<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
 
 				<!-- Notification dropdown START -->
@@ -209,102 +194,131 @@
 					<a href="{% url 'users:signin' %}" class="btn btn-primary mb-0">Войти</a>
 				</ul>
 			{% endif %}
-				<!-- Profile and Notification START -->
-	
-			</div>
-		</nav>
-		<!-- Logo Nav END -->
-	</header>
+			<!-- Profile and Notification START -->
+
+		</div>
+	</nav>
+	<!-- Logo Nav END -->
+</header>
 
 <!-- **************** MAIN CONTENT START **************** -->
 <main>
 	
-<section>
+<!-- =======================
+Content START -->
+<section class="pt-3">
 	<div class="container">
-		<div class="row g-4">
-			<div class="col-12">
-				<!-- Action box START -->
-				<div class="card card-body shadow p-4">
-					<div class="row g-4 justify-content-between align-items-center">
-						<!-- Image -->
-						<div class="col-sm-3 col-lg-2">
-							<img src="{% static 'images/22.svg' %}" alt="">
-						</div>
+		<div class="row">
 
-						<!-- Title and content -->
-						<div class="col-sm-9 col-lg-6 col-xl-7">
-							<h4><b style="color: green;">Инвестируй</b> в нашу компанию, и зарабатывай!</h4>
-							<p class="mb-0">Приумножь свой капитал!</p>
-						</div>
+			<!-- Sidebar START -->
+			<div class="col-lg-4 col-xl-3">
+				<!-- Responsive offcanvas body START -->
+				<div class="offcanvas-lg offcanvas-end" tabindex="-1" id="offcanvasSidebar">
+					<!-- Offcanvas header -->
+					<div class="offcanvas-header justify-content-end pb-2">
+						<button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasSidebar" aria-label="Close"></button>
+					</div>
 
-						<!-- Button -->
-						<div class="col-lg-3 col-xxl-2 d-grid">
-							<a style="background-color: green;border-color: green;" href="https://wa.link/cqc2s9" class="btn btn-primary mb-0">Подробнее</a>
+					<!-- Offcanvas body -->
+					<div class="offcanvas-body p-3 p-lg-0">
+						<div class="card bg-light w-100">
+
+
+
+							<!-- Card body START -->
+							<div class="card-body p-3">
+								<!-- Avatar and content -->
+								<div class="text-center mb-3">
+									<!-- Avatar -->
+									<div class="avatar avatar-xl mb-2">
+										{% if user.photo %}
+											<img class="avatar-img rounded-circle shadow" src="{{ user.photo.url }}" alt="avatar">
+										{% else %}
+											<img class="avatar-img rounded-circle shadow" src="{% static 'images/user.png' %}" alt="avatar">
+										{% endif %}
+									</div>
+									<h6 class="mb-0">{{user.first_name}} {{user.last_name}}</h6>
+									<a href="#" class="text-reset text-primary-hover small">{{user.email}}</a>
+									<hr>
+								</div>
+
+
+								<ul class="nav nav-pills-primary-soft flex-column">
+									<li class="nav-item">
+										<a class="nav-link" href="{% url 'users:profile' %}"><i class="bi bi-person fa-fw me-2"></i>Мой профиль</a>
+									</li>
+
+									<li class="nav-item">
+										<a class="nav-link" href="{% url 'users:favorites' %}"><i class="bi bi-people fa-fw me-2"></i>Понравившиеся</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="https://wa.link/0ywk3x"><i class="bi bi-wallet fa-fw me-2"></i>Поддержка</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link active" href="{% url 'users:delete_profile' %}"><i class="bi bi-trash fa-fw me-2"></i>Удалить профиль</a>
+									</li>
+                                    <hr>
+									<li class="nav-item">
+										<a class="nav-link text-danger bg-danger-soft-hover" href="{% url 'users:logout' %}"><i class="fas fa-sign-out-alt fa-fw me-2"></i>Выйти</a>
+									</li>
+								</ul>
+
+							</div>
+							<!-- Card body END -->
 						</div>
 					</div>
+				</div>	
+				<!-- Responsive offcanvas body END -->	
+			</div>
+			<!-- Sidebar END -->
+
+			<!-- Main content START -->
+			<div class="col-lg-8 col-xl-9">
+				<!-- Offcanvas menu button -->
+				<div class="d-grid mb-0 d-lg-none w-100">
+					<button class="btn mb-4" style="color: white; border-color: green; background-color: green;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+						<i class="fas fa-sliders-h"></i> Меню
+					</button>
 				</div>
-				<!-- Action box END -->
+
+				<!-- Card START -->
+				<div class="card border">
+					<!-- Card header -->
+					<div class="card-header border-bottom">
+						<h4 class="card-header-title">Удаление профиля</h4>
+					</div>
+
+					<!-- Card body START -->
+					<div class="card-body">
+                        <h6>Перед тем, как ты уйдешь...</h6>
+                        <ul>
+                            <li>Удостоверьтесь, что сейчас не идет акция! <a href="https://wa.link/0ywk3x">Тут!</a></li>
+                            <li>Если вы удалите свою учетную запись, вы потеряете все свои данные.</li>
+                        </ul>
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="form-check form-check-md my-4">
+                                <input class="form-check-input" type="checkbox" value="" id="deleteaccountCheck" name="confirmation_checkbox" required>
+                                <label class="form-check-label" for="deleteaccountCheck">Да, я хочу удалить свою учетную запись</label>
+                            </div>
+                            <button type="submit" class="btn btn-danger btn-sm mb-0">Удалить аккаунт</button>
+                        </form>
+                    </div>
+
+					<!-- Card body END -->
+				</div>
+				<!-- Card END -->
 			</div>
+			<!-- Main content END -->
 		</div>
 	</div>
 </section>
-<section class="pt-4 pt-md-5">
-	<div class="container">
-		<div class="row g-4 align-items-center">				
-			<div class="col-lg-7">
-				<!-- Title -->
-				<h1 class="mb-4 display-5">Сотрудничество для<span style="color: green"> Юридических лиц</span></h1>
-				<!-- Info -->
-				<p class="mb-4">Компания BonApart – предлагает любым юридическим организациям, краткосрочную аренду жилья в г. Астана для проживания их сотрудников и проведения различных корпоративных мероприятий на выгодных условиях.</p>
-
-				<h4 class="fw-normal mb-3" style="text-align: center;">Преимущества сотрудничества с нами:</h4>
-				<ul class="list-group list-group-borderless mb-0 small">
-					<li class="list-group-item d-flex mb-0">
-						<i class="fa-solid fa-check-circle text-success me-2 mt-1"></i><b style="font-size: 18px;">Быстрый подбор нескольких вариантов квартир с учетом всех пожеланий.</b>
-					</li>
-					<li class="list-group-item d-flex mb-0">
-						<i class="fa-solid fa-check-circle text-success me-2 mt-1"></i><b style="font-size: 18px;">Аренда жилья на Левом и Правом берегу Астаны.</b>
-					</li>
-                    <li class="list-group-item d-flex mb-0">
-						<i class="fa-solid fa-check-circle text-success me-2 mt-1"></i><b style="font-size: 18px;">Индивидуальный подход к каждому клиенту.</b>
-					</li>
-                    <li class="list-group-item d-flex mb-0">
-						<i class="fa-solid fa-check-circle text-success me-2 mt-1"></i><b style="font-size: 18px;">Постоянное наличие свободных квартир для краткосрочной аренды во время командировки без дополнительных посредников.</b>
-					</li>
-                    <li class="list-group-item d-flex mb-0">
-						<i class="fa-solid fa-check-circle text-success me-2 mt-1"></i><b style="font-size: 18px;">Уютное благоустроенное жилье со всеми удобствами (включены постельное белье, банные принадлежности, тапочки, услуги горничной).</b>
-					</li>
-                    <li class="list-group-item d-flex mb-0">
-						<i class="fa-solid fa-check-circle text-success me-2 mt-1"></i><b style="font-size: 18px;">Гарантированное заселение командировочных в срочном порядке, в любое время суток.</b>
-					</li>
-                    <li class="list-group-item d-flex mb-0">
-						<i class="fa-solid fa-check-circle text-success me-2 mt-1"></i><b style="font-size: 18px;">Возможность для организаций безналичной оплаты по официальному договору.</b>
-					</li>
-                    <li class="list-group-item d-flex mb-0">
-						<i class="fa-solid fa-check-circle text-success me-2 mt-1"></i><b style="font-size: 18px;">Предоставление юридическим лицам всех необходимых подтверждающих документов для бухгалтерской отчетности.</b>
-					</li>
-                    <li class="list-group-item d-flex mb-0">
-						<i class="fa-solid fa-check-circle text-success me-2 mt-1"></i><b style="font-size: 18px;">Размещение сотрудников компании до 20 человек в непосредственной близости друг от друга.</b>
-					</li>
-				</ul>
-			</div>
-			<!-- Image -->
-			<div class="col-lg-5 text-center">
-				<img src="{% static 'images/join-us.svg' %}" alt="">
-			</div>
-		</div>
-	</div>
-</section>
-
-
 <!-- =======================
-Action box END -->
+Content END -->
 
 </main>
 <!-- **************** MAIN CONTENT END **************** -->
 
-<!-- =======================
-Footer START -->
 <footer class="bg-dark pt-5">
 	<div class="container">
 		<!-- Row START -->
@@ -346,7 +360,7 @@ Footer START -->
 						<ul class="nav flex-column text-primary-hover">
 							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Регистрация</a></li>
 							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Войти</a></li
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Поддержка</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="https://wa.link/0ywk3x">Поддержка</a></li>
 						</ul>
 					</div>
 
@@ -394,7 +408,7 @@ Footer START -->
 						<ul class="list-inline text-primary-hover mx-auto mb-0">
 							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="#">Политика конфиденциальности</a></li>
 							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="#">Условия использования</a></li>
-							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="#">Поддержка</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="https://wa.link/0ywk3x">Поддержка</a></li>
 						</ul>
 					</div>
 				</div>
@@ -402,31 +416,10 @@ Footer START -->
 		</div>
 	</div>
 </footer>
-<!-- =======================
-Footer END -->
 
-<!-- Back to top -->
-<style>
-.back-top {
-    position: fixed; /* Fixed position so it stays on the screen */
-    left: 20px; /* Adjust the left position as needed */
-    bottom: 20px; /* Adjust the bottom position as needed */
-    background-color: #169916; /* Background color of the button */
-    color: #fff; /* Text color */
-    padding: 10px; /* Padding around the text */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Change the cursor to a pointer on hover */
-    z-index: 1000; /* Make sure it's above other elements */
-}
-</style>
-<div class="back-top"></div>
 
 <!-- Bootstrap JS -->
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-
-<!-- Vendors -->
-<script src="{% static 'js/tiny-slider.js' %}"></script>
-<script src="{% static 'js/purecounter_vanilla.js' %}"></script>
 
 <!-- ThemeFunctions -->
 <script src="{% static 'js/functions.js' %}"></script>

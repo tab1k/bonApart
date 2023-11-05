@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
+from website.models import Apartment
+from django.conf import settings
 
 
 class CustomUser(AbstractUser):
@@ -7,6 +10,12 @@ class CustomUser(AbstractUser):
     last_name = models.CharField(max_length=50)
     phone_number = models.CharField(max_length=50)
     photo = models.ImageField(blank=True)
+    gender = models.CharField(max_length=10, choices=[('male', 'Мужской'), ('female', 'Женский'), ('other', 'Другой')],
+                              blank=True, null=True)
+    age = models.PositiveIntegerField(blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True)
+    city = models.CharField(max_length=100, blank=True)
+
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -30,3 +39,11 @@ class Notification(models.Model):
     class Meta:
         verbose_name = 'Уведомление'
         verbose_name_plural = 'Уведомления'
+
+
+class FavoriteApartment(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('user', 'apartment')

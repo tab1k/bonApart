@@ -1,17 +1,12 @@
 from django.shortcuts import render, redirect
-from django.views import View
 from django.core.paginator import Paginator
-from users.models import Notification
+from users.models import Notification, FavoriteApartment
 from .forms import ApartmentFilterForm, CarFilterForm, ReservationForm
 from website.models import *
-import telebot
-from .models import Reservation
-from django.conf import settings
-from django.shortcuts import get_object_or_404
-from telegram import Bot
 from django.shortcuts import render
-from django.http import JsonResponse
-from .models import Reservation
+from django.views import View
+from django.shortcuts import get_object_or_404
+
 
 
     # bot_token = '6709416090:AAFayt-eVfuaYUYKUHjkt4FGKEHUgO7Oo6E'
@@ -103,7 +98,7 @@ class ApartmentView(View):
         }
         return render(request, self.template_name, context)
 
-    def post(self, request):
+    def post(self, request, apartment_id):
         form = ReservationForm(request.POST)
         context = {}  # Инициализация переменной context
 
@@ -196,6 +191,47 @@ class ApartamentsDetailView(View):
         }
 
         return render(request, 'website/detail.html', context)
+
+
+from django.http import JsonResponse
+from django.views import View
+
+
+
+
+class AddToFavoriteView(View):
+    def post(self, request, apartment_id):
+        user = request.user  # Проверяем, вошел ли пользователь в систему
+        apartment = get_object_or_404(Apartment, pk=apartment_id)
+
+        # Проверяем, добавлена ли квартира в избранное
+        favorite, created = FavoriteApartment.objects.get_or_create(user=user, apartment=apartment)
+
+        if created:
+            message = 'Квартира успешно добавлена в избранное'
+        else:
+            favorite.delete()
+            message = 'Квартира успешно удалена из избранного'
+
+        return JsonResponse({'message': message})
+
+
+    def delete(self, request, apartment_id):
+        user = request.user
+        apartment = Apartment.objects.get(pk=apartment_id)
+
+        # Проверьте, добавлена ли квартира в избранное и удалите ее
+        favorite_apartment = FavoriteApartment.objects.filter(user=user, apartment=apartment).first()
+        if favorite_apartment:
+            favorite_apartment.delete()
+            message = 'Квартира успешно удалена из избранного'
+        else:
+            message = 'Квартира не найдена в избранном'
+
+        return JsonResponse({'message': message})
+
+
+
 
 
 

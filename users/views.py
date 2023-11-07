@@ -3,25 +3,18 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, UserProfileUpdateForm
 from django.contrib.auth import login, logout
-from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
-from django.shortcuts import render
-from django.views import View
 from django.contrib.auth.models import User
-from .models import Notification
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse
-from django.views import View
-from .models import FavoriteApartment
-from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, View
-from django.shortcuts import render, redirect
 from users.models import FavoriteApartment, Apartment  # Замените 'your_app' на имя вашего приложения
 from django.shortcuts import redirect
 from .models import Notification
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.shortcuts import render
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 
 class SignInView(LoginView):
@@ -124,20 +117,36 @@ def mark_notification_as_read(request, notification_id):
     return redirect('your_notification_page_name')
 
 
-
-
-class FavoritesView(View):
+class FavoritesView(LoginRequiredMixin, ListView):
+    model = FavoriteApartment
     template_name = 'user_templates/favorites.html'
+    context_object_name = 'favorite_apartments'
 
-    def get(self, request):
-        user = request.user
-        favorite_apartments = FavoriteApartment.objects.filter(user=user).select_related('apartment')
+    def get_queryset(self):
+        return FavoriteApartment.objects.filter(user=self.request.user)
 
-        context = {
-            'favorite_apartments': favorite_apartments,
-        }
 
-        return render(request, self.template_name, context)
+
+class ClearFavoritesView(LoginRequiredMixin, View):
+    def post(self, request):
+        # Получите избранные квартиры для текущего пользователя
+        favorites = FavoriteApartment.objects.filter(user=request.user)
+        apartment_id = request.POST.get('remove_favorite')
+
+        if apartment_id:
+            FavoriteApartment.objects.filter(user=request.user, apartment_id=apartment_id).delete()
+            messages.success(request, 'Квартира успешно удалена из избранного.')
+
+            return HttpResponseRedirect(reverse('users:favorites'))
+
+        # Удалите все записи избранных квартир
+        favorites.delete()
+
+        # Добавьте сообщение об успешной очистке
+        messages.success(request, 'Избранные квартиры успешно очищены.')
+
+        # Перенаправьте пользователя обратно на страницу избранных
+        return HttpResponseRedirect(reverse('users:favorites'))
 
 
 class DeleteProfileView(LoginRequiredMixin, View):

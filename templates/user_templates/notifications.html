@@ -174,7 +174,7 @@
 						<li> <hr class="dropdown-divider"></li>
 						<li><a class="dropdown-item" href="{% url 'users:favorites' %}"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
 						<li><a class="dropdown-item" href="{% url 'users:profile' %}"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
-						<li><a class="dropdown-item" href="https://wa.link/0ywk3x"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
+						<li><a class="dropdown-item" href="{% url 'website:support' %}"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
                         {% if user.is_staff %}
                             <li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="bi bi-person fa-fw me-2"></i>Админ-панель</a></li>
                         {% endif %}
@@ -229,7 +229,7 @@
                                     {% if notification.read %}
                                         Прочитано
                                     {% else %}
-                                        Не прочитано
+                                        Удалить
                                     {% endif %}
                                 </button>
                             </form>
@@ -280,9 +280,9 @@
 					<div class="col-6 col-md-3">
 						<h5 class="text-white mb-2 mb-md-4">Ссылки</h5>
 						<ul class="nav flex-column text-primary-hover">
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Регистрация</a></li>
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Войти</a></li
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Поддержка</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'users:signup' %}">Регистрация</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'users:signin' %}">Войти</a></li
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:support' %}">Поддержка</a></li>
 						</ul>
 					</div>
 
@@ -322,9 +322,9 @@
 					<!-- copyright links-->
 					<div class="nav mt-2 mt-lg-0">
 						<ul class="list-inline text-primary-hover mx-auto mb-0">
-							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="#">Политика конфиденциальности</a></li>
-							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="#">Условия использования</a></li>
-							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="#">Поддержка</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="{% url 'website:privacy_policy' %}">Политика конфиденциальности</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="{% url 'website:terms' %}">Условия использования</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="{% url 'website:support' %}">Поддержка</a></li>
 						</ul>
 					</div>
 				</div>

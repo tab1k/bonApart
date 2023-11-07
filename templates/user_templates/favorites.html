@@ -178,13 +178,19 @@
 						<li> <hr class="dropdown-divider"></li>
 						<li><a class="dropdown-item" href="{% url 'users:favorites' %}"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
 						<li><a class="dropdown-item" href="{% url 'users:profile' %}"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
-						<li><a class="dropdown-item" href="https://wa.link/0ywk3x"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
+						<li><a class="dropdown-item" href="{% url 'website:support' %}"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
                         {% if user.is_staff %}
                             <li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="bi bi-person fa-fw me-2"></i>Админ-панель</a></li>
                         {% endif %}
 						<li> <hr class="dropdown-divider"></li>
 						<li><a class="dropdown-item bg-danger-soft-hover" href="{% url 'users:logout' %}"><i class="bi bi-power fa-fw me-2"></i>Выйти</a></li>
 					</ul>
+                    <style>
+                        .dropdown-item:hover, .dropdown-item:focus {
+                          color: green;
+                          background-color: #d2f4d2;
+                        }
+                    </style>
 				</li>
 				<!-- Profile dropdown END -->
 			</ul>
@@ -202,9 +208,7 @@
 
 <!-- **************** MAIN CONTENT START **************** -->
 <main>
-	
-<!-- =======================
-Content START -->
+
 <section class="pt-3">
 	<div class="container">
 		<div class="row">
@@ -249,7 +253,7 @@ Content START -->
 										<a class="nav-link active" href="{% url 'users:favorites' %}"><i class="bi bi-people fa-fw me-2"></i>Понравившиеся</a>
 									</li>
 									<li class="nav-item">
-										<a class="nav-link" href="https://wa.link/0ywk3x"><i class="bi bi-wallet fa-fw me-2"></i>Поддержка</a>
+										<a class="nav-link" href="{% url 'website:support' %}"><i class="bi bi-wallet fa-fw me-2"></i>Поддержка</a>
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" href="{% url 'users:delete_profile' %}"><i class="bi bi-trash fa-fw me-2"></i>Удалить профиль</a>
@@ -259,13 +263,19 @@ Content START -->
 										<a class="nav-link text-danger bg-danger-soft-hover" href="{% url 'users:logout' %}"><i class="fas fa-sign-out-alt fa-fw me-2"></i>Выйти</a>
 									</li>
 								</ul>
+                                <style>
+                                    .dropdown-item:hover, .dropdown-item:focus {
+                                      color: green;
+                                      background-color: #d2f4d2;
+                                    }
+                                </style>
 								<!-- Sidebar menu item END -->
 							</div>
 							<!-- Card body END -->
 						</div>
 					</div>
-				</div>	
-				<!-- Responsive offcanvas body END -->	
+				</div>
+				<!-- Responsive offcanvas body END -->
 			</div>
 			<!-- Sidebar END -->
 
@@ -289,90 +299,26 @@ Content START -->
 					<!-- Card body START -->
 					<div class="card-body vstack gap-4">
 						<!-- Select and button -->
-						<form class="d-flex justify-content-between">
+						<form method="post" action="{% url 'users:clear_favorites' %}">
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn-danger-soft mb-0">
+                            <i class="fas fa-trash me-2"></i>Очистить
+                          </button>
+                        </form>
 
-							<!-- Button -->
-							<button class="btn btn-danger-soft mb-0"><i class="fas fa-trash me-2"></i>Очистить</button>
-						</form>
 
-						<!-- Wishlist item START -->
+                        {% for favorite_apartment in favorite_apartments %}
 						<div class="card shadow p-2">
 							<div class="row g-0">
 								<!-- Card img -->
 								<div class="col-md-3">
-									<img src="{% static 'images/15.jpeg' %}" class="card-img rounded-2" alt="Card image">
+									<img src="{{ favorite_apartment.apartment.image1.url }}" class="card-img rounded-2" alt="Card image">
 								</div>
-	
+
 								<!-- Card body -->
 								<div class="col-md-9">
 									<div class="card-body py-md-2 d-flex flex-column h-100">
-	
-										<!-- Rating and buttons -->
-										<div class="d-flex justify-content-between align-items-center">
-											<ul class="list-inline small mb-0">
-												<li class="list-inline-item me-0"><i class="fa-solid fa-star text-warning"></i></li>
-												<li class="list-inline-item me-0"><i class="fa-solid fa-star text-warning"></i></li>
-												<li class="list-inline-item me-0"><i class="fa-solid fa-star text-warning"></i></li>
-												<li class="list-inline-item me-0"><i class="fa-solid fa-star text-warning"></i></li>
-												<li class="list-inline-item"><i class="fa-solid fa-star-half-alt text-warning"></i></li>
-											</ul>
-	
-											<ul class="list-inline mb-0">
-												<!-- Heart icon -->
-												<li class="list-inline-item">
-													<a href="#" class="btn btn-sm btn-round btn-danger mb-0"><i class="fa-solid fa-fw fa-heart"></i></a>
-												</li>
-												<!-- Share icon -->
-												<li class="list-inline-item dropdown">
-													<!-- Share button -->
-													<a href="#" class="btn btn-sm btn-round btn-light mb-0" role="button" id="dropdownShare2" data-bs-toggle="dropdown" aria-expanded="false">
-														<i class="fa-solid fa-fw fa-share-alt"></i>
-													</a>
-													<!-- dropdown button -->
-													<ul class="dropdown-menu dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare2">
-														<li><a class="dropdown-item" href="#"><i class="fab fa-twitter-square me-2"></i>Twitter</a></li>
-														<li><a class="dropdown-item" href="#"><i class="fab fa-facebook-square me-2"></i>Facebook</a></li>
-														<li><a class="dropdown-item" href="#"><i class="fab fa-linkedin me-2"></i>LinkedIn</a></li>
-														<li><a class="dropdown-item" href="#"><i class="fa-solid fa-copy me-2"></i>Copy link</a></li>
-													</ul>
-												</li>
-											</ul>
-										</div>
-	
-										<!-- Title -->
-										<h5 class="card-title mb-1"><a href="hotel-detail.html">Pride moon Village Resort &amp; Spa</a></h5>
-										<small><i class="bi bi-geo-alt me-2"></i>31J W Spark Street, California - 24578</small>
-										
-										<!-- Price and Button -->
-										<div class="d-sm-flex justify-content-sm-between align-items-center mt-3 mt-md-auto">
-											<!-- Button -->
-											<div class="d-flex align-items-center">
-												<h5 class="fw-bold mb-0 me-1">$980</h5>
-												<span class="mb-0 me-2">/day</span>
-											</div>
-											<!-- Price -->
-											<div class="mt-3 mt-sm-0">
-												<a href="hotel-detail.html" class="btn btn-sm btn-dark w-100 mb-0">View hotel</a>    
-											</div>                  
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Wishlist item END -->
 
-						<!-- Wishlist item START -->
-						<div class="card shadow p-2">
-							<div class="row g-0">
-								<!-- Card img -->
-								<div class="col-md-3">
-									<img src="{% static 'images/15.jpeg' %}" class="card-img rounded-2" alt="Card image">
-								</div>
-	
-								<!-- Card body -->
-								<div class="col-md-9">
-									<div class="card-body d-flex flex-column h-100 py-md-2">
-	
 										<!-- Rating and buttons -->
 										<div class="d-flex justify-content-between align-items-center">
 											<ul class="list-inline small mb-0">
@@ -382,49 +328,62 @@ Content START -->
 												<li class="list-inline-item me-0"><i class="fa-solid fa-star text-warning"></i></li>
 												<li class="list-inline-item"><i class="fa-solid fa-star-half-alt text-warning"></i></li>
 											</ul>
-	
+
 											<ul class="list-inline mb-0">
-												<!-- Heart icon -->
-												<li class="list-inline-item">
-													<a href="#" class="btn btn-sm btn-round btn-danger mb-0"><i class="fa-solid fa-fw fa-heart"></i></a>
-												</li>
-												<!-- Share icon -->
-												<li class="list-inline-item dropdown">
-													<a href="#" class="btn btn-sm btn-round btn-light mb-0" role="button" id="dropdownShare3" data-bs-toggle="dropdown" aria-expanded="false">
-														<i class="fa-solid fa-fw fa-share-alt"></i>
-													</a>
-													<!-- dropdown button -->
-													<ul class="dropdown-menu dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare3">
-														<li><a class="dropdown-item" href="#"><i class="fab fa-twitter-square me-2"></i>Twitter</a></li>
-														<li><a class="dropdown-item" href="#"><i class="fab fa-facebook-square me-2"></i>Facebook</a></li>
-														<li><a class="dropdown-item" href="#"><i class="fab fa-linkedin me-2"></i>LinkedIn</a></li>
-														<li><a class="dropdown-item" href="#"><i class="fa-solid fa-copy me-2"></i>Copy link</a></li>
-													</ul>
-												</li>
+
+                                                <form method="post" action="{% url 'users:clear_favorites' %}">
+                                                    {% csrf_token %}
+                                                    <button class="btn btn-sm btn-round btn-danger mb-0" type="submit" name="remove_favorite" value="{{ favorite_apartment.apartment.pk }}">
+                                                        <i class="fa-solid fa-fw fa-heart"></i>
+                                                    </button>
+                                                </form>
 											</ul>
 										</div>
-	
+
 										<!-- Title -->
-										<h5 class="card-title mb-1"><a href="hotel-detail.html">Royal Beach Resort</a></h5>
-										<small><i class="bi bi-geo-alt me-2"></i>Manhattan street, London - 24578</small>
-										
+										<h5 class="card-title mb-1"><a href="{% url 'website:apartaments-detail' pk=favorite_apartment.apartment.pk %}">{{ favorite_apartment.apartment.name }}</a></h5>
+										<small><i class="bi bi-geo-alt me-2"></i>{{ favorite_apartment.apartment.address }}</small>
+                                        <ul class="nav nav-divider mt-3">
+                                                    {% if favorite_apartment.apartment.air_conditioning == True %}
+                                                    <li class="nav-item">Кондиционер</li>
+                                                    {% endif %}
+                                                    {% if favorite_apartment.apartment.wifi == True %}
+                                                    <li class="nav-item">Wifi</li>
+                                                    {% endif %}
+                                                    {% if favorite_apartment.apartment.parking == True %}
+                                                    <li class="nav-item">Платный паркинг</li>
+                                                    {% endif %}
+                                        </ul>
+                                        <ul class="list-group list-group-borderless small mb-0 mt-2">
+                                            <li class="list-group-item d-flex text-success p-0">
+                                                <i class="bi bi-patch-check-fill me-2"></i>10% скидка за регистрацию
+                                            </li>
+                                            <li class="list-group-item d-flex text-success p-0">
+                                                <i class="bi bi-patch-check-fill me-2"></i>10% скидка за репост в Instagram
+                                            </li>
+                                        </ul>
+
 										<!-- Price and Button -->
 										<div class="d-sm-flex justify-content-sm-between align-items-center mt-3 mt-md-auto">
 											<!-- Button -->
 											<div class="d-flex align-items-center">
-												<h5 class="fw-bold mb-0 me-1">$540</h5>
-												<span class="mb-0 me-2">/day</span>
+												<h5 class="fw-bold mb-0 me-1">{{ favorite_apartment.apartment.price }}</h5>
+												<span class="mb-0 me-2">/день</span>
+
 											</div>
 											<!-- Price -->
 											<div class="mt-3 mt-sm-0">
-												<a href="hotel-detail.html" class="btn btn-sm btn-dark w-100 mb-0">View hotel</a>    
-											</div>                  
+												<a href="{% url 'website:apartaments-detail' pk=favorite_apartment.apartment.pk %}" class="btn btn-sm btn-dark w-100 mb-0">Посмотреть</a>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<!-- Wishlist item END -->
+                        {% empty %}
+                          <li>Ваш список избранных квартир пуст.</li>
+                        {% endfor %}
+
 
 					</div>
 					<!-- Card body END -->
@@ -436,8 +395,6 @@ Content START -->
 		</div>
 	</div>
 </section>
-<!-- =======================
-Content END -->
 
 </main>
 <!-- **************** MAIN CONTENT END **************** -->
@@ -483,7 +440,7 @@ Content END -->
 						<ul class="nav flex-column text-primary-hover">
 							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Регистрация</a></li>
 							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Войти</a></li
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="https://wa.link/0ywk3x">Поддержка</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:support' %}">Поддержка</a></li>
 						</ul>
 					</div>
 
@@ -531,7 +488,7 @@ Content END -->
 						<ul class="list-inline text-primary-hover mx-auto mb-0">
 							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="#">Политика конфиденциальности</a></li>
 							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="#">Условия использования</a></li>
-							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="https://wa.link/0ywk3x">Поддержка</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="{% url 'website:support' %}">Поддержка</a></li>
 						</ul>
 					</div>
 				</div>

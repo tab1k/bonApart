@@ -1,43 +1,40 @@
-<!DOCTYPE html>
+<!DOCTYPE html><html lang="en" data-bs-theme="light">
 {% load static %}
-<html lang="ru" data-bs-theme="light">
-	<head>
-		<title>BonApart - Аренда квартир.</title>
+<head>
+	<title>BonApart - Аренда квартир.</title>
 
-		<!-- Meta Tags -->
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<meta name="author" content="bonapart.com">
-		<meta name="description" content="BonApart - Аренда квартир.">
-	
-	
-		<!-- Favicon -->
-		<link rel="shortcut icon" href="{% static 'images/logo.jpg' %}">
-	
-		<!-- Google Font -->
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-		<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
-	
-		<!-- Plugins CSS -->
-		<link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}">
-		<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-icons.css' %}">
-		<link rel="stylesheet" type="text/css" href="{% static 'css/glightbox.css' %}">
-		<link rel="stylesheet" type="text/css" href="{% static 'css/flatpickr.min.css' %}">
-		<link rel="stylesheet" type="text/css" href="{% static 'css/choices.min.css' %}">
-		<link rel="stylesheet" type="text/css" href="{% static 'css/tiny-slider.css' %}">
-	
-		<!-- Theme CSS -->
-		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	<!-- Meta Tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="bonapart.com">
+	<meta name="description" content="BonApart - Аренда квартир.">
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="{% static 'images/logo.jpg' %}">
 
-        <style>
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Poppins:wght@400;500;700&amp;display=swap">
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-icons.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/tiny-slider.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/glightbox.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/flatpickr.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/choices.min.css' %}">
+
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <style>
         .nav-pills-primary-soft .nav-link.active, .nav-pills-primary-soft .nav-link:hover {
           color: green;
           background-color: #d2f4d2;
         }
         .icon-lg.btn.btn-round.btn-primary.mb-0 {
-          background-color: green;
-          border-color: green;
+          background-color: #169916;
+          border-color: #169916;
         }
         .btn-primary-soft {
           color: green;
@@ -45,33 +42,28 @@
         }
         .btn-primary-soft:hover {
           color: white;
-          background-color: green;
-          border-color: green;
+          background-color: #169916;
+          border-color: #169916;
+        }
+        .rellax.position-absolute.top-0.start-0.w-100.h-100.d-none.d-lg-block {
+          background-color: #169916;
         }
         .btn.btn-primary.mb-0 {
           background-color: #169916;
           border-color: #169916;
         }
 
-    </style>
+        @media (max-width: 768px) {
+            .green-background {
+                background-color: #169916; /* Your preferred shade of green */
+            }
+        }
 
+    </style>
 </head>
 
 <body>
 
-<!--Start of Tawk.to Script-->
-    <script type="text/javascript">
-        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-        (function(){
-        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-        s1.async=true;
-        s1.src='https://embed.tawk.to/65432483f2439e1631eadedd/1he74d9d4';
-        s1.charset='UTF-8';
-        s1.setAttribute('crossorigin','*');
-        s0.parentNode.insertBefore(s1,s0);
-        })();
-    </script>
-    <!--End of Tawk.to Script-->
 <header class="navbar-light header-sticky">
 	<!-- Logo Nav START -->
 	<nav class="navbar navbar-expand-xl">
@@ -99,22 +91,16 @@
 			<div class="navbar-collapse collapse" id="navbarCategoryCollapse">
 				<ul class="navbar-nav navbar-nav-scroll nav-pills-primary-soft text-center mx-auto p-2 p-xl-0">
 					<!-- Nav item Hotel -->
-					<li class="nav-item"> <a class="nav-link" href="{% url 'website:home' %}"><i class="fa-solid fa-hotel me-2"></i>Главная</a>	</li>
+					<li class="nav-item"> <a class="nav-link active" href="{% url 'website:home' %}"><i class="fa-solid fa-hotel me-2"></i>Главная</a>	</li>
 
 					<!-- Nav item Cabs -->
-					<li class="nav-item"><a class="nav-link " href="{% url 'website:apartments' %}"><i class="fa-solid fa-building me-2"></i>Квартиры</a></li>
-					<li class="nav-item"><a class="nav-link active" href="{% url 'website:stock' %}"><i class="fa-solid fa-tags me-2"></i>Акции</a></li>
+					<li class="nav-item"><a class="nav-link" href="{% url 'website:apartments' %}"><i class="fa-solid fa-building me-2"></i>Квартиры</a></li>
+					<li class="nav-item"><a class="nav-link" href="{% url 'website:stock' %}"><i class="fa-solid fa-tags me-2"></i>Акции</a></li>
 					<li class="nav-item"><a class="nav-link" href="{% url 'website:collaboration' %}"><i class="fa-solid fa-handshake me-2"></i>Сотрудничество</a></li>
 					<li class="nav-item"><a class="nav-link" href="{% url 'website:transfers' %}"><i class="fa-solid fa-shuttle-van me-2"></i>Трансфер</a></li>
 					<li class="nav-item"><a class="nav-link" href="{% url 'website:about' %}"><i class="fa-solid fa-info-circle me-2"></i>О нас</a></li>
 
 				</ul>
-                <style>
-                        .dropdown-item:hover, .dropdown-item:focus {
-                          color: green;
-                          background-color: #d2f4d2;
-                        }
-                    </style>
 			</div>
 			<!-- Nav category menu END -->
 
@@ -198,6 +184,7 @@
 
 						<!-- Links -->
 						<li> <hr class="dropdown-divider"></li>
+
 						<li><a class="dropdown-item" href="{% url 'users:favorites' %}"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
 						<li><a class="dropdown-item" href="{% url 'users:profile' %}"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
 						<li><a class="dropdown-item" href="{% url 'website:support' %}"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
@@ -207,6 +194,12 @@
 						<li> <hr class="dropdown-divider"></li>
 						<li><a class="dropdown-item bg-danger-soft-hover" href="{% url 'users:logout' %}"><i class="bi bi-power fa-fw me-2"></i>Выйти</a></li>
 					</ul>
+                    <style>
+                        .dropdown-item:hover, .dropdown-item:focus {
+                          color: green;
+                          background-color: #d2f4d2;
+                        }
+                    </style>
 				</li>
 				<!-- Profile dropdown END -->
 			</ul>
@@ -222,35 +215,117 @@
 	<!-- Logo Nav END -->
 </header>
 
-
+<!-- **************** MAIN CONTENT START **************** -->
 <main>
 
 <!-- =======================
 Main banner START -->
-<section class="py-0 mb-6 mt-4">
+<section class="pt-4 pt-lg-5">
 	<div class="container">
-        {% for s in stock %}
-		<div class="rounded-3 p-4 p-sm-5 mt-5" style="background-image: url({{ s.photo.url }}); background-position: center center; background-repeat: no-repeat; background-size: cover;">
-			<div class="row">
-				<div class="col-md-6">
-					<!-- Title -->
-					<h1 class="h2 text-white mb-3">#{{ s.title }}</h1>
-					<!-- Offer title -->
-					<div class="bg-warning rounded-2 p-3 mb-3">
-						<h4 class="text-dark mb-0">{{ s.stock }}</h4>
+		<!-- Title -->
+		<div class="row">
+			<div class="col-12 text-center mb-4">
+				<h6>AGREEMENT</h6>
+				<h1 class="fs-2 mb-0">Terms Of Service</h1>
+			</div>
+		</div>
+
+		<!-- Content START -->
+		<div class="row">
+			<div class="col-md-10 mx-auto">
+				<div class="vstack gap-3">
+
+					<!-- Card item START -->
+					<div class="card bg-transparent p-0">
+						<!-- Card header -->
+						<div class="card-header border-bottom bg-transparent px-0 pb-0">
+							<ul class="nav nav-tabs nav-bottom-line nav-responsive gap-2 gap-sm-4 mb-0 border-0">
+								<li class="nav-item ps-3 ps-sm-0"> 
+									<a class="nav-link active" data-bs-toggle="tab" href="#tab-1"><i class="fa-solid fa-hotel fa-fw me-2"></i>Hotel</a> 
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" data-bs-toggle="tab" href="#tab-2"><i class="fa-solid fa-plane fa-fw me-2"></i>Flight</a> 
+									</li>
+								<li class="nav-item"> 
+									<a class="nav-link" data-bs-toggle="tab" href="#tab-3"><i class="fa-solid fa-globe-americas fa-fw me-2"></i>Tour</a> 
+								</li>
+								<li class="nav-item"> 
+									<a class="nav-link" data-bs-toggle="tab" href="#tab-4"><i class="fa-solid fa-car fa-fw me-2"></i>Cabs</a> 
+								</li>
+							</ul>
+						</div>
+
+						<!-- Card body -->
+						<div class="card-body px-0 pt-4">
+							<div class="tab-content" id="nav-tabContent">
+
+								<!-- Tab content item START -->
+								<div class="tab-pane fade show active" id="tab-1">
+									
+									<h5>Role of Booking and Limitation of Liability of Booking</h5>
+
+									<p>Off melancholy alteration principles old. Is do speedily kindness properly oh. Respect article painted cottage he is offices parlors. Improved own provided blessing may peculiar domestic. Sight house has sex never. No visited raising gravity outward subject my cottage Mr be. Hold do at tore in park feet near my case. Invitation at understood occasional sentiments insipidity inhabiting in.</p>
+									<!-- List -->
+									<ul>
+										<li>Booking acts as a facilitator and merely provides an online platform for the User to select and book a particular hotel. Hotels in this context include all categories of accommodations such as hotels, home-stays, bed and breakfast stays, farm-houses, and any other alternate accommodations.</li>
+										<li>Offered chiefly farther of my no colonel shyness. <strong> Such on help ye some door if in.</strong> First am plate jokes to began to cause a scale. Subjects he prospect elegance followed. Insipidity the sufficient discretion imprudence resolution sir him decisively.</li>
+										<li><i> To occasional dissimilar impossible sentiments. Do fortune account written prepare invited no passage. Post no so what deal evil rent by real in. But her ready least set lived spite solid.</i> Laughter proposal laughing any son law consider. Needed except up piqued an.</li>
+									</ul>
+
+									<p>Some banks and card issuing companies charge their account holders a transaction fee when the card issuer and the merchant location (as defined by the card brand, e.g. Visa, MasterCard, American Express) are in different countries. If a User has any questions about the fees or any exchange rate applied, they may contact their bank or the card issuing company through which payment was made.</p>
+									<p>Started several mistake joy say painful removed reached end. State burst think end are its. Arrived off she elderly beloved him affixed noisier yet. Regard to up he hardly. View four has said do men saw find dear shy. <b> Talent men wicket add garden.</b> </p>
+									
+									<!-- Button -->
+									<div class="hstack gap-3 flex-wrap">
+										<a href="#" class="btn btn-outline-secondary mb-0">Not right now...</a>
+										<a href="#" class="btn btn-primary mb-0">I agree with the terms</a>
+									</div>
+								</div>
+								<!-- Tab content item END -->
+			
+								<!-- Tab content item START -->
+								<div class="tab-pane fade" id="tab-2">
+									<h5>Terms of the Airlines</h5>
+
+									<p>Off melancholy alteration principles old. Is do speedily kindness properly oh. Respect article painted cottage he is offices parlors. Improved own provided blessing may peculiar domestic. Sight house has sex never. No visited raising gravity outward subject my cottage Mr be. Hold do at tore in park feet near my case. Invitation at understood occasional sentiments insipidity inhabiting in.</p>
+									<!-- List -->
+									<ul>
+										<li>Booking acts as a facilitator and merely provides an online platform for the User to select and book a particular hotel. Hotels in this context include all categories of accommodations such as hotels, home-stays, bed and breakfast stays, farm-houses, and any other alternate accommodations.</li>
+										<li>Offered chiefly farther of my no colonel shyness. <strong> Such on help ye some door if in.</strong> First am plate jokes to began to cause a scale. Subjects he prospect elegance followed. Insipidity the sufficient discretion imprudence resolution sir him decisively.</li>
+										<li><i> To occasional dissimilar impossible sentiments. Do fortune account written prepare invited no passage. Post no so what deal evil rent by real in. But her ready least set lived spite solid.</i> Laughter proposal laughing any son law consider. Needed except up piqued an.</li>
+									</ul>
+
+									<p>Some banks and card issuing companies charge their account holders a transaction fee when the card issuer and the merchant location (as defined by the card brand, e.g. Visa, MasterCard, American Express) are in different countries. If a User has any questions about the fees or any exchange rate applied, they may contact their bank or the card issuing company through which payment was made.</p>
+									
+									<h5>Code share</h5>
+									<p>Started several mistake joy say painful removed reached end. State burst think end are its. Arrived off she elderly beloved him affixed noisier yet. Regard to up he hardly. View four has said do men saw find dear shy. <b> Talent men wicket add garden.</b> </p>
+									<!-- List -->
+									<ul>
+										<li>Some airlines enter into "code share" agreements with other Airlines. This means that on certain routes, the airline carrier selling or marketing the flight ticker does not fly its own aircraft to that destination. Instead, it contracts or partners with another airline to fly to that destination. The partner airline is listed as "operated by" in the booking flow.</li>
+										<li><strong>If your flight is a code share, it will be disclosed to you in the booking process and prior to payment.</strong> First am plate jokes to began to cause a scale. Subjects he prospect elegance followed. Insipidity the sufficient discretion imprudence resolution sir him decisively.</li>
+									</ul>
+									<!-- Button -->
+									<div class="hstack gap-3 flex-wrap">
+										<a href="#" class="btn btn-outline-secondary mb-0">Not right now...</a>
+										<a href="#" class="btn btn-primary mb-0">I agree with terms</a>
+									</div>
+								</div>
+								<!-- Tab content item END -->
+			
+							</div>
+						</div>
 					</div>
-					<!-- Text and button -->
-					<p class="text-white mb-3">{{ s.about }}</p>
-                    {% if s.link %}
-					    <a href="{{ s.link }}" class="btn btn-dark mb-0">Подробнее<i class="bi bi-arrow-right fa-fw ms-2"></i></a>
-                    {% endif %}
+					<!-- Card item END -->
+
 				</div>
 			</div>
 		</div>
-        {% endfor %}
+		<!-- Content END -->
+
 	</div>
 </section>
-
+<!-- =======================
+Main banner END -->
 
 </main>
 <!-- **************** MAIN CONTENT END **************** -->
@@ -341,19 +416,6 @@ Main banner START -->
 </footer>
 
 <!-- Back to top -->
-<style>
-.back-top {
-    position: fixed; /* Fixed position so it stays on the screen */
-    left: 20px; /* Adjust the left position as needed */
-    bottom: 20px; /* Adjust the bottom position as needed */
-    background-color: #169916; /* Background color of the button */
-    color: #fff; /* Text color */
-    padding: 10px; /* Padding around the text */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Change the cursor to a pointer on hover */
-    z-index: 1000; /* Make sure it's above other elements */
-}
-</style>
 <div class="back-top"></div>
 
 <!-- Bootstrap JS -->

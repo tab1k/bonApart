@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 
@@ -7,7 +8,7 @@ from .forms import ApartmentFilterForm, CarFilterForm, ReservationForm
 from website.models import *
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views import View
 
 
@@ -48,7 +49,7 @@ class SearchResultsView(View):
 
 
 
-class ApartmentView(View):
+class ApartmentView(LoginRequiredMixin,View):
     template_name = 'website/apartments_list.html'
 
     def get(self, request):
@@ -104,15 +105,37 @@ class ApartmentView(View):
 
     def post(self, request, apartment_id):
         form = ReservationForm(request.POST)
-
         if form.is_valid():
             form.save()
             # Дополнительная логика, например, перенаправление на страницу успешного бронирования
         else:
-            apartments = Apartment.objects.all()
-            context = {'apartments': apartments, 'form': form}
+            if request.POST.get('action') == 'add_to_favorites':
+                # Добавление квартиры в избранное
+                apartment_id = request.POST.get('apartment_id')
 
-        return render(request, self.template_name, context)
+                # Проверьте, что пользователь аутентифицирован
+                if request.user.is_authenticated:
+                    # Попробуйте найти запись в базе данных, чтобы избежать дублирования
+                    existing_favorite = FavoriteApartment.objects.filter(user=request.user,
+                                                                         apartment_id=apartment_id).first()
+
+                    if not existing_favorite:
+                        # Создайте новую запись в избранном
+                        favorite = FavoriteApartment(user=request.user, apartment_id=apartment_id)
+                        favorite.save()
+
+                        # После успешного добавления в избранное, вы можете выполнить дополнительные действия
+                        return redirect('users:favorites')  # Перенаправьте пользователя на страницу избранных квартир
+                    else:
+                        # Если запись уже существует, вы можете выполнить другие действия или вернуть сообщение пользователю
+                        return redirect('users:favorites')
+                else:
+                    # Если пользователь не аутентифицирован, перенаправьте его на страницу входа или выполните другие действия
+                    return redirect('users:signin')
+            else:
+                apartments = Apartment.objects.all()
+                context = {'apartments': apartments, 'form': form}
+                return render(request, self.template_name, context)
 
 
 class StockView(View):
@@ -198,11 +221,14 @@ class ApartamentsDetailView(View):
         comment_form = CommentForm(request.POST)  # Получите данные POST-запроса
 
         if comment_form.is_valid():
-            new_comment = comment_form.save(commit=False)
-            new_comment.apartment = apartments_detail
-            new_comment.user = request.user  # Привяжите комментарий к текущему пользователю
-            new_comment.save()
-            return redirect('website:apartments_detail', pk=pk)  # Перенаправьте пользователя на страницу квартиры
+            if request.user.is_authenticated:
+                new_comment = comment_form.save(commit=False)
+                new_comment.apartment = apartments_detail
+                new_comment.user = request.user  # Привяжите комментарий к текущему пользователю
+                new_comment.save()
+                return redirect('website:apartments')  # Перенаправьте пользователя на страницу квартиры
+            else:
+                return redirect('users:signup')
 
         # Если форма не действительна, возвращайтесь на ту же страницу
         comments = Comment.objects.filter(apartment=apartments_detail)
@@ -219,37 +245,26 @@ class ApartamentsDetailView(View):
 
 
 
+class PrivacyPolicy(View):
 
-class AddToFavoriteView(View):
-    def post(self, request, apartment_id):
-        user = request.user  # Проверяем, вошел ли пользователь в систему
-        apartment = get_object_or_404(Apartment, pk=apartment_id)
+    template_name = 'website/privacy.html'
 
-        # Проверяем, добавлена ли квартира в избранное
-        favorite, created = FavoriteApartment.objects.get_or_create(user=user, apartment=apartment)
-
-        if created:
-            message = 'Квартира успешно добавлена в избранное'
-        else:
-            favorite.delete()
-            message = 'Квартира успешно удалена из избранного'
-
-        return JsonResponse({'message': message})
+    def get(self, request):
+        return render(request, self.template_name)
 
 
-    def delete(self, request, apartment_id):
-        user = request.user
-        apartment = Apartment.objects.get(pk=apartment_id)
+class Terms(View):
+    template_name = 'website/terms.html'
 
-        # Проверьте, добавлена ли квартира в избранное и удалите ее
-        favorite_apartment = FavoriteApartment.objects.filter(user=user, apartment=apartment).first()
-        if favorite_apartment:
-            favorite_apartment.delete()
-            message = 'Квартира успешно удалена из избранного'
-        else:
-            message = 'Квартира не найдена в избранном'
+    def get(self, request):
+        return render(request, self.template_name)
 
-        return JsonResponse({'message': message})
+
+class Support(View):
+    template_name = 'website/help_center.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
 
 
 

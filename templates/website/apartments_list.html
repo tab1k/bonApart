@@ -55,24 +55,10 @@
 </head>
 
 <body class="has-navbar-mobile">
-<!--Start of Tawk.to Script-->
-    <script type="text/javascript">
-        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-        (function(){
-        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-        s1.async=true;
-        s1.src='https://embed.tawk.to/65432483f2439e1631eadedd/1he74d9d4';
-        s1.charset='UTF-8';
-        s1.setAttribute('crossorigin','*');
-        s0.parentNode.insertBefore(s1,s0);
-        })();
-    </script>
-    <!--End of Tawk.to Script-->
-<!-- Header START -->
 <header class="navbar-light header-sticky">
 	<!-- Logo Nav START -->
 	<nav class="navbar navbar-expand-xl">
-		<div class="container">
+		<div class="container" style="width:92%">
 			<!-- Logo START -->
 			<a class="navbar-brand d-flex align-items-center" href="{% url 'website:home' %}">
 			    <img style="border-radius: 50px;" class="light-mode-item navbar-brand-item" src="{% static 'images/logo.jpg' %}" alt="logo">
@@ -88,7 +74,7 @@
 
 			<!-- Responsive category toggler -->
 			<button class="navbar-toggler ms-sm-auto mx-3 me-md-0 p-0 p-sm-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCategoryCollapse" aria-controls="navbarCategoryCollapse" aria-expanded="false" aria-label="Toggle navigation">
-				<i class="bi bi-grid-3x3-gap-fill fa-fw"></i><span class="d-none d-sm-inline-block small">Категории</span>
+				<i  style="color: black;"  class="bi bi-grid-3x3-gap-fill fa-fw"></i><span class="d-none d-sm-inline-block small">Категории</span>
 			</button>
 
 
@@ -192,7 +178,7 @@
 						<li> <hr class="dropdown-divider"></li>
 						<li><a class="dropdown-item" href="{% url 'users:favorites' %}"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
 						<li><a class="dropdown-item" href="{% url 'users:profile' %}"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
-						<li><a class="dropdown-item" href="https://wa.link/0ywk3x"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
+						<li><a class="dropdown-item" href="{% url 'website:support' %}"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
                         {% if user.is_staff %}
                             <li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="bi bi-person fa-fw me-2"></i>Админ-панель</a></li>
                         {% endif %}
@@ -200,6 +186,12 @@
 						<li><a class="dropdown-item bg-danger-soft-hover" href="{% url 'users:logout' %}"><i class="bi bi-power fa-fw me-2"></i>Выйти</a></li>
 					</ul>
 				</li>
+                <style>
+                        .dropdown-item:hover, .dropdown-item:focus {
+                          color: green;
+                          background-color: #d2f4d2;
+                        }
+                    </style>
 				<!-- Profile dropdown END -->
 			</ul>
 			{% else %}
@@ -224,13 +216,13 @@
 <!-- =======================
 Main Banner START -->
 <section class="pt-0">
-	<div class="container">
+	<div class="container mt-2s">
 		<!-- Background image -->
 		<div class="rounded-3 p-3 p-sm-5" style="background-image: url({% static 'images/1.jpeg' %}); background-position: center center; background-repeat: no-repeat; background-size: cover;">
 			<!-- Banner title -->
 			<div class="row my-2 my-xl-5"> 
 				<div class="col-md-8 mx-auto"> 
-					<h1 class="text-center text-white">Более 10+ квартир Бизнес - Класса</h1>
+					<h1 class="text-center text-white">Более 10+ квартир Бизнес и Люкс Класса</h1>
 				</div>
 			</div>
 
@@ -273,7 +265,7 @@ Hotel list START -->
 				<!-- Responsive offcanvas body START -->
 				<div class="offcanvas-xl offcanvas-end" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
 					<div class="offcanvas-header">
-						<h5 class="offcanvas-title" id="offcanvasSidebarLabel">Advance Filters</h5>
+						<h5 class="offcanvas-title" id="offcanvasSidebarLabel">Фильтр квартир</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasSidebar" aria-label="Close"></button>
 					</div>
 					<div class="offcanvas-body flex-column p-3 p-xl-0">
@@ -514,37 +506,16 @@ Hotel list START -->
 
 										<ul class="list-inline mb-0 z-index-2">
 											<!-- Heart icon -->
-											<a href="#" class="btn btn-sm btn-round btn-light favorite-button" data-apartment-id="{{ i.pk }}">
-                                                <i class="fa-solid fa-fw fa-heart"></i>
-                                            </a>
-                                            <style>
-                                                .favorite-button {
-                                                    transition: color 0.3s; /* Плавное изменение цвета */
-                                                }
+                                            <form method="post" action="{% url 'website:add_to_favorite' apartment_id=i.pk %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="action" value="add_to_favorites">
+                                                <input type="hidden" name="apartment_id" value="{{ i.pk }}">
+                                                <button style="border-radius: 100px;" type="submit" class="btn btn-sm btn-light favorite-button">
+                                                    <i class="fa-solid fa-fw fa-heart"></i>
+                                                </button>
+                                            </form>
 
-                                                .favorite-button:hover {
-                                                    color: red; /* Изменяет цвет иконки на красный при наведении */
-                                                }
 
-                                                .heart-active {
-                                                    color: red; /* Изменяет цвет иконки на красный при нажатии (активном состоянии) */
-                                                }
-                                            </style>
-
-											<!-- Share icon -->
-											<li class="list-inline-item dropdown">
-												<!-- Share button -->
-												<a href="#" class="btn btn-sm btn-round btn-light" role="button" id="dropdownShare" data-bs-toggle="dropdown" aria-expanded="false">
-													<i class="fa-solid fa-fw fa-share-alt"></i>
-												</a>
-												<!-- dropdown button -->
-												<ul class="dropdown-menu dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare">
-													<li><a class="dropdown-item" href="#"><i class="fab fa-twitter-square me-2"></i>Twitter</a></li>
-													<li><a class="dropdown-item" href="#"><i class="fab fa-facebook-square me-2"></i>Facebook</a></li>
-													<li><a class="dropdown-item" href="#"><i class="fab fa-linkedin me-2"></i>LinkedIn</a></li>
-													<li><a class="dropdown-item" href="#"><i class="fa-solid fa-copy me-2"></i>Copy link</a></li>
-												</ul>
-											</li>
 										</ul>
 									</div>
 
@@ -633,36 +604,6 @@ Hotel list START -->
                     <p>Извините, но результаты не найдены.</p>
                 {% endif %}
 
-                <script>
-                        document.querySelectorAll('.favorite-button').forEach(button => {
-                            button.addEventListener('click', async (event) => {
-                                event.preventDefault();
-                                const apartmentId = button.getAttribute('data-apartment-id');
-
-                                button.classList.toggle('heart-active');
-
-                                fetch(`/add_to_favorite/${apartmentId}/`, {
-                                    method: 'POST',
-                                    headers: {
-                                        'X-CSRFToken': getCookie('csrftoken')
-                                    }
-                                })
-                                .then(response => response.json())
-                                .then(data => {
-                                    // Здесь вы можете выполнить какие-либо действия на основе ответа сервера
-                                    if (data.message === 'Квартира успешно добавлена в избранное') {
-                                        alert('Квартира успешно добавлена в избранное');
-                                    } else {
-                                        alert('Квартира успешно удалена из избранного');
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error('Ошибка при выполнении запроса:', error);
-                                });
-                            });
-                        });
-                        </script>
-
 
 
 
@@ -699,12 +640,8 @@ Hotel list START -->
 
 <footer class="bg-dark pt-5">
 	<div class="container">
-		<!-- Row START -->
 		<div class="row g-4">
-
-			<!-- Widget 1 START -->
 			<div class="col-lg-3">
-				<!-- logo -->
 				<a href="{% url 'website:home' %}" style="display: flex;">
 					<img class="h-40px" style="border-radius: 50px;" src="{% static 'images/logo.jpg' %}" alt="logo">
 					<p style="margin: auto; margin-left: 10px; color: white;"><b>BonApart</b></p>
@@ -714,12 +651,11 @@ Hotel list START -->
 				<p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+7 (778) 706 61 00</a> </p>
 				<p class="mb-0"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-envelope me-2"></i>example@gmail.com</a></p>
 			</div>
-			<!-- Widget 1 END -->
 
-			<!-- Widget 2 START -->
+
 			<div class="col-lg-8 ms-auto">
 				<div class="row g-4">
-					<!-- Link block -->
+
 					<div class="col-6 col-md-3">
 						<h5 class="text-white mb-2 mb-md-4">Страницы</h5>
 						<ul class="nav flex-column text-primary-hover">
@@ -732,61 +668,53 @@ Hotel list START -->
 						</ul>
 					</div>
 
-					<!-- Link block -->
+
 					<div class="col-6 col-md-3">
 						<h5 class="text-white mb-2 mb-md-4">Ссылки</h5>
 						<ul class="nav flex-column text-primary-hover">
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Регистрация</a></li>
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Войти</a></li
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Поддержка</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'users:signup' %}">Регистрация</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'users:signin' %}">Войти</a></li
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:support' %}">Поддержка</a></li>
 						</ul>
 					</div>
 
-					<!-- Link block -->
 					<div class="col-6 col-md-3">
 						<h5 class="text-white mb-2 mb-md-4">BonApart</h5>
 						<ul class="nav flex-column text-primary-hover">
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">WhatsApp</a></li>
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Instagram</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="https://wa.link/yzcce5">WhatsApp</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="https://www.instagram.com/bonapart_ast/">Instagram</a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
-			<!-- Widget 2 END -->
-
-		</div><!-- Row END -->
 
 
-		<!-- Payment and card -->
+		</div>
+
+
+
 		<div class="row g-4 justify-content-between mt-0 mt-md-2">
 
-			<!-- Social media icon -->
-			<div class="col-sm-5 col-md-6 col-lg-3 text-sm-end">
+
+			<div class="col-sm-5 col-lg-1 text-sm-end">
 				<h5 class="text-white mb-2">Подпишись</h5>
 				<ul class="list-inline mb-0 mt-3">
-					<li class="list-inline-item"> <a class="btn btn-sm px-2 bg-facebook mb-0" href="#"><i class="fab fa-fw fa-facebook-f"></i></a> </li>
-					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-instagram mb-0" href="#"><i class="fab fa-fw fa-instagram"></i></a> </li>
-					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-twitter mb-0" href="#"><i class="fab fa-fw fa-twitter"></i></a> </li>
-					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-linkedin mb-0" href="#"><i class="fab fa-fw fa-linkedin-in"></i></a> </li>
+					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-instagram mb-0" href="https://www.instagram.com/bonapart_ast/"><i class="fab fa-fw fa-instagram"></i></a> </li>
 				</ul>
 			</div>
 		</div>
 
-		<!-- Divider -->
 		<hr class="mt-4 mb-0">
 
-		<!-- Bottom footer -->
 		<div class="row">
 			<div class="container">
 				<div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
-					<!-- copyright text -->
-					<div class="text-body-secondary text-primary-hover"> Copyrights ©2023 BonApart. Создано <a href="http://workbenchkz.pythonanywhere.com/" class="text-body-secondary">WorkBench</a>. </div>
-					<!-- copyright links-->
+					<div class="text-body-secondary text-primary-hover"> Copyrights ©2023 BonApart. Создано <a href="http://workbenchkz.pythonanywhere.com/" class="text-body-secondary">WorkBench</a></div>
 					<div class="nav mt-2 mt-lg-0">
 						<ul class="list-inline text-primary-hover mx-auto mb-0">
-							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="#">Политика конфиденциальности</a></li>
-							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="#">Условия использования</a></li>
-							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="#">Поддержка</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="{% url 'website:privacy_policy' %}">Политика конфиденциальности</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="{% url 'website:terms' %}">Условия использования</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="{% url 'website:support' %}">Поддержка</a></li>
 						</ul>
 					</div>
 				</div>

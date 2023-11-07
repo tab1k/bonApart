@@ -193,7 +193,7 @@
 						<li> <hr class="dropdown-divider"></li>
 						<li><a class="dropdown-item" href="{% url 'users:favorites' %}"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
 						<li><a class="dropdown-item" href="{% url 'users:profile' %}"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
-						<li><a class="dropdown-item" href="https://wa.link/0ywk3x"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
+						<li><a class="dropdown-item" href="{% url 'website:support' %}"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
                         {% if user.is_staff %}
                             <li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="bi bi-person fa-fw me-2"></i>Админ-панель</a></li>
                         {% endif %}
@@ -653,7 +653,8 @@ Image gallery START -->
 							</form>
 							<!-- Leave review END -->
 
-                            {% for comment in comments %}
+                            {% for comment in comments|dictsortreversed:"created_at"|slice:":3" %}
+                                <hr>
 							<div class="d-md-flex my-4" >
 								<!-- Avatar -->
 								<div class="avatar avatar-lg me-3 flex-shrink-0">
@@ -683,8 +684,50 @@ Image gallery START -->
 
 							<!-- Button -->
 							<div class="text-center">
-                                <a href="#" class="btn btn-primary-soft mb-0" id="load-more-button">Load more</a>
+                                <button class="btn btn-primary-soft mb-0" id="load-more-button">Показать больше</button>
                             </div>
+                            <div id="additional-comments-container">
+                                <!-- Здесь будут отображаться дополнительные комментарии -->
+                            </div>
+                            <script>
+                                $(document).ready(function() {
+                                    $("#load-more-button").on("click", function(e) {
+                                        e.preventDefault();
+
+                                        // Получите URL, по которому будет выполняться AJAX-запрос (замените его на ваш реальный URL)
+                                        var url = "/your-api-endpoint-for-additional-comments/";
+
+                                        // Выполните AJAX-запрос
+                                        $.ajax({
+                                            url: url,
+                                            method: "GET",
+                                            dataType: "json",
+                                            success: function(data) {
+                                                // Обработка успешного запроса - data содержит загруженные комментарии
+
+                                                // Здесь вы можете добавить дополнительные комментарии в контейнер
+                                                var additionalCommentsContainer = $("#additional-comments-container");
+                                                // Например, data.comments - это массив с комментариями
+                                                for (var i = 0; i < data.comments.length; i++) {
+                                                    var comment = data.comments[i];
+                                                    // Создайте элементы для отображения комментариев и добавьте их в контейнер
+                                                    var commentElement = '<div class="comment">' + comment.text + '</div>';
+                                                    additionalCommentsContainer.append(commentElement);
+                                                }
+
+                                                // Если больше нет комментариев, скройте кнопку "Показать больше"
+                                                if (!data.hasMoreComments) {
+                                                    $("#load-more-button").hide();
+                                                }
+                                            },
+                                            error: function() {
+                                                // Обработка ошибки AJAX-запроса
+                                            }
+                                        });
+                                    });
+                                });
+
+                            </script>
 						</div>
 						<!-- Card body END -->
 					</div>
@@ -767,16 +810,10 @@ About hotel END -->
 </main>
 <!-- **************** MAIN CONTENT END **************** -->
 
-<!-- =======================
-Footer START -->
 <footer class="bg-dark pt-5">
 	<div class="container">
-		<!-- Row START -->
 		<div class="row g-4">
-
-			<!-- Widget 1 START -->
 			<div class="col-lg-3">
-				<!-- logo -->
 				<a href="{% url 'website:home' %}" style="display: flex;">
 					<img class="h-40px" style="border-radius: 50px;" src="{% static 'images/logo.jpg' %}" alt="logo">
 					<p style="margin: auto; margin-left: 10px; color: white;"><b>BonApart</b></p>
@@ -786,12 +823,11 @@ Footer START -->
 				<p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+7 (778) 706 61 00</a> </p>
 				<p class="mb-0"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-envelope me-2"></i>example@gmail.com</a></p>
 			</div>
-			<!-- Widget 1 END -->
 
-			<!-- Widget 2 START -->
+
 			<div class="col-lg-8 ms-auto">
 				<div class="row g-4">
-					<!-- Link block -->
+
 					<div class="col-6 col-md-3">
 						<h5 class="text-white mb-2 mb-md-4">Страницы</h5>
 						<ul class="nav flex-column text-primary-hover">
@@ -804,61 +840,53 @@ Footer START -->
 						</ul>
 					</div>
 
-					<!-- Link block -->
+
 					<div class="col-6 col-md-3">
 						<h5 class="text-white mb-2 mb-md-4">Ссылки</h5>
 						<ul class="nav flex-column text-primary-hover">
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Регистрация</a></li>
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Войти</a></li
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Поддержка</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'users:signup' %}">Регистрация</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'users:signin' %}">Войти</a></li
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:support' %}">Поддержка</a></li>
 						</ul>
 					</div>
 
-					<!-- Link block -->
 					<div class="col-6 col-md-3">
 						<h5 class="text-white mb-2 mb-md-4">BonApart</h5>
 						<ul class="nav flex-column text-primary-hover">
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">WhatsApp</a></li>
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Instagram</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="https://wa.link/yzcce5">WhatsApp</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="https://www.instagram.com/bonapart_ast/">Instagram</a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
-			<!-- Widget 2 END -->
-
-		</div><!-- Row END -->
 
 
-		<!-- Payment and card -->
+		</div>
+
+
+
 		<div class="row g-4 justify-content-between mt-0 mt-md-2">
 
-			<!-- Social media icon -->
-			<div class="col-sm-5 col-md-6 col-lg-3 text-sm-end">
+
+			<div class="col-sm-5 col-lg-1 text-sm-end">
 				<h5 class="text-white mb-2">Подпишись</h5>
 				<ul class="list-inline mb-0 mt-3">
-					<li class="list-inline-item"> <a class="btn btn-sm px-2 bg-facebook mb-0" href="#"><i class="fab fa-fw fa-facebook-f"></i></a> </li>
-					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-instagram mb-0" href="#"><i class="fab fa-fw fa-instagram"></i></a> </li>
-					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-twitter mb-0" href="#"><i class="fab fa-fw fa-twitter"></i></a> </li>
-					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-linkedin mb-0" href="#"><i class="fab fa-fw fa-linkedin-in"></i></a> </li>
+					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-instagram mb-0" href="https://www.instagram.com/bonapart_ast/"><i class="fab fa-fw fa-instagram"></i></a> </li>
 				</ul>
 			</div>
 		</div>
 
-		<!-- Divider -->
 		<hr class="mt-4 mb-0">
 
-		<!-- Bottom footer -->
 		<div class="row">
 			<div class="container">
 				<div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
-					<!-- copyright text -->
-					<div class="text-body-secondary text-primary-hover"> Copyrights ©2023 BonApart. Создано <a href="http://workbenchkz.pythonanywhere.com/" class="text-body-secondary">WorkBench</a>. </div>
-					<!-- copyright links-->
+					<div class="text-body-secondary text-primary-hover"> Copyrights ©2023 BonApart. Создано <a href="http://workbenchkz.pythonanywhere.com/" class="text-body-secondary">WorkBench</a></div>
 					<div class="nav mt-2 mt-lg-0">
 						<ul class="list-inline text-primary-hover mx-auto mb-0">
-							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="#">Политика конфиденциальности</a></li>
-							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="#">Условия использования</a></li>
-							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="#">Поддержка</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="{% url 'website:privacy_policy' %}">Политика конфиденциальности</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="{% url 'website:terms' %}">Условия использования</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="{% url 'website:support' %}">Поддержка</a></li>
 						</ul>
 					</div>
 				</div>
@@ -866,8 +894,6 @@ Footer START -->
 		</div>
 	</div>
 </footer>
-<!-- =======================
-Footer END -->
 
 <!-- Map modal START -->
 <div class="modal fade" id="mapmodal" tabindex="-1" aria-labelledby="mapmodalLabel" aria-hidden="true">

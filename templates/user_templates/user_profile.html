@@ -170,7 +170,7 @@
 									{% endif %}
 								</div>
 								<div>
-									<a class="h7 mt-2 mt-sm-0" href="{% url 'users:profile' %}">{{user.first_name}} {{user.last_name}}</a>
+									<a class="h7 mt-2 mt-sm-0" style="color: green;" href="{% url 'users:profile' %}">{{user.first_name}} {{user.last_name}}</a>
 									<p class="small m-0">{{ user.email }}</p>
 								</div>
 							</div>
@@ -428,13 +428,18 @@ Footer START -->
 
 					<!-- Link block -->
 					<div class="col-6 col-md-3">
-						<h5 class="text-white mb-2 mb-md-4">Ссылки</h5>
-						<ul class="nav flex-column text-primary-hover">
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'users:signup' %}">Регистрация</a></li>
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'users:signin' %}">Войти</a></li>
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:support' %}">Поддержка</a></li>
-						</ul>
-					</div>
+                        <h5 class="text-white mb-2 mb-md-4">Ссылки</h5>
+                        <ul class="nav flex-column text-primary-hover">
+                            {% if user.is_authenticated %}
+                                <li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:support' %}">Поддержка</a></li>
+                            {% else %}
+                                <!-- Показать ссылки, если пользователь не аутентифицирован -->
+                                <li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'users:signup' %}">Регистрация</a></li>
+                                <li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'users:signin' %}">Войти</a></li>
+                                <li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:support' %}">Поддержка</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
 
 					<!-- Link block -->
 					<div class="col-6 col-md-3">

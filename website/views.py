@@ -49,7 +49,7 @@ class SearchResultsView(View):
 
 
 
-class ApartmentView(LoginRequiredMixin,View):
+class ApartmentView(View):
     template_name = 'website/apartments_list.html'
 
     def get(self, request):

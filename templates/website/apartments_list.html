@@ -26,17 +26,11 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'css/flatpickr.min.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/choices.min.css' %}">
 
-
-	<!-- Theme CSS -->
 	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     <style>
         .nav-pills-primary-soft .nav-link.active, .nav-pills-primary-soft .nav-link:hover {
           color: green;
           background-color: #d2f4d2;
-        }
-        .icon-lg.btn.btn-round.btn-primary.mb-0 {
-          background-color: #169916;
-          border-color: #169916;
         }
         .btn-primary-soft {
           color: #169916;
@@ -554,7 +548,7 @@ Hotel list START -->
 										</div>
 
 										<div class="mt-3 mt-sm-0">
-											<a href="#" class="btn btn-sm btn-dark mb-0 w-100" data-apartment-id="{{ apartment.pk }}" data-jk-name="{{ apartment.name }}" data-toggle="modal" data-target="#reservationModal">
+											<a href="" class="btn btn-sm btn-dark mb-0 w-100" data-apartment-id="{{ apartment.pk }}" data-jk-name="{{ apartment.name }}" data-toggle="modal" data-target="#reservationModal">
                                                 Забронировать
                                             </a>
 
@@ -572,9 +566,9 @@ Hotel list START -->
                                                     </div>
                                                     <div class="modal-body">
                                                         <!-- Форма для ввода данных бронирования -->
-                                                        <form id="reservationForm" method="POST">
+                                                        <form id="reservationForm" action="{% url 'website:apartment_reserve' apartment_id=i.pk %}" method="POST">
                                                             {% csrf_token %}
-                                                            <input type="hidden" name="apartment" value="{{ apartment.id }}">
+                                                            <input type="hidden" name="apartment_id" value="{{ apartment.id }}">
 
                                                             <div class="form-group">
                                                                 <label for="name">Имя</label>
@@ -752,7 +746,7 @@ Hotel list START -->
 <script src="{% static 'js/flatpickr.min.js' %}"></script>
 <script src="{% static 'js/choices.min.js' %}"></script>
 <script src="{% static 'js/tiny-slider.js' %}"></script>
-<script src="{% static 'js/nouislider.min.js' %}"></script>
+
 
 <!-- ThemeFunctions -->
 <script src="{% static 'js/functions.js' %}"></script>

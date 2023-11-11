@@ -1,67 +1,57 @@
-<!DOCTYPE html><html lang="en" data-bs-theme="light">
-{% load static %}
-<head>
-	<title>BonApart - Аренда квартир.</title>
+<!DOCTYPE html>
+{% load static  %}
+<html lang="en" data-bs-theme="light"><head>
+	<title>Отлично!</title>
 
-	<!-- Meta Tags -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="author" content="bonapart.com">
-	<meta name="description" content="BonApart - Аренда квартир.">
-	<!-- Favicon -->
-	<link rel="shortcut icon" href="{% static 'images/logo.jpg' %}">
+		<!-- Meta Tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="author" content="bonapart.com">
+		<meta name="description" content="BonApart - Аренда квартир.">
 
-	<!-- Google Font -->
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Poppins:wght@400;500;700&amp;display=swap">
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="{% static 'images/logo.jpg' %}">
 
-	<!-- Plugins CSS -->
-	<link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-icons.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/tiny-slider.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/glightbox.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/flatpickr.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/choices.min.css' %}">
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+		<!-- Google Font -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+		<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
 
+		<!-- Plugins CSS -->
+		<link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-icons.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/glightbox.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/flatpickr.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/choices.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/tiny-slider.css' %}">
 
+		<!-- Theme CSS -->
+		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 
-	<!-- Theme CSS -->
-	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-    <style>
-        .nav-pills-primary-soft .nav-link.active, .nav-pills-primary-soft .nav-link:hover {
-          color: green;
-          background-color: #d2f4d2;
-        }
-        .icon-lg.btn.btn-round.btn-primary.mb-0 {
-          background-color: #169916;
-          border-color: #169916;
-        }
-        .btn-primary-soft {
-          color: green;
-          background-color: rgba(128, 255, 0, 0.1);
-        }
-        .btn-primary-soft:hover {
-          color: white;
-          background-color: #169916;
-          border-color: #169916;
-        }
-        .rellax.position-absolute.top-0.start-0.w-100.h-100.d-none.d-lg-block {
-          background-color: #169916;
-        }
-        .btn.btn-primary.mb-0 {
-          background-color: #169916;
-          border-color: #169916;
-        }
-
-        @media (max-width: 768px) {
-            .green-background {
-                background-color: #169916; /* Your preferred shade of green */
+        <style>
+            .nav-pills-primary-soft .nav-link.active, .nav-pills-primary-soft .nav-link:hover {
+              color: green;
+              background-color: #d2f4d2;
             }
-        }
+            .icon-lg.btn.btn-round.btn-primary.mb-0 {
+              background-color: green;
+              border-color: green;
+            }
+            .btn-primary-soft {
+              color: green;
+              background-color: rgba(128, 255, 0, 0.1);
+            }
+            .btn-primary-soft:hover {
+              color: white;
+              background-color: green;
+              border-color: green;
+            }
+            .btn.btn-primary.mb-0 {
+              background-color: #169916;
+              border-color: #169916;
+            }
 
-    </style>
+        </style>
 </head>
 
 <body>
@@ -186,7 +176,6 @@
 
 						<!-- Links -->
 						<li> <hr class="dropdown-divider"></li>
-
 						<li><a class="dropdown-item" href="{% url 'users:favorites' %}"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
 						<li><a class="dropdown-item" href="{% url 'users:profile' %}"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
 						<li><a class="dropdown-item" href="{% url 'website:support' %}"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
@@ -196,13 +185,13 @@
 						<li> <hr class="dropdown-divider"></li>
 						<li><a class="dropdown-item bg-danger-soft-hover" href="{% url 'users:logout' %}"><i class="bi bi-power fa-fw me-2"></i>Выйти</a></li>
 					</ul>
-                    <style>
-                        .dropdown-item:hover, .dropdown-item:focus {
-                          color: green;
-                          background-color: #d2f4d2;
-                        }
-                    </style>
 				</li>
+                <style>
+                    .dropdown-item:hover, .dropdown-item:focus {
+                        color: green;
+                        background-color: #d2f4d2;
+                    }
+                </style>
 				<!-- Profile dropdown END -->
 			</ul>
 			{% else %}
@@ -220,107 +209,24 @@
 <!-- **************** MAIN CONTENT START **************** -->
 <main>
 
-<section class="bg-secondary py-5">
-        <div class="container py-2 py-md-4 py-lg-5">
-          <h2 class="h1 text-center pb-3 pb-lg-0 mb-4 mb-lg-5">Условия использования BonApart</h2>
-          <div class="position-relative px-sm-5 mx-auto" style="max-width: 976px;">
+<!-- =======================
+Main banner START -->
+<section>
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-md-10 text-center mx-auto">
+				<!-- Image -->
+				<img src="{% static 'images/success.webp' %}" style="height: 150px;" class=" mb-4" alt="">
+				<!-- Title -->
+				<h1 class="mb-5" style="color: green;">Успешное бронирование!</h1>
 
-            <!-- Prev button -->
-            <button type="button" id="prev" class="btn btn-prev btn-icon btn-sm position-absolute top-50 translate-middle-y start-0 d-none d-sm-inline-flex mt-n4">
-              <i class="bx bx-chevron-left"></i>
-            </button>
-
-            <!-- Next button -->
-            <button type="button" id="next" class="btn btn-next btn-icon btn-sm position-absolute top-50 translate-middle-y end-0 d-none d-sm-inline-flex mt-n4">
-              <i class="bx bx-chevron-right"></i>
-            </button>
-
-            <!-- Slider -->
-            <div class="swiper swiper-nav-onhover pt-1 mx-md-2" data-swiper-options='{
-              "spaceBetween": 12,
-              "loop": true,
-              "pagination": {
-                "el": ".swiper-pagination",
-                "clickable": true
-              },
-              "navigation": {
-                "prevEl": "#prev",
-                "nextEl": "#next"
-              }
-            }'>
-              <div class="swiper-wrapper pt-4 pb-3">
-
-                <!-- Item -->
-                <div class="swiper-slide h-auto px-2">
-                  <figure class="card h-100 position-relative border-0 shadow-sm py-3 p-0 p-xxl-4 my-0">
-                    <blockquote class="card-body mt-2 mb-2">
-                      <h1>1. Регистрация и учетная запись:</h1>
-                      <p class="fs-lg mb-0">1.1. BonApart проводит регистрацию пользователей самостоятельно. При регистрации вы обязуетесь предоставить точную и полную информацию и обязуетесь обновлять эту информацию в случае изменений.</p>
-                      <br>
-                      <p class="fs-lg mb-0">1.2. Вы несете ответственность за безопасность своей учетной записи и пароля. Не делитесь вашей учетной записью и паролем с другими лицами.</p>
-                    </blockquote>
-                  </figure>
-                </div>
-
-                <!-- Item -->
-                <div class="swiper-slide h-auto px-2">
-                  <figure class="card h-100 position-relative border-0 shadow-sm py-3 p-0 p-xxl-4 my-0">
-                    <blockquote class="card-body mt-2 mb-2">
-                      <h1>2. Правила использования:</h1>
-                      <p class="fs-lg mb-0">2.1. BonApart предоставляет инструменты для обучения, работы и развития навыков. Пожалуйста, используйте платформу с уважением к другим пользователям и в соответствии с законами и правилами.</p>
-                      <br>
-                      <p class="fs-lg mb-0">2.2. Запрещается размещать или передавать материалы, которые нарушают авторские права, содержат ненормативную лексику, расистский или дискриминирующий контент.</p>
-                    </blockquote>
-                  </figure>
-                </div>
-
-                <!-- Item -->
-                <div class="swiper-slide h-auto px-2">
-                  <figure class="card h-100 position-relative border-0 shadow-sm py-3 p-0 p-xxl-4 my-0">
-                    <blockquote class="card-body mt-2 mb-2">
-                      <h1>3. Конфиденциальность:</h1>
-                      <p class="fs-lg mb-0">3.1. BonApart собирает и хранит личную информацию в соответствии с нашей политикой конфиденциальности. Мы уважаем вашу частную жизнь и стремимся обеспечить безопасность ваших данных.</p>
-                    </blockquote>
-                  </figure>
-                </div>
-
-                <div class="swiper-slide h-auto px-2">
-                  <figure class="card h-100 position-relative border-0 shadow-sm py-3 p-0 p-xxl-4 my-0">
-                    <blockquote class="card-body mt-2 mb-2">
-                      <h1>4. Ответственность:</h1>
-                      <p class="fs-lg mb-0">4.1. Вы несете ответственность за свое использование BonApart и принимаете все риски, связанные с его использованием.</p>
-                      <br>
-                      <p class="fs-lg mb-0">4.2. BonApart не несет ответственность за убытки или ущерб, возникшие в результате использования нашей платформы.</p>
-                    </blockquote>
-                  </figure>
-                </div>
-
-              </div>
-
-              <!-- Pagination -->
-              <div class="swiper-pagination position-relative pt-2 pt-sm-3 mt-4"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        var mySwiper = new Swiper('.swiper', {
-          spaceBetween: 12,
-          loop: true,
-          pagination: {
-            el: '.swiper-pagination',
-            clickable: true
-          },
-          navigation: {
-            prevEl: '#prev',
-            nextEl: '#next'
-          }
-        });
-      });
-    </script>
-
+				<a href="{% url 'website:apartments' %}" class="btn btn-light mb-0">Вернуться к квартирам!</a>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- =======================
+Main banner START -->
 
 </main>
 <!-- **************** MAIN CONTENT END **************** -->
@@ -401,7 +307,7 @@
 		<div class="row">
 			<div class="container">
 				<div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
-					<div class="text-body-secondary text-primary-hover"> Copyrights ©2023 BonApart. Создано <a href="http://workbenchkz.pythonanywhere.com/" class="text-body-secondary">BonApart</a></div>
+					<div class="text-body-secondary text-primary-hover"> Copyrights ©2023 BonApart. Создано <a href="http://workbenchkz.pythonanywhere.com/" class="text-body-secondary">WorkBench</a></div>
 					<div class="nav mt-2 mt-lg-0">
 						<ul class="list-inline text-primary-hover mx-auto mb-0">
 							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="{% url 'website:privacy_policy' %}">Политика конфиденциальности</a></li>
@@ -415,22 +321,7 @@
 	</div>
 </footer>
 
-<style>
-.back-top {
-    position: fixed; /* Fixed position so it stays on the screen */
-    left: 20px; /* Adjust the left position as needed */
-    bottom: 20px; /* Adjust the bottom position as needed */
-    background-color: #169916; /* Background color of the button */
-    color: #fff; /* Text color */
-    padding: 10px; /* Padding around the text */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Change the cursor to a pointer on hover */
-    z-index: 1000; /* Make sure it's above other elements */
-}
-</style>
 
-<div class="back-top">
-</div>
 
 <!-- Bootstrap JS -->
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>

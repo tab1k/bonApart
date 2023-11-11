@@ -25,7 +25,6 @@ class Apartment(models.Model):
         ('sary', 'Сарыаркинский'),
     )
 
-
     name = models.CharField(max_length=355, verbose_name = 'Название ЖК')
     address = models.CharField(max_length=355, verbose_name = 'Адрес ЖК', blank=True, null=True)
     description = models.TextField(verbose_name='Подробнее')
@@ -71,8 +70,6 @@ class Discount(models.Model):
     class Meta:
         verbose_name = 'Скидка'
         verbose_name_plural = 'Скидки'
-
-
 
 
 class GeoPosition(models.Model):
@@ -124,7 +121,6 @@ class Car(models.Model):
     class Meta:
         verbose_name = 'Машина'
         verbose_name_plural = 'Машины'
-
 
 
 class Reservation(models.Model):

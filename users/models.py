@@ -45,8 +45,13 @@ class FavoriteApartment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.user, self.apartment
+
     class Meta:
         unique_together = ('user', 'apartment')
+        verbose_name = 'Понравившиеся'
+        verbose_name_plural = 'Понравившиеся'
 
 
 class Comment(models.Model):

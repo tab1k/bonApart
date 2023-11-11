@@ -9,7 +9,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta name="author" content="bonapart.com">
 		<meta name="description" content="BonApart - Аренда квартир.">
-
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 		<!-- Favicon -->
 		<link rel="shortcut icon" href="{% static 'images/logo.jpg' %}">
 
@@ -799,9 +799,44 @@ Image gallery START -->
 							<a href="#room-options" class="btn btn-lg btn-primary-soft btn-green mb-0">Позвонить</a>
 						</div>
                         <div class="d-grid">
-							<a href="#room-options" class="btn btn-lg btn-primary-soft mb-0 mt-2">Забронировать</a>
+							<a href="" class="btn btn-lg btn-primary-soft mb-0 mt-2" data-toggle="modal" data-target="#reservationModal">Забронировать</a>
 						</div>
 					</div>
+                    <div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="reservationModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="reservationModalLabel">Бронирование</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Вставьте сюда вашу форму бронирования -->
+                                        <form id="reservationForm" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="apartment_id" value="{{ apartment.id }}">
+
+                                            <div class="form-group">
+                                                <label for="name">Имя</label>
+                                                <input type="text" class="form-control" id="name" name="name" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="surname">Фамилия</label>
+                                                <input type="text" class="form-control" id="surname" name="surname" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="phone">Номер телефона</label>
+                                                <input type="tel" class="form-control" id="phone" name="phone" required>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button style="background-color: green; color: white;" type="submit" class="btn">Забронировать</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 					<!-- Book now END -->
 
 					<!-- Best deal START -->
@@ -1087,10 +1122,10 @@ About hotel END -->
 <script src="{% static 'js/flatpickr.min.js' %}"></script>
 <script src="{% static 'js/choices.min.js' %}"></script>
 <script src="{% static 'js/tiny-slider.js' %}"></script>
-<script src="{% static 'js/sticky.min.js' %}"></script>
 
 <!-- ThemeFunctions -->
 <script src="{% static 'js/functions.js' %}"></script>
-
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body></html>

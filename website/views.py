@@ -1,21 +1,14 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
-
+from telegram import Bot
 from users.forms import CommentForm
 from users.models import Notification, FavoriteApartment, Comment
 from .forms import ApartmentFilterForm, CarFilterForm, ReservationForm
 from website.models import *
 from django.shortcuts import render
-from django.shortcuts import get_object_or_404
-from django.http import JsonResponse, HttpResponse
 from django.views import View
-
-
-
-
-    # bot_token = '6709416090:AAFayt-eVfuaYUYKUHjkt4FGKEHUgO7Oo6E'
-    # chat_id = '-1002073862577'
+import requests
 
 
 class IndexView(View):
@@ -51,11 +44,13 @@ class SearchResultsView(View):
 
 class ApartmentView(View):
     template_name = 'website/apartments_list.html'
+    TELEGRAM_BOT_TOKEN = '6709416090:AAFayt-eVfuaYUYKUHjkt4FGKEHUgO7Oo6E'
+    TELEGRAM_CHAT_ID = '-1002073862577'
 
     def get(self, request):
 
         form = ApartmentFilterForm(request.GET)
-        apartments = Apartment.objects.all()
+        apartments = Apartment.objects.all().order_by('-id')
         discount = Discount.objects.filter(apartment__in=apartments)
         notifications = Notification.objects.filter(read=False).order_by('-timestamp')
 
@@ -90,6 +85,8 @@ class ApartmentView(View):
                 for option in additional_choice:
                     apartments = apartments.filter(**{option: True})
 
+
+
         paginator = Paginator(apartments, 10)  # 10 - количество элементов на странице
 
         page_number = request.GET.get('page')
@@ -103,11 +100,40 @@ class ApartmentView(View):
         }
         return render(request, self.template_name, context)
 
+    def send_telegram_message(self, apartment, form):
+        try:
+            bot_token = self.TELEGRAM_BOT_TOKEN
+            chat_id = self.TELEGRAM_CHAT_ID
+            message = f'Пользователь забронировал квартиру:\n\n'
+            message += f'Имя: {form.cleaned_data["name"]}\n'
+            message += f'Фамилия: {form.cleaned_data["surname"]}\n'
+            message += f'Телефон: {form.cleaned_data["phone"]}\n'
+
+            url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
+            data = {
+                'chat_id': chat_id,
+                'text': message
+            }
+            response = requests.post(url, data=data)
+
+            if response.status_code == 200:
+                return redirect('website:success_reservation')
+            else:
+                return JsonResponse({'error': 'Не удалось отправить сообщение!'})
+        except Exception as e:
+            return JsonResponse({'error': str(e)})
+
     def post(self, request, apartment_id):
+
         form = ReservationForm(request.POST)
+
         if form.is_valid():
+            # Получите квартиру, которую пользователь хочет забронировать
+            apartment = Apartment.objects.get(id=apartment_id)
             form.save()
-            # Дополнительная логика, например, перенаправление на страницу успешного бронирования
+
+            return self.send_telegram_message(apartment, form)
+
         else:
             if request.POST.get('action') == 'add_to_favorites':
                 # Добавление квартиры в избранное
@@ -167,7 +193,7 @@ class TransfersView(View):
 
     def get(self, request):
         form = CarFilterForm(request.GET)
-        cars = Car.objects.all()
+        cars = Car.objects.all().order_by('-id')
         notifications = Notification.objects.filter(read=False).order_by('-timestamp')
 
         if form.is_valid():
@@ -201,6 +227,10 @@ class AboutView(View):
 
 
 class ApartamentsDetailView(View):
+
+    TELEGRAM_BOT_TOKEN = '6709416090:AAFayt-eVfuaYUYKUHjkt4FGKEHUgO7Oo6E'
+    TELEGRAM_CHAT_ID = '-1002073862577'
+
     def get(self, request, pk):
         notifications = Notification.objects.filter(read=False).order_by('-timestamp')
         apartments_detail = Apartment.objects.get(pk=pk)
@@ -216,9 +246,42 @@ class ApartamentsDetailView(View):
 
         return render(request, 'website/detail.html', context)
 
+    def send_telegram_message(self, apartment, form):
+        try:
+            bot_token = self.TELEGRAM_BOT_TOKEN
+            chat_id = self.TELEGRAM_CHAT_ID
+            message = f'Пользователь забронировал квартиру:\n\n'
+            message += f'Жилой комплекс: {apartment.name}\n'
+            message += f'Имя: {form.cleaned_data["name"]}\n'
+            message += f'Фамилия: {form.cleaned_data["surname"]}\n'
+            message += f'Телефон: {form.cleaned_data["phone"]}\n'
+
+            url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
+            data = {
+                'chat_id': chat_id,
+                'text': message
+            }
+            response = requests.post(url, data=data)
+
+            if response.status_code == 200:
+                return redirect('website:success_reservation')
+            else:
+                return JsonResponse({'error': 'Не удалось отправить сообщение!'})
+        except Exception as e:
+            return JsonResponse({'error': str(e)})
+
     def post(self, request, pk):
         apartments_detail = Apartment.objects.get(pk=pk)
         comment_form = CommentForm(request.POST)  # Получите данные POST-запроса
+
+        form = ReservationForm(request.POST)
+
+        if form.is_valid():
+            # Получите квартиру, которую пользователь хочет забронировать
+            apartment = Apartment.objects.get(id=pk)
+            form.save()
+
+            return self.send_telegram_message(apartment, form)
 
         if comment_form.is_valid():
             if request.user.is_authenticated:
@@ -267,9 +330,10 @@ class Support(View):
         return render(request, self.template_name)
 
 
+class SuccessReservation(View):
 
-
-
+    def get(self, request):
+        return render(request, 'website/success.html')
 
 
 

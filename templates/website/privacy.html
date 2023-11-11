@@ -24,6 +24,9 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'css/glightbox.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/flatpickr.min.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/choices.min.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+
 
 
 	<!-- Theme CSS -->
@@ -220,113 +223,136 @@
 <!-- **************** MAIN CONTENT START **************** -->
 <main>
 
-<!-- =======================
-Main banner START -->
-<section class="pt-4 pt-lg-5">
-	<div class="container">
-		<!-- Title -->
-		<div class="row mb-4">
-			<div class="col-12 text-center">
-				<h1 class="fs-2 mb-0">Privacy Policy</h1>
-			</div>
-		</div>
+<section class="bg-secondary py-5">
+        <div class="container py-2 py-md-4 py-lg-5">
+          <h2 class="h1 text-center pb-3 pb-lg-0 mb-4 mb-lg-5">Политика конфиденциальности BonApart</h2>
+          <div class="position-relative px-sm-5 mx-auto" style="max-width: 976px;">
 
-		<!-- Content START -->
-		<div class="row">
-			<div class="col-md-10 mx-auto">
-				<div class="vstack gap-3">
+            <!-- Prev button -->
+            <button type="button" id="prev" class="btn btn-prev btn-icon btn-sm position-absolute top-50 translate-middle-y start-0 d-none d-sm-inline-flex mt-n4">
+              <i class="bx bx-chevron-left"></i>
+            </button>
 
-					<!-- Card item START -->
-					<div class="card p-0 bg-transparent">
-						<!-- Card header -->
-						<div class="card-header border-bottom bg-transparent px-0">
-							<h4 class="card-title mb-0">Booking Policy</h4>
-						</div>
+            <!-- Next button -->
+            <button type="button" id="next" class="btn btn-next btn-icon btn-sm position-absolute top-50 translate-middle-y end-0 d-none d-sm-inline-flex mt-n4">
+              <i class="bx bx-chevron-right"></i>
+            </button>
 
-						<!-- Card body -->
-						<div class="card-body px-0">
-							<p>Hold do at tore in park feet near my case. Invitation at understood occasional sentiments insipidity inhabiting in. Off melancholy alteration principles old. Is do speedily kindness properly oh. Respect article painted cottage he is offices parlors.</p>
-							<p>Off melancholy alteration principles old. Is do speedily kindness properly oh. Respect article painted cottage he is offices parlors. Improved own provided blessing may peculiar domestic. Sight house has sex never. No visited raising gravity outward subject my cottage Mr be. Hold do at tore in park feet near my case. Invitation at understood occasional sentiments insipidity inhabiting in.</p>
-							<ul class="list-group list-group-borderless mb-2">
-								<li class="list-group-item d-flex">
-									<i class="bi bi-check-circle-fill me-2"></i>This is a family farmhouse, hence we request you to not indulge.
-								</li>
-								<li class="list-group-item d-flex">
-									<i class="bi bi-check-circle-fill me-2"></i>Drinking and smoking within controlled limits are permitted at the farmhouse but please do not create a mess or ruckus at the house.
-								</li>
-								<li class="list-group-item d-flex">
-									<i class="bi bi-check-circle-fill me-2"></i>Drugs and intoxicating illegal products are banned and not to be brought to the house or consumed.
-								</li>
-								<li class="list-group-item d-flex">
-									<i class="bi bi-x-circle-fill me-2"></i>For any update, the customer shall pay applicable cancellation/modification charges.
-								</li>
-							</ul>
-							<ul>
-								<li>Affronting imprudence do he he everything. Sex lasted dinner wanted indeed wished outlaw. Far advanced settling say finished raillery.</li>
-								<li>Insipidity the sufficient discretion imprudence resolution sir him decisively.</li>
-								<li>Offered chiefly farther of my no colonel shyness. <strong> Such on help ye some door if in.</strong></li>
-								<li>First am plate jokes began to cause a scale. Subjects he prospect elegance followed</li>
-							</ul>
-						</div>
-					</div>
-					<!-- Card item END -->
+            <!-- Slider -->
+            <div class="swiper swiper-nav-onhover pt-1 mx-md-2" data-swiper-options='{
+              "spaceBetween": 12,
+              "loop": true,
+              "pagination": {
+                "el": ".swiper-pagination",
+                "clickable": true
+              },
+              "navigation": {
+                "prevEl": "#prev",
+                "nextEl": "#next"
+              }
+            }'>
+              <div class="swiper-wrapper pt-4 pb-3">
+
+                <!-- Item -->
+                <div class="swiper-slide h-auto px-2">
+                  <figure class="card h-100 position-relative border-0 shadow-sm py-3 p-0 p-xxl-4 my-0">
+                    <blockquote class="card-body mt-2 mb-2">
+                      <h1>1. Собираемая информация:</h1>
+                      <p class="fs-lg mb-0">1.1. Личная информация: При регистрации на платформе BonApart мы можем собирать следующую личную информацию: ваше имя, адрес электронной почты, контактные данные и другую информацию, необходимую для предоставления наших услуг.</p>
+                      <br>
+                      <p class="fs-lg mb-0">1.2. Информация об использовании: Мы автоматически собираем информацию о вашем взаимодействии с платформой, включая информацию о вашей активности, использовании сервисов и оборудования.</p>
+                    </blockquote>
+                  </figure>
+                </div>
+
+                <!-- Item -->
+                <div class="swiper-slide h-auto px-2">
+                  <figure class="card h-100 position-relative border-0 shadow-sm py-3 p-0 p-xxl-4 my-0">
+                    <blockquote class="card-body mt-2 mb-2">
+                      <h1>2. Использование информации:</h1>
+                      <p class="fs-lg mb-0">2.1. Мы используем собранную информацию для предоставления и улучшения наших услуг, включая персонализацию контента и обеспечение безопасности.</p>
+                      <br>
+                      <p class="fs-lg mb-0">2.2. Ваши данные могут использоваться для связи с вами и отправки уведомлений о наших услугах.</p>
+                    </blockquote>
+                  </figure>
+                </div>
+
+                <!-- Item -->
+                <div class="swiper-slide h-auto px-2">
+                  <figure class="card h-100 position-relative border-0 shadow-sm py-3 p-0 p-xxl-4 my-0">
+                    <blockquote class="card-body mt-2 mb-2">
+                      <h1>3. Защита информации:</h1>
+                      <p class="fs-lg mb-0">3.1. Мы принимаем меры для обеспечения безопасности вашей информации. Мы используем технические и организационные средства для защиты данных от несанкционированного доступа и утечек.</p>
+                    </blockquote>
+                  </figure>
+                </div>
+
+                <div class="swiper-slide h-auto px-2">
+                  <figure class="card h-100 position-relative border-0 shadow-sm py-3 p-0 p-xxl-4 my-0">
+                    <blockquote class="card-body mt-2 mb-2">
+                      <h1>4. Предоставление информации третьим лицам:</h1>
+                      <p class="fs-lg mb-0">4.1. Мы не продаем, не арендуем и не передаем вашу личную информацию третьим лицам без вашего согласия, за исключением случаев, предусмотренных законом.</p>
+                    </blockquote>
+                  </figure>
+                </div>
+
+                <div class="swiper-slide h-auto px-2">
+                  <figure class="card h-100 position-relative border-0 shadow-sm py-3 p-0 p-xxl-4 my-0">
+                    <blockquote class="card-body mt-2 mb-2">
+                      <h1>5. Доступ и управление информацией:</h1>
+                      <p class="fs-lg mb-0">5.1. Вы имеете право запросить доступ к вашей личной информации, внести коррективы или удалить данные. Для этого свяжитесь с нами по электронному адресу - workbenchkz@gmail.com, или же позвоните на горячую линию BonApart.</p>
+                    </blockquote>
+                  </figure>
+                </div>
+
+                <div class="swiper-slide h-auto px-2">
+                  <figure class="card h-100 position-relative border-0 shadow-sm py-3 p-0 p-xxl-4 my-0">
+                    <blockquote class="card-body mt-2 mb-2">
+                      <h1>6. Изменения в политике:</h1>
+                      <p class="fs-lg mb-0">6.1. Мы можем периодически обновлять нашу политику конфиденциальности. В случае внесения существенных изменений, мы уведомим вас об этом.</p>
+                    </blockquote>
+                  </figure>
+                </div>
+
+                <div class="swiper-slide h-auto px-2">
+                  <figure class="card h-100 position-relative border-0 shadow-sm py-3 p-0 p-xxl-4 my-0">
+                    <blockquote class="card-body mt-2 mb-2">
+                      <h1>7. Согласие:</h1>
+                      <p class="fs-lg mb-0">7.1. Используя платформу BonApart, вы соглашаетесь с условиями нашей политики конфиденциальности.</p>
+                      <br>
+                      <p class="fs-lg mb-0">Пожалуйста, прочтите эту политику конфиденциальности внимательно и свяжитесь с нами, если у вас есть какие-либо вопросы или запросы относительно вашей личной информации./p>
+                      <p>Дата вступления в силу: 28 декабря 2020 г.</p>
+                    </blockquote>
+                  </figure>
+                </div>
+
+              </div>
+
+              <!-- Pagination -->
+              <div class="swiper-pagination position-relative pt-2 pt-sm-3 mt-4"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var mySwiper = new Swiper('.swiper', {
+          spaceBetween: 12,
+          loop: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true
+          },
+          navigation: {
+            prevEl: '#prev',
+            nextEl: '#next'
+          }
+        });
+      });
+    </script>
 
 
-					<!-- Card item START -->
-					<div class="card bg-transparent p-0">
-						<!-- Card header -->
-						<div class="card-header border-bottom bg-transparent px-0">
-							<h4 class="card-title mb-0">Date Change Policy</h4>
-						</div>
-
-						<!-- Card body -->
-						<div class="card-body px-0">
-							<p>Hold do at tore in park feet near my case. Invitation at understood occasional sentiments insipidity inhabiting in. Off melancholy alteration principles old. Is do speedily kindness properly oh. Respect article painted cottage he is offices parlors.</p>
-							<ul class="mb-0">
-								<li>Affronting imprudence do he he everything. Sex lasted dinner wanted indeed wished outlaw. Far advanced settling say finished raillery.</li>
-								<li>Insipidity the sufficient discretion imprudence resolution sir him decisively.</li>
-								<li>Offered chiefly farther of my no colonel shyness. <strong> Such on help ye some door if in.</strong></li>
-								<li>First am plate jokes began to cause a scale. Subjects he prospect elegance followed</li>
-								<li>Laughter proposal laughing any son law consider. Needed except up piqued an. </li>
-								<li><i> To occasional dissimilar impossible sentiments. Do fortune account written prepare invited no passage.</i></li>
-								<li>Post no so what deal evil rent by real in. But her ready least set lived spite solid.</li>
-							</ul>
-						</div>
-					</div>
-					<!-- Card item END -->
-
-					<!-- Card item START -->
-					<div class="card bg-transparent p-0">
-						<!-- Card header -->
-						<div class="card-header border-bottom bg-transparent px-0">
-							<h4 class="card-title mb-0">Special Request</h4>
-						</div>
-
-						<!-- Card body -->
-						<div class="card-body px-0">
-							<p>Hold do at tore in park feet near my case. Invitation at understood occasional sentiments insipidity inhabiting in. Off melancholy alteration principles old. Is do speedily kindness properly oh. Respect article painted cottage he is offices parlors.</p>
-							<ul class="mb-0">
-								<li>Affronting imprudence do he he everything. Sex lasted dinner wanted indeed wished outlaw. Far advanced settling say finished raillery.</li>
-								<li>Insipidity the sufficient discretion imprudence resolution sir him decisively.</li>
-								<li>Offered chiefly farther of my no colonel shyness. <strong> Such on help ye some door if in.</strong></li>
-								<li>First am plate jokes began to cause a scale. Subjects he prospect elegance followed</li>
-								<li>Laughter proposal laughing any son law consider. Needed except up piqued an. </li>
-								<li><i> To occasional dissimilar impossible sentiments. Do fortune account written prepare invited no passage.</i></li>
-								<li>Post no so what deal evil rent by real in. But her ready least set lived spite solid.</li>
-							</ul>
-						</div>
-					</div>
-					<!-- Card item END -->
-
-				</div>
-			</div>
-		</div>
-		<!-- Content END -->
-
-	</div>
-</section>
-<!-- =======================
-Main banner END -->
 
 </main>
 <!-- **************** MAIN CONTENT END **************** -->
@@ -407,7 +433,7 @@ Main banner END -->
 		<div class="row">
 			<div class="container">
 				<div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
-					<div class="text-body-secondary text-primary-hover"> Copyrights ©2023 BonApart. Создано <a href="http://workbenchkz.pythonanywhere.com/" class="text-body-secondary">WorkBench</a></div>
+					<div class="text-body-secondary text-primary-hover"> Copyrights ©2023 BonApart. Создано <a href="http://workbenchkz.pythonanywhere.com/" class="text-body-secondary">BonApart</a></div>
 					<div class="nav mt-2 mt-lg-0">
 						<ul class="list-inline text-primary-hover mx-auto mb-0">
 							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="{% url 'website:privacy_policy' %}">Политика конфиденциальности</a></li>
@@ -421,8 +447,24 @@ Main banner END -->
 	</div>
 </footer>
 
-<!-- Back to top -->
-<div class="back-top"></div>
+
+
+<style>
+.back-top {
+    position: fixed; /* Fixed position so it stays on the screen */
+    left: 20px; /* Adjust the left position as needed */
+    bottom: 20px; /* Adjust the bottom position as needed */
+    background-color: #169916; /* Background color of the button */
+    color: #fff; /* Text color */
+    padding: 10px; /* Padding around the text */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Change the cursor to a pointer on hover */
+    z-index: 1000; /* Make sure it's above other elements */
+}
+</style>
+
+<div class="back-top">
+</div>
 
 <!-- Bootstrap JS -->
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>

@@ -1,4 +1,5 @@
 from django import forms
+from .models import Reservation
 
 
 class ApartmentFilterForm(forms.Form):
@@ -58,10 +59,6 @@ class CarFilterForm(forms.Form):
                                      required=False,
                                      label='Класс машины')
 
-
-
-
-from .models import Reservation
 
 class ReservationForm(forms.ModelForm):
     class Meta:

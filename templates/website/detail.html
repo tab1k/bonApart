@@ -423,16 +423,44 @@ Image gallery START -->
 									<!-- List -->
 									<ul class="list-group list-group-borderless mt-2 mb-0">
 										<li class="list-group-item pb-0">
-											<i class="fa-solid fa-check-circle text-success me-2"></i>Swimming pool
+                                            {% if detail.wifi %}
+											<i class="fa-solid fa-check-circle text-success me-2"></i>Wi-Fi
+                                            {% endif %}
 										</li>
 										<li class="list-group-item pb-0">
-											<i class="fa-solid fa-check-circle text-success me-2"></i>Spa
+											{% if detail.air_conditioning %}
+                                                <i class="fa-solid fa-check-circle text-success me-2"></i>Кондиционер
+                                            {% endif %}
 										</li>
 										<li class="list-group-item pb-0">
-											<i class="fa-solid fa-check-circle text-success me-2"></i>Kids' play area
+											{% if detail.bath %}
+                                                <i class="fa-solid fa-check-circle text-success me-2"></i>Ванна
+                                            {% endif %}
 										</li>
 										<li class="list-group-item pb-0">
-											<i class="fa-solid fa-check-circle text-success me-2"></i>Gym
+											{% if detail.orthopedic_mattress %}
+                                                <i class="fa-solid fa-check-circle text-success me-2"></i>Ортопедический матрац
+                                            {% endif %}
+										</li>
+                                        <li class="list-group-item pb-0">
+											{% if detail.smart_tv %}
+                                                <i class="fa-solid fa-check-circle text-success me-2"></i>Smart Tv
+                                            {% endif %}
+										</li>
+                                        <li class="list-group-item pb-0">
+											{% if detail.hairdryer %}
+                                                <i class="fa-solid fa-check-circle text-success me-2"></i>Фен
+                                            {% endif %}
+										</li>
+                                        <li class="list-group-item pb-0">
+											{% if detail.iron %}
+                                                <i class="fa-solid fa-check-circle text-success me-2"></i>Утюг
+                                            {% endif %}
+										</li>
+                                        <li class="list-group-item pb-0">
+											{% if detail.washing_machine %}
+                                                <i class="fa-solid fa-check-circle text-success me-2"></i>Стиральная машинка
+                                            {% endif %}
 										</li>
 									</ul>
 								</div>

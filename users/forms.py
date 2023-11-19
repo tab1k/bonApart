@@ -43,7 +43,7 @@ class CustomUserCreationForm(UserCreationForm):
     )
     phone_number = forms.CharField(
         label='Номер телефона',
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '8 (707) 777 77 77'}),
     )
 
 

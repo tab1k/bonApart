@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from telegram import Bot
@@ -232,12 +232,23 @@ class ApartamentsDetailView(View):
     TELEGRAM_CHAT_ID = '-1002073862577'
 
     def get(self, request, pk):
+        try:
+            apartments_detail = Apartment.objects.get(pk=pk)
+            geo_queryset = GeoPosition.objects.filter(apartment=apartments_detail)
+            geo = geo_queryset.first()  # Choose the first object
+        except Apartment.DoesNotExist:
+            raise Http404("Apartment does not exist")
+        except GeoPosition.MultipleObjectsReturned:
+            # Handle the case where multiple GeoPosition objects are returned
+            # You might want to redirect to a specific page or log a message
+            raise Http404("Multiple GeoPosition objects found for the Apartment")
         notifications = Notification.objects.filter(read=False).order_by('-timestamp')
-        apartments_detail = Apartment.objects.get(pk=pk)
         comments = Comment.objects.filter(apartment=apartments_detail)
         comment_form = CommentForm()  # Создайте экземпляр формы для комментариев
 
+
         context = {
+            'geo' : geo,
             'detail': apartments_detail,
             'comments': comments,
             'notifications': notifications,

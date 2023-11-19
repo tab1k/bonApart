@@ -3,6 +3,7 @@ from django.db import models
 
 class Apartment(models.Model):
 
+
     CLASS_CHOICES = (
         ('lux', 'Люкс'),
         ('business', 'Бизнес'),
@@ -74,8 +75,8 @@ class Discount(models.Model):
 
 class GeoPosition(models.Model):
     apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE, blank=True, null=True, verbose_name='ЖК')
-    latitude = models.FloatField(null=True, blank=True, verbose_name='Широта')
-    longitude = models.FloatField(null=True, blank=True, verbose_name='Долгота')
+    photo = models.ImageField(upload_to='geo_images', null=True, blank=True)
+    link = models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name = 'Геопозиция дома'

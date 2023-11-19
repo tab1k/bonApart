@@ -52,6 +52,7 @@
           border-color: #169916;
         }
 
+
     </style>
 
 </head>
@@ -74,7 +75,7 @@
 <header class="navbar-light header-sticky">
 	<!-- Logo Nav START -->
 	<nav class="navbar navbar-expand-xl">
-		<div class="container">
+		<div class="container" style="width:92%">
 			<!-- Logo START -->
 			<a class="navbar-brand d-flex align-items-center" href="{% url 'website:home' %}">
 			    <img style="border-radius: 50px;" class="light-mode-item navbar-brand-item" src="{% static 'images/logo.jpg' %}" alt="logo">
@@ -90,7 +91,7 @@
 
 			<!-- Responsive category toggler -->
 			<button class="navbar-toggler ms-sm-auto mx-3 me-md-0 p-0 p-sm-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCategoryCollapse" aria-controls="navbarCategoryCollapse" aria-expanded="false" aria-label="Toggle navigation">
-				<i class="bi bi-grid-3x3-gap-fill fa-fw"></i><span class="d-none d-sm-inline-block small">Категории</span>
+				<i  style="color: black;"  class="bi bi-grid-3x3-gap-fill fa-fw"></i><span class="d-none d-sm-inline-block small">Категории</span>
 			</button>
 
 
@@ -98,16 +99,17 @@
 			<div class="navbar-collapse collapse" id="navbarCategoryCollapse">
 				<ul class="navbar-nav navbar-nav-scroll nav-pills-primary-soft text-center mx-auto p-2 p-xl-0">
 					<!-- Nav item Hotel -->
-					<li class="nav-item"> <a class="nav-link" href="{% url 'website:home' %}"><i class="fa-solid fa-hotel me-2"></i>Главная</a>	</li>
+					<li class="nav-item"> <a style="color: black;" class="nav-link" href="{% url 'website:home' %}"><i class="fa-solid fa-hotel me-2"></i>Главная</a>	</li>
 
 					<!-- Nav item Cabs -->
-					<li class="nav-item"><a class="nav-link active" href="{% url 'website:apartments' %}"><i class="fa-solid fa-building me-2"></i>Квартиры</a></li>
-					<li class="nav-item"><a class="nav-link" href="{% url 'website:stock' %}"><i class="fa-solid fa-tags me-2"></i>Акции</a></li>
-					<li class="nav-item"><a class="nav-link" href="{% url 'website:collaboration' %}"><i class="fa-solid fa-handshake me-2"></i>Сотрудничество</a></li>
-					<li class="nav-item"><a class="nav-link" href="{% url 'website:transfers' %}"><i class="fa-solid fa-shuttle-van me-2"></i>Трансфер</a></li>
-					<li class="nav-item"><a class="nav-link" href="{% url 'website:about' %}"><i class="fa-solid fa-info-circle me-2"></i>О нас</a></li>
+					<li class="nav-item"><a style="color: green;" class="nav-link active" href="{% url 'website:apartments' %}"><i class="fa-solid fa-building me-2"></i>Квартиры</a></li>
+					<li class="nav-item"><a style="color: black;" class="nav-link" href="{% url 'website:stock' %}"><i class="fa-solid fa-tags me-2"></i>Акции</a></li>
+					<li class="nav-item"><a style="color: black;" class="nav-link" href="{% url 'website:collaboration' %}"><i class="fa-solid fa-handshake me-2"></i>Сотрудничество</a></li>
+					<li class="nav-item"><a style="color: black;" class="nav-link" href="{% url 'website:transfers' %}"><i class="fa-solid fa-shuttle-van me-2"></i>Трансфер</a></li>
+					<li class="nav-item"><a style="color: black;" class="nav-link" href="{% url 'website:about' %}"><i class="fa-solid fa-info-circle me-2"></i>О нас</a></li>
 
 				</ul>
+
 			</div>
 			<!-- Nav category menu END -->
 
@@ -201,11 +203,20 @@
 						<li><a class="dropdown-item bg-danger-soft-hover" href="{% url 'users:logout' %}"><i class="bi bi-power fa-fw me-2"></i>Выйти</a></li>
 					</ul>
 				</li>
+                <style>
+                        .dropdown-item:hover, .dropdown-item:focus {
+                          color: green;
+                          background-color: #d2f4d2;
+                        }
+                    </style>
 				<!-- Profile dropdown END -->
 			</ul>
 			{% else %}
 				<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
-					<a href="{% url 'users:signin' %}" class="btn btn-primary mb-0">Войти</a>
+					<a style="
+          background-color: #169916;
+          border-color: #169916;
+        " href="{% url 'users:signin' %}" class="btn btn-primary mb-0">Войти</a>
 				</ul>
 			{% endif %}
 			<!-- Profile and Notification START -->
@@ -235,7 +246,7 @@ Main Title START -->
 						<h1 class="fs-2">{{ detail.name }}</h1>
 						<!-- Location -->
 						<p class="fw-bold mb-0"><i class="bi bi-geo-alt me-2"></i>{{ detail.address }}
-							<a href="#" class="ms-2 text-decoration-underline" data-bs-toggle="modal" data-bs-target="#mapmodal">
+							<a style="color: green;" href="#" class="ms-2 text-decoration-underline" data-bs-toggle="modal" data-bs-target="#mapmodal">
 								<i class="bi bi-eye-fill me-1"></i>Посмотреть на карте
 							</a>
 						</p>
@@ -476,40 +487,7 @@ Image gallery START -->
 									</ul>
 								</div>
 
-								<!-- Services -->
-								<div class="col-sm-6">
-									<h6><i class="fa-solid fa-concierge-bell me-2"></i>Сервисы</h6>
-									<!-- List -->
-									<ul class="list-group list-group-borderless mt-2 mb-0">
-										<li class="list-group-item pb-0">
-											<i class="fa-solid fa-check-circle text-success me-2"></i>Dry cleaning
-										</li>
-										<li class="list-group-item pb-0">
-											<i class="fa-solid fa-check-circle text-success me-2"></i>Room Service
-										</li>
-										<li class="list-group-item pb-0">
-											<i class="fa-solid fa-check-circle text-success me-2"></i>Special service
-										</li>
-										<li class="list-group-item pb-0">
-											<i class="fa-solid fa-check-circle text-success me-2"></i>Waiting Area
-										</li>
-										<li class="list-group-item pb-0">
-											<i class="fa-solid fa-check-circle text-success me-2"></i>Secrete smoking area
-										</li>
-										<li class="list-group-item pb-0">
-											<i class="fa-solid fa-check-circle text-success me-2"></i>Concierge
-										</li>
-										<li class="list-group-item pb-0">
-											<i class="fa-solid fa-check-circle text-success me-2"></i>Laundry facilities
-										</li>
-										<li class="list-group-item pb-0">
-											<i class="fa-solid fa-check-circle text-success me-2"></i>Ironing Service
-										</li>
-										<li class="list-group-item pb-0">
-											<i class="fa-solid fa-check-circle text-success me-2"></i>Lift
-										</li>
-									</ul>
-								</div>
+
 
 								<!-- Safety & Security -->
 								<div class="col-sm-6">
@@ -974,29 +952,20 @@ About hotel END -->
 			</div>
 			<!-- Map -->
 			<div class="modal-body p-0">
-				<iframe class="w-100" height="400" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.9663095343008!2d{{ geo_position.longitude }}!3d{{ geo_position.latitude }}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259bf5c1654f3%3A0xc80f9cfce5383d5d!2sGoogle!5e0!3m2!1en!2sin!4v1586000412513!5m2!1en!2sin" style="border:0;" aria-hidden="false" tabindex="0"></iframe>
+				{% if geo.photo %}
+					<img src="{{ geo.photo.url }}">
+				{% else %}
+					<img src="{{detail.image1.url}}">
+				{% endif %}
 			</div>
-            <script>
-                // Получение координат из контекста (предполагается, что detail.latitude и detail.longitude доступны)
-                var apartmentLat = {{ geo_position.latitude }};
-                var apartmentLng = {{ geo_position.longitude }};
-
-                // Инициализация карты
-                var map = L.map('apartment-map').setView([apartmentLat, apartmentLng], 15);
-
-                // Добавление слоя карты OpenStreetMap
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    maxZoom: 19,
-                }).addTo(map);
-
-                // Добавление маркера на карте
-                L.marker([apartmentLat, apartmentLng]).addTo(map)
-                    .bindPopup('Местоположение квартиры')
-                    .openPopup();
-            </script>
 			<!-- Button -->
 			<div class="modal-footer">
-				<button type="button" class="btn btn-sm btn-primary mb-0"><i class="bi fa-fw bi-pin-map-fill me-2"></i>Посмотреть в Google Картах</button>
+				<button type="button" class="btn btn-sm btn-primary mb-0">
+					<a href="{{ geo.link }}" target="{{ geo.link }}" class="text-white">
+							<i class="bi fa-fw bi-pin-map-fill me-2"></i>Посмотреть в 2Гис
+					</a>
+				</button>
+
 			</div>
 		</div>
 	</div>
@@ -1023,16 +992,16 @@ About hotel END -->
 					<div class="tiny-slider arrow-round arrow-dark overflow-hidden rounded-2">
 						<div class="tiny-slider-inner rounded-2 overflow-hidden" data-autoplay="true" data-arrow="true" data-dots="false" data-items="1">
 							<!-- Image item -->
-							<div> <img src="images/16.jpg" class="rounded-2" alt="Card image"></div>
+							<div> <img src="{% static 'images/16.jpg' %}" class="rounded-2" alt="Card image"></div>
 
 							<!-- Image item -->
-							<div> <img src="images/15.jpg" class="rounded-2" alt="Card image"> </div>
+							<div> <img src="{% static 'images/15.jpg' %}" class="rounded-2" alt="Card image"> </div>
 
 							<!-- Image item -->
-							<div> <img src="images/13.jpg" class="rounded-2" alt="Card image"> </div>
+							<div> <img src="{% static 'images/15.jpg' %}" class="rounded-2" alt="Card image"> </div>
 
 							<!-- Image item -->
-							<div> <img src="images/12.jpg" class="rounded-2" alt="Card image"> </div>
+							<div> <img src="{% static 'images/15.jpg' %}" class="rounded-2" alt="Card image"> </div>
 						</div>
 					</div>
 					<!-- Slider END -->

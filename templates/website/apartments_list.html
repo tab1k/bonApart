@@ -425,7 +425,7 @@ Hotel list START -->
 										</div>
 									</div>
 									<!-- Collapse button -->
-									<a class="p-0 mb-0 mt-2 btn-more d-flex align-items-center collapsed" data-bs-toggle="collapse" href="#amenitiesCollapes" role="button" aria-expanded="false" aria-controls="amenitiesCollapes">
+									<a style="color: green;" class="p-0 mb-0 mt-2 btn-more d-flex align-items-center collapsed" data-bs-toggle="collapse" href="#amenitiesCollapes" role="button" aria-expanded="false" aria-controls="amenitiesCollapes">
 										Смотреть <span class="see-more ms-1">больше</span><span class="see-less ms-1">меньше</span><i class="fa-solid fa-angle-down ms-2"></i>
 									</a>
 								</div>
@@ -526,7 +526,7 @@ Hotel list START -->
                                         {% if i.parking == True %}
 										<li class="nav-item">Платный паркинг</li>
                                         {% endif %}
-										<li class="nav-item"><a href="{% url 'website:apartaments-detail' pk=i.pk %}" class="mb-0 text-primary">Подробнее</a></li>
+										<li class="nav-item"><a style="color: green;" href="{% url 'website:apartaments-detail' pk=i.pk %}" class="mb-0 ">Подробнее</a></li>
 									</ul>
 
 

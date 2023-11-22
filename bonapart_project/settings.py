@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-9_xlc17j2!ph(%o+51%*nw(!v7zu9c=u2(=ebfid34)ldlrp^c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['bonapart.kz', '185.111.106.190', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -79,11 +79,20 @@ WSGI_APPLICATION = "bonapart_project.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
+    # "default": {
+    #     "ENGINE": "django.db.backends.sqlite3",
+    #     "NAME": BASE_DIR / "db.sqlite3",
+    # }
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            'NAME': 'bonapart_db',
+            'USER': 'tab1k',
+            'PASSWORD': 'TOBI8585',
+            'HOST': 'localhost',
+            'PORT': '5432',
     }
 }
+
 
 
 # Password validation
@@ -130,10 +139,15 @@ TELEGRAM_BOT_API_TOKEN = '6709416090:AAFayt-eVfuaYUYKUHjkt4FGKEHUgO7Oo6E'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "/static/"
+STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# Путь к каталогу, в котором будут собраны статические файлы
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# Добавьте это, чтобы Django знал, где искать статические файлы внутри приложений
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

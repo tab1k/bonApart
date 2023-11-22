@@ -1079,7 +1079,7 @@ About hotel END -->
 				{% if geo.photo %}
 					<img src="{{ geo.photo.url }}">
 				{% else %}
-					<img src="{{detail.image1.url}}">
+					<img src="{% static 'images/2gis.jpg' %}">
 				{% endif %}
 			</div>
 			<!-- Button -->

@@ -441,9 +441,13 @@
 					<!-- copyright links-->
 					<div class="nav mt-2 mt-lg-0">
 						<ul class="list-inline text-primary-hover mx-auto mb-0">
-							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="#">Политика конфиденциальности</a></li>
-							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="#">Условия использования</a></li>
-							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="{% url 'website:support' %}">Поддержка</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="{% url 'website:privacy_policy' %}">Политика конфиденциальности</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="{% url 'website:terms' %}">Условия использования</a></li>
+							{% if user.is_authenticated %}
+								<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="{% url 'website:support' %}">Поддержка</a></li>
+							{% else %}
+								<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="https://wa.link/8z2wor">Поддержка</a></li>
+							{% endif %}
 						</ul>
 					</div>
 				</div>

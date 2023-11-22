@@ -46,6 +46,16 @@ class Apartment(models.Model):
     image3 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
     image4 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
     image5 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
+
+    image6 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
+    image7 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
+    image8 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
+    image9 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
+    image10 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
+
+    image11 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
+    image12 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
+
     wifi = models.BooleanField(default=False, verbose_name='Wi-Fi')
     air_conditioning = models.BooleanField(default=False, verbose_name='Кондиционер')
     parking = models.BooleanField(default=False, verbose_name='Платный паркинг')

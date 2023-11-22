@@ -463,21 +463,54 @@ Hotel list START -->
 									<div class="tiny-slider-inner" data-autoplay="false" data-arrow="true" data-dots="false" data-items="1">
 
 										<!-- Image item -->
-										<div>
-                                            <img src="{{ i.image1.url }}" alt="Card image">
-                                        </div>
-                                        <div>
-                                            <img src="{{ i.image2.url }}" alt="Card image">
-                                        </div>
-                                        <div>
-                                            <img src="{{ i.image3.url }}" alt="Card image">
-                                        </div>
-                                        <div>
-                                            <img src="{{ i.image4.url }}" alt="Card image">
-                                        </div>
-                                        <div>
-                                            <img src="{{ i.image5.url }}" alt="Card image">
-                                        </div>
+										{% if i.image1 %}
+										<div><img src="{{ i.image1.url }}" alt="Card image"></div>
+										{% endif %}
+
+                                        {% if i.image2 %}
+										<div><img src="{{ i.image2.url }}" alt="Card image"></div>
+										{% endif %}
+
+                                        {% if i.image3 %}
+										<div><img src="{{ i.image3.url }}" alt="Card image"></div>
+										{% endif %}
+
+										{% if i.image4 %}
+										<div><img src="{{ i.image4.url }}" alt="Card image"></div>
+										{% endif %}
+
+										{% if i.image5 %}
+										<div><img src="{{ i.image5.url }}" alt="Card image"></div>
+										{% endif %}
+
+                                        {% if i.image6 %}
+										<div><img src="{{ i.image6.url }}" alt="Card image"></div>
+										{% endif %}
+
+										{% if i.image7 %}
+										<div><img src="{{ i.image7.url }}" alt="Card image"></div>
+										{% endif %}
+
+										{% if i.image8 %}
+										<div><img src="{{ i.image8.url }}" alt="Card image"></div>
+										{% endif %}
+
+
+										{% if i.image9 %}
+										<div><img src="{{ i.image9.url }}" alt="Card image"></div>
+										{% endif %}
+
+										{% if i.image10 %}
+										<div><img src="{{ i.image10.url }}" alt="Card image"></div>
+										{% endif %}
+
+										{% if i.image11 %}
+										<div><img src="{{ i.image11.url }}" alt="Card image"></div>
+										{% endif %}
+
+										{% if i.image12 %}
+										<div><img src="{{ i.image12.url }}" alt="Card image"></div>
+										{% endif %}
 									</div>
 								</div>
 
@@ -713,7 +746,11 @@ Hotel list START -->
 						<ul class="list-inline text-primary-hover mx-auto mb-0">
 							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="{% url 'website:privacy_policy' %}">Политика конфиденциальности</a></li>
 							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="{% url 'website:terms' %}">Условия использования</a></li>
-							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="{% url 'website:support' %}">Поддержка</a></li>
+							{% if user.is_authenticated %}
+								<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="{% url 'website:support' %}">Поддержка</a></li>
+							{% else %}
+								<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="https://wa.link/8z2wor">Поддержка</a></li>
+							{% endif %}
 						</ul>
 					</div>
 				</div>

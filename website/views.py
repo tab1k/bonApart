@@ -128,7 +128,7 @@ class ApartmentView(View):
         form = ReservationForm(request.POST)
 
         if form.is_valid():
-            # Получите квартиру, которую пользователь хочет забронировать
+        
             apartment = Apartment.objects.get(id=apartment_id)
             form.save()
 
@@ -136,27 +136,27 @@ class ApartmentView(View):
 
         else:
             if request.POST.get('action') == 'add_to_favorites':
-                # Добавление квартиры в избранное
+               
                 apartment_id = request.POST.get('apartment_id')
 
-                # Проверьте, что пользователь аутентифицирован
+                
                 if request.user.is_authenticated:
-                    # Попробуйте найти запись в базе данных, чтобы избежать дублирования
+                   
                     existing_favorite = FavoriteApartment.objects.filter(user=request.user,
                                                                          apartment_id=apartment_id).first()
 
                     if not existing_favorite:
-                        # Создайте новую запись в избранном
+                        
                         favorite = FavoriteApartment(user=request.user, apartment_id=apartment_id)
                         favorite.save()
 
-                        # После успешного добавления в избранное, вы можете выполнить дополнительные действия
-                        return redirect('users:favorites')  # Перенаправьте пользователя на страницу избранных квартир
+                        
+                        return redirect('users:favorites')  
                     else:
-                        # Если запись уже существует, вы можете выполнить другие действия или вернуть сообщение пользователю
+                       
                         return redirect('users:favorites')
                 else:
-                    # Если пользователь не аутентифицирован, перенаправьте его на страницу входа или выполните другие действия
+                    
                     return redirect('users:signin')
             else:
                 apartments = Apartment.objects.all()
@@ -235,16 +235,15 @@ class ApartamentsDetailView(View):
         try:
             apartments_detail = Apartment.objects.get(pk=pk)
             geo_queryset = GeoPosition.objects.filter(apartment=apartments_detail)
-            geo = geo_queryset.first()  # Choose the first object
+            geo = geo_queryset.first() 
         except Apartment.DoesNotExist:
             raise Http404("Apartment does not exist")
         except GeoPosition.MultipleObjectsReturned:
-            # Handle the case where multiple GeoPosition objects are returned
-            # You might want to redirect to a specific page or log a message
+            
             raise Http404("Multiple GeoPosition objects found for the Apartment")
         notifications = Notification.objects.filter(read=False).order_by('-timestamp')
         comments = Comment.objects.filter(apartment=apartments_detail)
-        comment_form = CommentForm()  # Создайте экземпляр формы для комментариев
+        comment_form = CommentForm()  
 
 
         context = {
@@ -252,7 +251,7 @@ class ApartamentsDetailView(View):
             'detail': apartments_detail,
             'comments': comments,
             'notifications': notifications,
-            'comment_form': comment_form,  # Передайте форму в контекст
+            'comment_form': comment_form,  
         }
 
         return render(request, 'website/detail.html', context)
@@ -283,12 +282,12 @@ class ApartamentsDetailView(View):
 
     def post(self, request, pk):
         apartments_detail = Apartment.objects.get(pk=pk)
-        comment_form = CommentForm(request.POST)  # Получите данные POST-запроса
+        comment_form = CommentForm(request.POST)  
 
         form = ReservationForm(request.POST)
 
         if form.is_valid():
-            # Получите квартиру, которую пользователь хочет забронировать
+            
             apartment = Apartment.objects.get(id=pk)
             form.save()
 
@@ -298,13 +297,13 @@ class ApartamentsDetailView(View):
             if request.user.is_authenticated:
                 new_comment = comment_form.save(commit=False)
                 new_comment.apartment = apartments_detail
-                new_comment.user = request.user  # Привяжите комментарий к текущему пользователю
+                new_comment.user = request.user  
                 new_comment.save()
-                return redirect('website:apartments')  # Перенаправьте пользователя на страницу квартиры
+                return redirect('website:apartments')  
             else:
                 return redirect('users:signup')
 
-        # Если форма не действительна, возвращайтесь на ту же страницу
+        
         comments = Comment.objects.filter(apartment=apartments_detail)
         notifications = Notification.objects.filter(read=False).order_by('-timestamp')
 

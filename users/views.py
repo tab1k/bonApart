@@ -7,7 +7,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, View
-from users.models import FavoriteApartment, Apartment  # Замените 'your_app' на имя вашего приложения
+from users.models import FavoriteApartment, Apartment  
 from django.shortcuts import redirect
 from .models import Notification
 from django.contrib.auth import update_session_auth_hash
@@ -48,11 +48,11 @@ class ProfileView(View):
 
     def get(self, request):
         user = request.user
-        form = UserProfileUpdateForm(instance=user)  # Создайте форму с текущими данными пользователя
+        form = UserProfileUpdateForm(instance=user)  
 
         context = {
             'user': user,
-            'form': form,  # Передайте форму в контекст
+            'form': form,  
         }
 
         return render(request, self.template_name, context)
@@ -129,7 +129,7 @@ class FavoritesView(LoginRequiredMixin, ListView):
 
 class ClearFavoritesView(LoginRequiredMixin, View):
     def post(self, request):
-        # Получите избранные квартиры для текущего пользователя
+        
         favorites = FavoriteApartment.objects.filter(user=request.user)
         apartment_id = request.POST.get('remove_favorite')
 
@@ -139,13 +139,13 @@ class ClearFavoritesView(LoginRequiredMixin, View):
 
             return HttpResponseRedirect(reverse('users:favorites'))
 
-        # Удалите все записи избранных квартир
+        
         favorites.delete()
 
-        # Добавьте сообщение об успешной очистке
+        
         messages.success(request, 'Избранные квартиры успешно очищены.')
 
-        # Перенаправьте пользователя обратно на страницу избранных
+        
         return HttpResponseRedirect(reverse('users:favorites'))
 
 
@@ -156,11 +156,11 @@ class DeleteProfileView(LoginRequiredMixin, View):
         return render(request, self.template_name)
 
     def post(self, request):
-        # Удалите профиль пользователя
+        
         request.user.delete()
-        # Разлогиньте пользователя после удаления
+        
         logout(request)
-        # Перенаправьте пользователя на страницу, где будет подтверждение удаления или другую страницу
+        
         return redirect('website:home')
 
 

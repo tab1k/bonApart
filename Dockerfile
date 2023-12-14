@@ -3,7 +3,7 @@ FROM python:3
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN echo "deb http://deb.debian.org/debian buster main" >> /etc/apt/sources.list
+
 
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends gdal-bin

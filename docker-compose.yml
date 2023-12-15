@@ -4,6 +4,7 @@ services:
   web:
     build: .
     container_name: bonapart
+    image: python:3.8  # Замените на подходящий образ для вашего приложения
     ports:
       - "8000:8000"
     depends_on:

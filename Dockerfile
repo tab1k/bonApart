@@ -1,5 +1,12 @@
 FROM python:3.8
 
+# Добавьте эти строки в начало Dockerfile
+ARG http_proxy
+ARG https_proxy
+
+ENV http_proxy ${http_proxy}
+ENV https_proxy ${https_proxy}
+
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 

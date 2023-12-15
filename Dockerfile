@@ -3,10 +3,8 @@ FROM python:3
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN apt-get update && apt-get install -y nginx
-
-# Замените http://deb.debian.org на другое зеркало Debian (например, http://ftp.us.debian.org)
 RUN sed -i 's/deb.debian.org/httpredir.debian.org/' /etc/apt/sources.list
+RUN apt-get update && apt-get install -y nginx
 
 WORKDIR /code/BonApart
 

@@ -4,9 +4,10 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Установка необходимых пакетов для Certbot
-RUN apt-get update && apt-get install -y \
-    certbot \
-    netcat-traditional \
+RUN apt-get update && apt-get install -y software-properties-common \
+    && add-apt-repository -y ppa:certbot/certbot \
+    && apt-get update \
+    && apt-get install -y certbot netcat-traditional \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /code

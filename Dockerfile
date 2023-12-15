@@ -12,7 +12,8 @@ ENV PYTHONUNBUFFERED 1
 
 # Установка необходимых пакетов для Certbot
 RUN apt-get update && apt-get install -y software-properties-common \
-    && add-apt-repository -y ppa:certbot/certbot \
+    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8B48AD6246925553 \
+    && apt-add-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) universe" \
     && apt-get update \
     && apt-get install -y certbot netcat-traditional \
     && rm -rf /var/lib/apt/lists/*

@@ -1,22 +1,10 @@
 FROM python:3.8
 
-# Добавьте эти строки в начало Dockerfile
-ARG http_proxy
-ARG https_proxy
-
-ENV http_proxy ${http_proxy}
-ENV https_proxy ${https_proxy}
-
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Установка необходимых пакетов для Certbot
-RUN apt-get update && apt-get install -y software-properties-common \
-    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8B48AD6246925553 \
-    && apt-add-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) universe" \
-    && apt-get update \
-    && apt-get install -y certbot netcat-traditional \
-    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y certbot netcat-traditional && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /code
 

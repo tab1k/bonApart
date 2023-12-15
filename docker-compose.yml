@@ -1,48 +1,52 @@
 version: '3'
 
 services:
-  db:
-    image: postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=tab1k
-      - POSTGRES_PASSWORD=TOBI8585
-      - POSTGRES_DB=bonapart_db
-    ports:
-      - "5433:5432"
-
   web:
     build: .
-    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
-    volumes:
-      - .:/code
+    container_name: bonapart
     ports:
       - "8000:8000"
     depends_on:
       - db
+    networks:
+      - web
+
+  db:
+    image: postgres:latest
+    container_name: bonapart-db
+    environment:
+      POSTGRES_DB: bonapart_db
+      POSTGRES_USER: tab1k
+      POSTGRES_PASSWORD: TOBI8585
+    networks:
+      - web
+    user: "postgres"
 
   nginx:
-    image: nginx
+    image: nginx:latest
+    container_name: bonapart-nginx
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/certs:/etc/nginx/certs
-      - ./nginx/html:/usr/share/nginx/html
-      - .:/code
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/letsencrypt:/etc/letsencrypt
     ports:
       - "80:80"
-      - "443:443"
-    depends_on:
+      - "443:443"  # добавлен порт для SSL
+    networks:
       - web
 
   certbot:
     image: certbot/certbot
+    container_name: bonapart-certbot
     volumes:
-      - ./nginx/certs:/etc/letsencrypt
+      - ./nginx/letsencrypt:/etc/letsencrypt
     depends_on:
+      - nginx
+    networks:
       - web
-    command: certonly --webroot --webroot-path=/usr/share/nginx/html --email tabigatkarbayev@icloud.com --agree-tos --no-eff-email --force-renewal -d bonapart.kz -d www.bonapart.kz
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
-volumes:
-  postgres_data:
+networks:
+  web:
+    driver: bridge
+
 

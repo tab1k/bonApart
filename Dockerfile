@@ -3,22 +3,18 @@ FROM python:3
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN apt-get update
-WORKDIR /code/BonApart
+RUN apt-get update && \
+    apt-get install -y nginx
 
-COPY requirements.txt /code/requirements.txt
-RUN pip3 install --upgrade pip
-RUN pip install -r /code/requirements.txt
-RUN pip3 install Pillow psycopg2
+WORKDIR /code
 
-COPY . /code/BonApart
+COPY requirements.txt /code/
+RUN pip install --upgrade pip && pip install -r requirements.txt
+
+COPY . /code/
 
 EXPOSE 8000
 
-COPY . /code/BonApart
-COPY ./docker-entrypoint.sh ./docker-entrypoint.sh
+CMD ["bash", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
 
-
-RUN chmod +x /code/BonApart/docker-entrypoint.sh
-CMD ["/code/BonApart/docker-entrypoint.sh"]
 

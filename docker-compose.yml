@@ -2,7 +2,6 @@ version: '3'
 
 volumes:
  postgres_data:
- certbot_data:  # Add this line to define the certbot_data volume
 
 services:
  db:
@@ -27,7 +26,7 @@ services:
      - .:/static
      - .:/media
    ports:
-     - "8000:8000"
+     - "80:8000"
    depends_on:
      - db
 

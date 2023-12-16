@@ -31,15 +31,4 @@ services:
    depends_on:
      - db
 
- certbot:
-   image: certbot/certbot
-   command: certonly --webroot --webroot-path=/code/static --agree-tos --email tabigatkarbayev@icloud.com -d bonapart.kz
-   volumes:
-     - ./certbot_data:/code/static
-   depends_on:
-     - web
-   ports:
-     - "80:80"
-     - "443:443"
-
 

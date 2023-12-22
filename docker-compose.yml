@@ -49,8 +49,7 @@ services:
     image: certbot/certbot
     volumes:
       - certbot_data:/etc/letsencrypt
-      - /Users/tab1k/Documents/projects/BonApart/staticfiles:/code/staticfiles
+      - /code/staticfiles:/code/staticfiles
     command: certonly --webroot --webroot-path=/code/staticfiles --email tabigatkarbayev@icloud.com --agree-tos --no-eff-email -d bonapart.kz -d www.bonapart.kz
-
 
 

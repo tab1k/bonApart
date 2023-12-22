@@ -16,9 +16,11 @@ RUN pip3 install -r requirements.txt
 RUN pip3 install Pillow psycopg2
 
 COPY . /code
-COPY ./docker-entrypoint.sh ./docker-entrypoint.sh
+COPY ./docker-entrypoint.sh /code/docker-entrypoint.sh
 
 RUN chmod +x /code/docker-entrypoint.sh
+
 CMD ["/code/docker-entrypoint.sh"]
+
 
 

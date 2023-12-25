@@ -43,11 +43,3 @@ services:
       - "443:443"
     depends_on:
       - web
-
-  certbot:
-    image: certbot/certbot
-    volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
-      - /var/lib/letsencrypt:/var/lib/letsencrypt
-      - ./nginx:/data/letsencrypt
-    command: certonly --webroot --webroot-path=/data/letsencrypt -d bonapart.kz -d www.bonapart.kz

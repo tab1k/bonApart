@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-9_xlc17j2!ph(%o+51%*nw(!v7zu9c=u2(=ebfid34)ldlrp^c"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['bonapart.kz', '185.111.106.190', '*']
 
@@ -133,7 +133,7 @@ handler404 = 'users.views.error_404_view'
 
 TELEGRAM_BOT_API_TOKEN = '6709416090:AAFayt-eVfuaYUYKUHjkt4FGKEHUgO7Oo6E'
 
-
+CSRF_TRUSTED_ORIGINS = ['https://bonapart.kz']
 
 
 # Static files (CSS, JavaScript, Images)
@@ -152,9 +152,9 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# SECURE_SSL_REDIRECT = True
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
+#SECURE_SSL_REDIRECT = True
+#SESSION_COOKIE_SECURE = True
+#CSRF_COOKIE_SECURE = True
 
 
 # Default primary key field type

@@ -4,8 +4,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update
-RUN apt-get install -y --no-install-recommends gdal-bin
-RUN apt-get install -y mime-support
+
 WORKDIR /code/bonapart
 
 COPY requirements.txt /code/requirements.txt

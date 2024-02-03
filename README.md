@@ -1,5 +1,5 @@
 # BonApart - ваш надежный партнер в мире аренды недвижимости.
-# Website: http://bonapart.kz/
+# Website: https://bonapart.kz/
 
 ![Главная](static/git/img/index.png)
 ![Апартаменты](static/git/img/apartments.png)

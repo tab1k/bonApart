@@ -776,6 +776,69 @@ Hotel list START -->
 </style>
 <div class="back-top"></div>
 
+<div class="navbar navbar-mobile" style="padding: 15px;">
+	<ul class="navbar-nav">
+		<!-- Nav item Home -->
+		<li class="nav-item">
+			<a class="nav-link" href="{% url 'website:home' %}"><i class="bi bi-house-door fa-fw"></i>
+				<span class="mb-0 nav-text">Главная</span>
+			</a>
+		</li>
+
+		<!-- Nav item My Trips -->
+		<li class="nav-item">
+			<a class="nav-link active" href="{% url 'website:apartments' %}">
+				<i class="bi bi-door-open fa-fw"></i> <!-- Заменили класс иконки -->
+				<span class="mb-0 nav-text">Квартиры</span>
+			</a>
+		</li>
+
+
+		<li class="nav-item">
+			<a class="nav-link" href="javascript:void(0);" onclick="showAlert()">
+				<i class="bi bi-plus-circle fa-fw"></i>
+				<span class="mb-0 nav-text">Добавить</span>
+			</a>
+		</li>
+
+		<script>
+			function showAlert() {
+				alert("Извините, эта функция находится в разработке. Разработчик: WorkBench Company.");
+			}
+		</script>
+
+
+		<li class="nav-item">
+			{% if user.is_authenticated %}
+				<a class="nav-link" href="{% url 'users:favorites' %}">
+					<i class="bi bi-heart fa-fw"></i>
+					<span class="mb-0 nav-text">Избранное</span>
+				</a>
+			{% else %}
+				<a class="nav-link" href="{% url 'users:signin' %}">
+					<i class="bi bi-heart fa-fw"></i>
+					<span class="mb-0 nav-text">Избранное</span>
+				</a>
+			{% endif %}
+		</li>
+
+
+		<li class="nav-item">
+			{% if user.is_authenticated %}
+				<a class="nav-link" href="{% url 'users:profile' %}">
+					<i class="bi bi-person-circle fa-fw"></i>
+					<span class="mb-0 nav-text">Аккаунт</span>
+				</a>
+			{% else %}
+				<a class="nav-link" href="{% url 'users:signin' %}">
+					<i class="bi bi-person-circle fa-fw"></i>
+					<span class="mb-0 nav-text">Аккаунт</span>
+				</a>
+			{% endif %}
+		</li>
+	</ul>
+</div>
+
 <!-- Bootstrap JS -->
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 

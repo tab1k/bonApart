@@ -7,10 +7,12 @@ RUN apt-get update
 
 WORKDIR /code/bonapart
 
+
 COPY requirements.txt /code/requirements.txt
 RUN pip3 install --upgrade pip
 RUN pip install -r /code/requirements.txt
 RUN pip3 install Pillow psycopg2
+
 
 COPY . /code/bonapart
 

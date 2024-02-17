@@ -117,5 +117,3 @@ class CommentForm(forms.ModelForm):
 
 class AddToFavoriteForm(forms.Form):
     apartment_id = forms.IntegerField(widget=forms.HiddenInput())
-
-

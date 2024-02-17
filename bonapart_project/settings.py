@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "website.apps.WebsiteConfig",
     "users.apps.UsersConfig",
     'imagekit',
+    'apartments.apps.ApartmentsConfig',
 ]
 
 MIDDLEWARE = [

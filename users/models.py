@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import User
-from website.models import Apartment
 from django.conf import settings
+from apartments.models import Apartment
+
 
 
 class CustomUser(AbstractUser):
@@ -15,6 +16,7 @@ class CustomUser(AbstractUser):
     age = models.PositiveIntegerField(blank=True, null=True)
     address = models.CharField(max_length=255, blank=True)
     city = models.CharField(max_length=100, blank=True)
+    apartments = models.ForeignKey(to=Apartment, on_delete=models.CASCADE, blank=True, null=True)
 
 
     def __str__(self):
@@ -23,6 +25,8 @@ class CustomUser(AbstractUser):
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
+
+
 
 
 class Notification(models.Model):

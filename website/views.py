@@ -18,8 +18,10 @@ class IndexView(View):
         user = request.user
         apartment = Apartment.objects.filter(price__lte=20000)
         notifications = Notification.objects.filter(read=False).order_by('-timestamp')
+        cities = City.objects.all()
         context = {
             'user': user,
+            'cities': cities,
             'apartment': apartment,
             'notifications' : notifications,
         }

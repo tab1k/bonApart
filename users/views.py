@@ -164,4 +164,14 @@ class DeleteProfileView(LoginRequiredMixin, View):
         return redirect('website:home')
 
 
+class ApartmentPendingListView(LoginRequiredMixin, ListView):
+    template_name = 'user_templates/apartments_pending_list.html'
+    model = Apartment
+    context_object_name = 'apartments'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Apartment.objects.filter(status='pending')
+
+
 

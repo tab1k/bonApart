@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru" data-bs-theme="light">
+<head>
+	<title>BonApart - Аренда квартир.</title>
+
+	<!-- Meta Tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="bonapart.com">
+	<meta name="description" content="BonApart - Аренда квартир.">
+    	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="{% static 'images/logo.jpg' %}">
+
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Poppins:wght@400;500;700&amp;display=swap">
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-icons.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/tiny-slider.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/glightbox.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/flatpickr.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/choices.min.css' %}">
+
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <style>
+        .nav-pills-primary-soft .nav-link.active, .nav-pills-primary-soft .nav-link:hover {
+          color: green;
+          background-color: #d2f4d2;
+        }
+        .btn-primary-soft {
+          color: #169916;
+          background-color: rgba(128, 255, 0, 0.1);
+        }
+        .btn-primary-soft:hover {
+          color: white;
+          background-color: #169916;
+          border-color: #169916;
+        }
+
+
+
+    </style>
+
+</head>
+
+<body class="has-navbar-mobile">
+
+<script>
+    var selectedCity = localStorage.getItem('selectedCity');
+    if (selectedCity) {
+        var urlParams = new URLSearchParams(window.location.search);
+        var currentSelectedCity = urlParams.get('selected_city');
+        if (!currentSelectedCity || currentSelectedCity !== selectedCity) {
+            window.location.search = '?selected_city=' + encodeURIComponent(selectedCity);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var cityModal = new bootstrap.Modal(document.getElementById('cityModal'));
+
+        if (!selectedCity) {
+            // Если выбранный город еще не сохранен, показываем модальное окно
+            cityModal.show();
+        }
+
+        var confirmCityButton = document.getElementById('confirmCity');
+        var citySelect = document.getElementById('citySelect');
+
+        // При изменении выбора города сохраняем его в локальном хранилище
+        citySelect.addEventListener('change', function(event) {
+            localStorage.setItem('selectedCity', event.target.value);
+            updateURLParams();
+        });
+
+        // При изменении значений фильтров обновляем URL
+        function updateURLParams() {
+            var queryParams = new URLSearchParams(window.location.search);
+            // Добавляем параметры фильтрации в URL
+            queryParams.set('class_choice', classSelect.value);
+            queryParams.set('price_choice', priceSelect.value);
+            queryParams.set('rating_choice', ratingSelect.value);
+            queryParams.set('additional_choice', additionalSelect.value);
+            window.history.replaceState({}, '', window.location.pathname + '?' + queryParams.toString());
+        }
+
+        // Обработчик нажатия на кнопку "Подтвердить"
+        confirmCityButton.addEventListener('click', function(event) {
+            var selectedCity = citySelect.value;
+            // Сохраняем выбранный город в Local Storage
+            localStorage.setItem('selectedCity', selectedCity);
+            // Закрываем модальное окно
+            cityModal.hide();
+            // Перенаправляем пользователя на страницу списка квартир с выбранным городом
+            window.location.href = '/apartments/?selected_city=' + encodeURIComponent(selectedCity);
+        });
+
+        // Обработчик закрытия модального окна
+        cityModal._element.addEventListener('hidden.bs.modal', function(event) {
+            var selectedCity = localStorage.getItem('selectedCity');
+            if (selectedCity) {
+                // Здесь вы можете использовать выбранный город для запроса на сервер и отображения соответствующих данных
+                console.log('Выбранный город:', selectedCity);
+            }
+        });
+    });
+</script>
+
+<header class="navbar-light py-3" style="padding: 15px;">
+	<!-- Logo Nav START -->
+	<nav class="navbar navbar-expand-lg">
+		<div class="container d-block">
+			<div class="row align-items-center">
+				<div class="col-4">
+					<!-- Logo START -->
+					<a class="navbar-brand d-flex align-items-center" href="{% url 'website:home' %}">
+						<img style="border-radius: 50px;" class="light-mode-item navbar-brand-item" src="{% static 'images/logo.jpg' %}" alt="logo">
+						<p style="margin: 0; padding: 0; margin-left: 8px;"><b>BonApart</b></p>
+					</a>
+					<!-- Logo END -->
+				</div>
+
+				<div class="col-8">
+					<!-- Navbar top Right-->
+					<div class="align-items-center justify-content-end d-none d-lg-flex">
+						<ul class="nav border-bottom mb-2">
+							<li class="dropdown nav-item">
+								<a class="nav-link small pb-2" href="#" role="button" id="languageDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-globe fa-fw me-2"></i>Язык</a>
+								<ul class="dropdown-menu dropdown-animation dropdown-menu-end min-w-auto" aria-labelledby="languageDropdown">
+									<li> <a class="dropdown-item me-4" href="#"><img class="fa-fw me-2" src="{% static 'images/flags/kz.svg' %}" alt="">Казахский</a> </li>
+									<li> <a class="dropdown-item me-4" href="#"><img class="fa-fw me-2" src="{% static 'images/flags/ru.svg' %}" alt="">Русский</a> </li>
+									<li> <a class="dropdown-item me-4" href="#"><img class="fa-fw me-2" src="{% static 'images/flags/us.svg' %}" alt="">English</a> </li>
+								</ul>
+							</li>
+
+							<li class="dropdown nav-item">
+								<a class="nav-link small pb-2" href="#" role="button" id="citiesDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="bi bi-building me-2"></i>Город
+								</a>
+								<ul class="dropdown-menu dropdown-animation dropdown-menu-end min-w-auto" aria-labelledby="citiesDropdown">
+									<input style="color: green;" type="text" class="form-control search-input" placeholder="Поиск...">
+									<div class="cities-list">
+										{% for c in cities %}
+										<li><a style="text-align: center;" class="dropdown-item me-4" href="#"><i class="bi bi-building me-2"></i>{{c.name}}</a></li>
+										{% endfor %}
+									</div>
+									<hr>
+									<li class="show-more"><a style="text-align: center;" class="dropdown-item me-4" href="#" id="showMoreBtn">Все города</a></li>
+								</ul>
+							</li>
+
+							<script>
+								document.addEventListener('DOMContentLoaded', function() {
+									var citiesList = document.querySelector('.cities-list');
+									var citiesDropdown = document.getElementById('citiesDropdown');
+
+									// Обработчик события клика на элементы списка городов
+									citiesList.addEventListener('click', function(event) {
+										var selectedCity = event.target.textContent.trim();
+										localStorage.setItem('selectedCity', selectedCity);
+										// После изменения города перенаправляем пользователя на страницу с новым выбранным городом
+										window.location.href = '/apartments/?selected_city=' + encodeURIComponent(selectedCity);
+									});
+
+									// При загрузке страницы проверяем, есть ли уже выбранный город в Local Storage
+									var selectedCity = localStorage.getItem('selectedCity');
+									if (selectedCity) {
+										// Обновляем текст в выпадающем меню с выбранным городом
+										citiesDropdown.textContent = selectedCity;
+									}
+								});
+							</script>
+
+							<script>
+								var selectedCity = localStorage.getItem('selectedCity');
+								if (selectedCity) {
+									var urlParams = new URLSearchParams(window.location.search);
+									var currentSelectedCity = urlParams.get('selected_city');
+									if (!currentSelectedCity || currentSelectedCity !== selectedCity) {
+										window.location.search = '?selected_city=' + encodeURIComponent(selectedCity);
+									}
+								}
+
+								document.addEventListener('DOMContentLoaded', function() {
+									var cityModal = new bootstrap.Modal(document.getElementById('cityModal'));
+
+									if (!selectedCity) {
+										// Если выбранный город еще не сохранен, показываем модальное окно
+										cityModal.show();
+									}
+
+									var confirmCityButton = document.getElementById('confirmCity');
+									var citySelect = document.getElementById('citySelect');
+
+									// При изменении выбора города сохраняем его в локальном хранилище
+									citySelect.addEventListener('change', function(event) {
+										localStorage.setItem('selectedCity', event.target.value);
+									});
+
+									// Обработчик нажатия на кнопку "Подтвердить"
+									confirmCityButton.addEventListener('click', function(event) {
+										var selectedCity = citySelect.value;
+										// Сохраняем выбранный город в Local Storage
+										localStorage.setItem('selectedCity', selectedCity);
+										// Закрываем модальное окно
+										cityModal.hide();
+										// Перенаправляем пользователя на страницу списка квартир с выбранным городом
+										window.location.href = '/apartments/?selected_city=' + encodeURIComponent(selectedCity);
+									});
+
+									// Обработчик закрытия модального окна
+									cityModal._element.addEventListener('hidden.bs.modal', function(event) {
+										var selectedCity = localStorage.getItem('selectedCity');
+										if (selectedCity) {
+											// Здесь вы можете использовать выбранный город для запроса на сервер и отображения соответствующих данных
+											console.log('Выбранный город:', selectedCity);
+										}
+									});
+								});
+							</script>
+
+							<li class="nav-item"> <a href="#" class="nav-link small pb-2"><i class="bi bi-chat me-2"></i>Сообщения</a> </li>
+<!--							<li class="nav-item"> <a href="sign-in.html" class="nav-link small pb-2"><i class="far fa-user me-2"></i>Sign In or Login</a> </li>-->
+
+						</ul>
+					</div>
+
+					<div class="d-sm-flex align-items-center justify-content-end mt-1">
+						<!-- Main navbar START -->
+						<div class="navbar-collapse collapse justify-content-end" id="navbarCategoryCollapse">
+							<ul class="navbar-nav navbar-nav-scroll nav-pills-primary-soft text-center  p-2 p-xl-0" style="margin-right: 10px;">
+								<!-- Nav item Hotel -->
+								<li class="nav-item"> <a style="color: black;" class="nav-link" href="{% url 'website:home' %}"><i class="fa-solid fa-hotel me-2"></i>Главная</a>	</li>
+
+								<!-- Nav item Cabs -->
+								<li class="nav-item"><a style="color: black;" class="nav-link active" href="{% url 'apartments:apartments' %}"><i class="fa-solid fa-building me-2"></i>Квартиры</a></li>
+
+
+								<li class="nav-item"><a style="color: black;" class="nav-link" href="{% url 'website:transfers' %}"><i class="fa-solid fa-shuttle-van me-2"></i>Трансфер</a></li>
+
+
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" style="color: black;" href="#" id="pagesFacilities" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Дополнительно</a>
+									<ul class="dropdown-menu" aria-labelledby="pagesFacilities">
+										<li class="dropdown-item"><a style="color: black;" href="{% url 'website:collaboration' %}"><i class="fa-solid fa-handshake me-2"></i>Сотрудничество</a></li>
+										<li class="dropdown-item"><a style="color: black;" href="{% url 'website:stock' %}"><i class="fa-solid fa-tags me-2"></i>Акции</a></li>
+										<li class="dropdown-item"><a style="color: black;" href="{% url 'website:about' %}"><i class="fa-solid fa-info-circle me-2"></i>О нас</a></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+						<!-- Main navbar END -->
+
+						<!-- Toggler button and stay button -->
+						<div class="d-flex align-items-center justify-content-end">
+							<!-- Responsive navbar toggler -->
+							<button class="navbar-toggler ms-sm-auto mx-3 me-md-0 p-0 p-sm-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCategoryCollapse" aria-controls="navbarCategoryCollapse" aria-expanded="false" aria-label="Toggle navigation">
+								<i style="color: black;" class="bi bi-grid-3x3-gap-fill fa-fw"></i><span class="d-none d-sm-inline-block small"></span>
+							</button>
+
+							<!-- Booking form dropdown START -->
+							<div class="nav-item dropdown form-control-bg-light">
+								<!-- Stay button -->
+								{% if user.is_authenticated %}
+									<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+
+									<!-- Notification dropdown START -->
+									<li class="nav-item dropdown ms-0 ms-md-3">
+										<!-- Notification button -->
+										<a class="nav-notification btn btn-light p-0 mb-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+											<i class="bi bi-bell fa-fw"></i>
+										</a>
+										<!-- Notification dote -->
+										{% if notifications %}
+											<span class="notif-badge animation-blink"></span>
+										{% endif %}
+										<!-- Notification dropdown menu START -->
+										<div class="dropdown-menu dropdown-animation dropdown-menu-end dropdown-menu-size-md shadow-lg p-0">
+											<div class="card bg-transparent">
+												<!-- Card header -->
+												<div class="card-header bg-transparent d-flex justify-content-between align-items-center border-bottom">
+													<h6 class="m-0">Уведомления <span class="badge bg-danger bg-opacity-10 text-danger ms-2">{{ notifications|length }} новое</span></h6>
+												</div>
+
+												<!-- Card body START -->
+												<div class="card-body p-0">
+													<ul class="list-group list-group-flush list-unstyled p-2">
+														{% for notification in notifications %}
+														<li>
+															<a href="{% url 'users:notifications' %}" class="list-group-item list-group-item-action rounded notif-unread border-0 mb-1 p-3">
+																<h6 class="mb-2">{{ notification.event_type }}</h6>
+																<p class="mb-0 small">{{ notification.message }}</p>
+																<span>{{ notification.timestamp }}</span>
+															</a>
+														</li>
+														{% endfor %}
+													</ul>
+												</div>
+												<!-- Card body END -->
+
+												<!-- Card footer -->
+												<div class="card-footer bg-transparent text-center border-top">
+													<a href="{% url 'users:notifications' %}" class="btn btn-sm btn-link mb-0 p-0">Посмотреть все</a>
+												</div>
+											</div>
+										</div>
+										<!-- Notification dropdown menu END -->
+									</li>
+									<!-- Notification dropdown END -->
+
+									<!-- Profile dropdown START -->
+									<li class="nav-item ms-3 dropdown">
+										<!-- Avatar -->
+										<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+											{% if user.photo %}
+												<img class="avatar-img rounded-circle shadow" src="{{ user.photo.url }}" alt="avatar">
+											{% else %}
+												<img class="avatar-img rounded-circle shadow" src="{% static 'images/user.png' %}" alt="avatar">
+											{% endif %}
+										</a>
+
+										<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
+											<!-- Profile info -->
+											<li class="px-3 mb-3">
+												<div class="d-flex align-items-center">
+													<!-- Avatar -->
+													<div class="avatar me-3">
+														{% if user.photo %}
+															<img class="avatar-img rounded-circle shadow" src="{{ user.photo.url }}" alt="avatar">
+														{% else %}
+															<img class="avatar-img rounded-circle shadow" src="{% static 'images/user.png' %}" alt="avatar">
+														{% endif %}
+													</div>
+													<div>
+														<a class="h7 mt-2 mt-sm-0" style="color: green;" href="{% url 'users:profile' %}">{{user.first_name}} {{user.last_name}}</a>
+														<p class="small m-0">{{ user.email }}</p>
+													</div>
+												</div>
+											</li>
+
+											<!-- Links -->
+											<li> <hr class="dropdown-divider"></li>
+
+											<li><a class="dropdown-item" href="{% url 'users:favorites' %}"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
+											{% if user.is_staff %}
+											<li><a class="dropdown-item" href="{% url 'users:apartment_pending' %}"><i class="bi bi-people fa-fw me-2"></i>Заявки</a></li>
+											{% endif %}
+											<li><a class="dropdown-item" href="{% url 'users:profile' %}"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
+											<li><a class="dropdown-item" href="{% url 'website:support' %}"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
+											{% if user.is_staff %}
+												<li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="bi bi-person fa-fw me-2"></i>Админ-панель</a></li>
+											{% endif %}
+											<li> <hr class="dropdown-divider"></li>
+											<li><a class="dropdown-item bg-danger-soft-hover" href="{% url 'users:logout' %}"><i class="bi bi-power fa-fw me-2"></i>Выйти</a></li>
+										</ul>
+										<style>
+											.dropdown-item:hover, .dropdown-item:focus {
+											  color: green;
+											  background-color: #d2f4d2;
+											}
+										</style>
+									</li>
+									<!-- Profile dropdown END -->
+								</ul>
+								{% else %}
+									<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+										<a style="background-color: #169916; color: white;" href="{% url 'users:signin' %}" class="btn mb-0">Войти</a>
+									</ul>
+								{% endif %}
+
+
+							</div>
+							<!-- Booking form dropdown END -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<!-- Logo Nav END -->
+</header>
+<!-- Header END -->
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+
+<!-- =======================
+Main Banner START -->
+<section class="pt-0">
+	<div class="container mt-2s">
+		<!-- Background image -->
+		<div class="rounded-3 p-3 p-sm-5" style="background-image: url({% static 'images/1.jpeg' %}); background-position: center center; background-repeat: no-repeat; background-size: cover;">
+			<!-- Banner title -->
+			<div class="row my-2 my-xl-5">
+				<div class="col-md-8 mx-auto">
+					<h1 class="text-center text-white">Более 50+ квартир Бизнес и Люкс Класса</h1>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</section>
+<!-- =======================
+Main Banner END -->
+
+<div class="container mt-2 d-none d-md-block justify-content-center align-items-center">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="gap-3 justify-content-between justify-content-md-end text-end">
+                <ul class="nav nav-pills ml-auto">
+
+
+                    <li class="nav-item" style="margin-left: 8px;">
+                        <a href="{% url 'apartments:apartment-rent-day' %}" class="btn btn-primary-soft mb-0">
+                            <i class="fa-solid fa-tenge  me-1"></i> Арендовать по суточно
+                        </a>
+                    </li>
+
+                    <li class="nav-item active" style="margin-left: 8px;">
+                        <a href="{% url 'apartments:apartment-rent-month' %}" class="btn btn-primary-soft mb-0">
+                            <i class="fa-solid fa-calendar me-1"></i> Арендовать по месячно
+                        </a>
+                    </li>
+
+                    <!-- Слово "Добавить" -->
+					<ul class="ms-auto">
+						<li class="nav-item ml-3 d-none d-md-inline">
+							<a href="{% url 'apartments:add' %}" class="btn btn-primary-soft mb-0">
+								<i class="fa-solid fa-plus-circle me-1"></i> Добавить
+							</a>
+						</li>
+					</ul>
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- =======================
+Hotel list START -->
+<section class="pt-0">
+	<div class="container">
+		<!-- Tabs and alert START -->
+		<div class="row mb-4">
+			<div class="col-12">
+				<div class="hstack gap-3 justify-content-between justify-content-md-end">
+
+					<button class="btn btn-primary-soft mb-0 d-xl-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+						<i class="fa-solid fa-sliders-h me-1"></i> Фильтр
+					</button>
+
+					<ul class="nav nav-pills" style="display: flex; flex-wrap: nowrap; list-style-type: none; overflow-x: scroll;">
+						<li class="nav-item" style="margin-left: 3px;">
+							<button class="btn btn-primary-soft mb-0 d-xl-none" type="button">
+								<i class="fa-solid fa-shopping-cart me-1"></i> Купить
+							</button>
+						</li>
+						<li class="nav-item" style="margin-left: 8px;">
+							<button class="btn btn-primary-soft mb-0 d-xl-none" type="button">
+								<i class="fa-solid fa-home me-1"></i> Аренда
+							</button>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- Tabs and alert END -->
+
+		<div class="row">
+			<!-- Left sidebar START -->
+			<aside class="col-xl-4 col-xxl-3">
+				<!-- Responsive offcanvas body START -->
+				<div class="offcanvas-xl offcanvas-end" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+					<div class="offcanvas-header">
+						<h5 class="offcanvas-title" id="offcanvasSidebarLabel">Фильтр квартир</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasSidebar" aria-label="Close"></button>
+					</div>
+					<div class="offcanvas-body flex-column p-3 p-xl-0">
+						<form class="rounded-3 shadow" action="{% url 'apartments:apartments' %}" method="get">
+							<!-- Hotel type START -->
+							<div class="card card-body rounded-0 rounded-top p-4">
+								<!-- Title -->
+								<h6 class="mb-2">Класс квартир</h6>
+								<!-- Hotel Type group -->
+								<div class="col-12">
+									<!-- Checkbox -->
+									<div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="class_choice" value="Комфорт" id="classComfort">
+                                        <label class="form-check-label" for="classComfort">Комфорт</label>
+                                    </div>
+									<!-- Checkbox -->
+									<div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="class_choice" value="Бизнес" id="classBusiness">
+                                        <label class="form-check-label" for="classBusiness">Бизнес</label>
+                                    </div>
+									<!-- Checkbox -->
+									<div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="class_choice" value="Премиум" id="classPremium">
+                                        <label class="form-check-label" for="classPremium">Премиум</label>
+                                    </div>
+
+
+{#									<a class="p-0 mb-0 mt-2 btn-more d-flex align-items-center collapsed" data-bs-toggle="collapse" href="#hotelType" role="button" aria-expanded="false" aria-controls="hotelType">#}
+{#										See <span class="see-more ms-1">more</span><span class="see-less ms-1">less</span><i class="fa-solid fa-angle-down ms-2"></i>#}
+{#									</a>#}
+								</div>
+							</div>
+							<!-- Hotel type END -->
+
+							<hr class="my-0"> <!-- Divider -->
+
+							<!-- Price range START -->
+							<div class="card card-body rounded-0 p-4">
+								<!-- Title -->
+								<h6 class="mb-2">Цена</h6>
+								<!-- Price range group -->
+								<div class="col-12">
+									<!-- Checkbox -->
+									<div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="price_choice" value="1" id="priceRange1">
+                                        <label class="form-check-label" for="priceRange1">от 10.000 тг</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="price_choice" value="2" id="priceRange2">
+                                        <label class="form-check-label" for="priceRange2">10.000 тг - 15.000 тг</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="price_choice" value="3" id="priceRange3">
+                                        <label class="form-check-label" for="priceRange3">15.000 тг - 20.000 тг</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="price_choice" value="4" id="priceRange4">
+                                        <label class="form-check-label" for="priceRange4">20.000 тг - 25.000 тг</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="price_choice" value="5" id="priceRange5">
+                                        <label class="form-check-label" for="priceRange5">25.000+ тг</label>
+                                    </div>
+								</div>
+							</div>
+							<!-- Price range END -->
+
+							<hr class="my-0"> <!-- Divider -->
+
+
+
+							<!-- Rating Star START -->
+							<div class="card card-body rounded-0 p-4">
+								<!-- Title -->
+								<h6 class="mb-2">Рейтинг</h6>
+								<!-- Rating Star group -->
+								<ul class="list-inline mb-0 g-3" >
+									<!-- Item -->
+									<div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="rating_choice" value="1" id="rating1">
+                                        <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating1">1<i class="bi bi-star-fill"></i></label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="rating_choice" value="2" id="rating2">
+                                        <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating2">2<i class="bi bi-star-fill"></i></label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="rating_choice" value="3" id="rating3">
+                                        <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating3">3<i class="bi bi-star-fill"></i></label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="rating_choice" value="4" id="rating4">
+                                        <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating4">4<i class="bi bi-star-fill"></i></label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="rating_choice" value="5" id="rating5">
+                                        <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating5">5<i class="bi bi-star-fill"></i></label>
+                                    </div>
+								</ul>
+							</div>
+							<!-- Rating Star END -->
+
+							<hr class="my-0"> <!-- Divider -->
+
+							<!-- Amenities START -->
+							<div class="card card-body rounded-0 rounded-bottom p-4">
+								<!-- Title -->
+								<h6 class="mb-2">Дополнительно</h6>
+								<!-- Amenities group -->
+								<div class="col-12">
+									<!-- Checkbox -->
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" value="" id="amenitiesType1">
+										<label class="form-check-label" for="amenitiesType1">Wi-Fi</label>
+									</div>
+									<!-- Checkbox -->
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" value="" id="amenitiesType2">
+										<label class="form-check-label" for="amenitiesType2">Кондиционер</label>
+									</div>
+									<!-- Checkbox -->
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" value="" id="amenitiesType3">
+										<label class="form-check-label" for="amenitiesType3">Платная парковка</label>
+									</div>
+									<!-- Checkbox -->
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" value="" id="amenitiesType4">
+										<label class="form-check-label" for="amenitiesType4">Ванна</label>
+									</div>
+									<!-- Checkbox -->
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" value="" id="amenitiesType5">
+										<label class="form-check-label" for="amenitiesType5">Ортопедический матрац</label>
+									</div>
+									<!-- Checkbox -->
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" value="" id="amenitiesType6">
+										<label class="form-check-label" for="amenitiesType6">Smart TV</label>
+									</div>
+
+									<!-- Collapse body -->
+									<div class="multi-collapse collapse" id="amenitiesCollapes">
+										<!-- Checkbox -->
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox" value="" id="amenitiesType7">
+											<label class="form-check-label" for="amenitiesType7">Фен</label>
+										</div>
+										<!-- Checkbox -->
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox" value="" id="amenitiesType8">
+											<label class="form-check-label" for="amenitiesType8">Утюг</label>
+										</div>
+										<!-- Checkbox -->
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox" value="" id="amenitiesType9">
+											<label class="form-check-label" for="amenitiesType9">Стиральная машина</label>
+										</div>
+										<!-- Checkbox -->
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox" value="" id="amenitiesType10">
+											<label class="form-check-label" for="amenitiesType10">Лифт</label>
+										</div>
+									</div>
+									<!-- Collapse button -->
+									<a style="color: green;" class="p-0 mb-0 mt-2 btn-more d-flex align-items-center collapsed" data-bs-toggle="collapse" href="#amenitiesCollapes" role="button" aria-expanded="false" aria-controls="amenitiesCollapes">
+										Смотреть <span class="see-more ms-1">больше</span><span class="see-less ms-1">меньше</span><i class="fa-solid fa-angle-down ms-2"></i>
+									</a>
+								</div>
+							</div>
+							<div class="d-flex justify-content-between p-2 p-xl-3 mt-xl-4" style="margin-bottom: 1.6rem !important;">
+                                <button style="color: red; " class="btn btn-link p-0 mb-0">Очистить</button>
+                                <button style="background-color: green;border-color: green;" class="btn btn-primary mb-0">Искать</button>
+                            </div>
+						</form>
+					</div>
+				</div>
+			</aside>
+
+			<div class="col-xl-8 col-xxl-9">
+				<div class="vstack gap-4">
+<!--                {% if apartment %}-->
+<!--					{% for i in apartment %}-->
+					<div class="card shadow p-2">
+						<div class="row g-0">
+							<!-- Card img -->
+							<div class="col-md-5 position-relative">
+
+								<!-- Overlay item -->
+
+                                {% if i.discount %}  <!-- Check if the current apartment has a discount -->
+                                    <div class="position-absolute top-0 start-0 z-index-1 m-2">
+                                        <div class="badge text-bg-danger">{{ i.discount.discount_count }}% скидка!</div>
+                                    </div>
+                                {% endif %}
+
+
+								<!-- Slider START -->
+
+								<div class="tiny-slider arrow-round arrow-xs arrow-dark overflow-hidden rounded-2">
+									<div class="tiny-slider-inner" data-autoplay="false" data-arrow="true" data-dots="false" data-items="1">
+
+										<!-- Image item -->
+										{% if i.image1 %}
+										<div><img src="{{ i.image1.url }}" alt="Card image"></div>
+										{% endif %}
+
+                                        {% if i.image2 %}
+										<div><img src="{{ i.image2.url }}" alt="Card image"></div>
+										{% endif %}
+
+                                        {% if i.image3 %}
+										<div><img src="{{ i.image3.url }}" alt="Card image"></div>
+										{% endif %}
+
+										{% if i.image4 %}
+										<div><img src="{{ i.image4.url }}" alt="Card image"></div>
+										{% endif %}
+
+										{% if i.image5 %}
+										<div><img src="{{ i.image5.url }}" alt="Card image"></div>
+										{% endif %}
+
+                                        {% if i.image6 %}
+										<div><img src="{{ i.image6.url }}" alt="Card image"></div>
+										{% endif %}
+
+										{% if i.image7 %}
+										<div><img src="{{ i.image7.url }}" alt="Card image"></div>
+										{% endif %}
+
+										{% if i.image8 %}
+										<div><img src="{{ i.image8.url }}" alt="Card image"></div>
+										{% endif %}
+
+
+										{% if i.image9 %}
+										<div><img src="{{ i.image9.url }}" alt="Card image"></div>
+										{% endif %}
+
+										{% if i.image10 %}
+										<div><img src="{{ i.image10.url }}" alt="Card image"></div>
+										{% endif %}
+
+										{% if i.image11 %}
+										<div><img src="{{ i.image11.url }}" alt="Card image"></div>
+										{% endif %}
+
+										{% if i.image12 %}
+										<div><img src="{{ i.image12.url }}" alt="Card image"></div>
+										{% endif %}
+									</div>
+								</div>
+
+								<!-- Slider END -->
+							</div>
+
+							<!-- Card body -->
+							<div class="col-md-7">
+								<div class="card-body py-md-2 d-flex flex-column h-100 position-relative">
+
+									<!-- Rating and buttons -->
+									<div class="d-flex justify-content-between align-items-center">
+										<ul class="list-inline mb-0">
+											<li class="list-inline-item me-0 small"><i class="fa-solid fa-star text-warning"></i></li>
+											<li class="list-inline-item me-0 small"><i class="fa-solid fa-star text-warning"></i></li>
+											<li class="list-inline-item me-0 small"><i class="fa-solid fa-star text-warning"></i></li>
+											<li class="list-inline-item me-0 small"><i class="fa-solid fa-star text-warning"></i></li>
+											<li class="list-inline-item me-0 small"><i class="fa-solid fa-star-half-alt text-warning"></i></li>
+										</ul>
+
+										<ul class="list-inline mb-0 z-index-2">
+											<!-- Heart icon -->
+                                            <form method="post" action="{% url 'apartments:add_to_favorite' apartment_id=i.pk %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="action" value="add_to_favorites">
+                                                <input type="hidden" name="apartment_id" value="{{ i.pk }}">
+                                                <button style="border-radius: 100px;" type="submit" class="btn btn-sm btn-light favorite-button">
+                                                    <i class="fa-solid fa-fw fa-heart"></i>
+                                                </button>
+                                            </form>
+
+
+										</ul>
+									</div>
+
+									<h5 class="card-title mb-1"><a href="{% url 'apartments:apartaments-detail' pk=i.pk %}">{{ i.name }}</a></h5>
+									<small><i class="bi bi-geo-alt me-2"></i>{{ i.address }}</small>
+
+									<ul class="nav nav-divider mt-3">
+                                        {% if i.air_conditioning == True %}
+										<li class="nav-item">Кондиционер</li>
+                                        {% endif %}
+                                        {% if i.wifi == True %}
+										<li class="nav-item">Wifi</li>
+                                        {% endif %}
+                                        {% if i.parking == True %}
+										<li class="nav-item">Платный паркинг</li>
+                                        {% endif %}
+										<li class="nav-item"><a style="color: green;" href="{% url 'apartments:apartaments-detail' pk=i.pk %}" class="mb-0 ">Подробнее</a></li>
+									</ul>
+
+
+									<ul class="list-group list-group-borderless small mb-0 mt-2">
+										<li class="list-group-item d-flex text-success p-0">
+											<i class="bi bi-patch-check-fill me-2"></i>10% скидка за регистрацию
+										</li>
+										<li class="list-group-item d-flex text-success p-0">
+											<i class="bi bi-patch-check-fill me-2"></i>10% скидка за репост в Instagram
+										</li>
+									</ul>
+
+
+									<div class="d-sm-flex justify-content-sm-between align-items-center mt-3 mt-2">
+										<!-- Button -->
+										<div class="d-flex align-items-center">
+											<h5 class="fw-bold mb-0 me-1">{{ i.price }}</h5>
+											<span class="mb-0 me-2">/день</span>
+										</div>
+
+										<div class="mt-3 mt-sm-0">
+											<a href="" class="btn btn-sm btn-dark mb-0 w-100" data-apartment-id="{{ apartment.pk }}" data-jk-name="{{ apartment.name }}" data-toggle="modal" data-target="#reservationModal">
+                                                Забронировать
+                                            </a>
+
+										</div>
+
+									</div>
+                                    <div class="modal fade " id="reservationModal{{ apartment.id }}" tabindex="-1" role="dialog" aria-labelledby="reservationModalLabel{{ apartment.id }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content text-center">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="reservationModalLabel">Бронирование</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <!-- Форма для ввода данных бронирования -->
+                                                        <form id="reservationForm" action="{% url 'apartments:apartment_reserve' apartment_id=i.pk %}" method="POST">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" name="apartment_id" value="{{ apartment.id }}">
+
+                                                            <div class="form-group">
+                                                                <label for="name">Имя</label>
+                                                                <input type="text" class="form-control" id="name" name="name" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="surname">Фамилия</label>
+                                                                <input type="text" class="form-control" id="surname" name="surname" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="phone">Номер телефона</label>
+                                                                <input type="tel" class="form-control" id="phone" name="phone" required>
+                                                            </div>
+
+                                                            <button type="submit" class="btn btn-primary" style="background-color: green; border-color: green;">Забронировать</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+								</div>
+							</div>
+						</div>
+					</div>
+<!--                    {% endfor %}-->
+<!--                {% else %}-->
+<!--                    <p>Извините, но результаты не найдены.</p>-->
+<!--                {% endif %}-->
+
+
+
+
+					<nav class="d-flex justify-content-center" aria-label="navigation">
+                        <ul class="pagination pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+                          {% if apartment.has_previous %}
+                            <li class="page-item mb-0"><a style="background-color: green;" class="page-link" href="?page=1" tabindex="-1"><i class="fa-solid fa-angle-left"></i></a></li>
+                            <li class="page-item mb-0"><a style="background-color: green;"  class="page-link" href="?page={{ apartment.previous_page_number }}">Предыдущая</a></li>
+                          {% endif %}
+
+                          {% for page_number in apartment.paginator.page_range %}
+                            <li class="page-item mb-0 {% if page_number == apartment.number %}active{% endif %}">
+                              <a style="background-color: green;"  class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                            </li>
+                          {% endfor %}
+
+                          {% if apartment.has_next %}
+                            <li class="page-item mb-0"><a style="background-color: green;"  class="page-link" href="?page={{ apartment.next_page_number }}">Следующая</a></li>
+                            <li class="page-item mb-0"><a style="background-color: green;" class="page-link" href="?page={{ apartment.paginator.num_pages }}"><i class="fa-solid fa-angle-right"></i></a></li>
+                          {% endif %}
+                        </ul>
+                      </nav>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+</main>
+
+
+
+<footer class="bg-dark pt-5">
+	<div class="container">
+		<div class="row g-4">
+			<div class="col-lg-3">
+				<a href="{% url 'website:home' %}" style="display: flex;">
+					<img class="h-40px" style="border-radius: 50px;" src="{% static 'images/logo.jpg' %}" alt="logo">
+					<p style="margin: auto; margin-left: 10px; color: white;"><b>BonApart</b></p>
+				</a>
+				<p class="my-3 text-body-secondary">BonApart - больше чем просто крыша!</p>
+				<p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+7 (778) 248 01 09</a> </p>
+				<p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+7 (747) 496 69 06</a> </p>
+				<p class="mb-0"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-envelope me-2"></i>bonapart.astana@gmail.com</a></p>
+			</div>
+
+
+			<div class="col-lg-8 ms-auto">
+				<div class="row g-4">
+
+					<div class="col-6 col-md-3">
+						<h5 class="text-white mb-2 mb-md-4">Страницы</h5>
+						<ul class="nav flex-column text-primary-hover">
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:home' %}">Главная</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'apartments:apartments' %}">Квартиры</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:stock' %}">Акции</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:collaboration' %}">Сотрудничество</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:transfers' %}">Трансфер</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:about' %}">О нас</a></li>
+						</ul>
+					</div>
+
+
+					<div class="col-6 col-md-3">
+                        <h5 class="text-white mb-2 mb-md-4">Ссылки</h5>
+                        <ul class="nav flex-column text-primary-hover">
+                            {% if user.is_authenticated %}
+                                <li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:support' %}">Поддержка</a></li>
+                            {% else %}
+                                <!-- Показать ссылки, если пользователь не аутентифицирован -->
+                                <li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'users:signup' %}">Регистрация</a></li>
+                                <li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'users:signin' %}">Войти</a></li>
+                                <li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:support' %}">Поддержка</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+					<div class="col-6 col-md-3">
+						<h5 class="text-white mb-2 mb-md-4">BonApart</h5>
+						<ul class="nav flex-column text-primary-hover">
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="https://wa.link/yzcce5">WhatsApp</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="https://www.instagram.com/bonapart.ast?igsh=MXhjZzlua2R6dzkwdQ%3D%3D&utm_source=qr">Instagram</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+
+
+
+		<div class="row g-4 justify-content-between mt-0 mt-md-2">
+
+
+			<div class="col-sm-5 col-lg-1 text-sm-end">
+				<h5 class="text-white mb-2">Подпишись</h5>
+				<ul class="list-inline mb-0 mt-3">
+					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-instagram mb-0" href="https://www.instagram.com/bonapart.ast?igsh=MXhjZzlua2R6dzkwdQ%3D%3D&utm_source=qr"><i class="fab fa-fw fa-instagram"></i></a> </li>
+				</ul>
+			</div>
+		</div>
+
+		<hr class="mt-4 mb-0">
+
+		<div class="row">
+			<div class="container">
+				<div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
+					<div class="text-body-secondary text-primary-hover"> Copyrights ©2023 BonApart. Создано <a href="http://workbenchkz.pythonanywhere.com/" class="text-body-secondary">WorkBench</a></div>
+					<div class="nav mt-2 mt-lg-0">
+						<ul class="list-inline text-primary-hover mx-auto mb-0">
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="{% url 'website:privacy_policy' %}">Политика конфиденциальности</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="{% url 'website:terms' %}">Условия использования</a></li>
+							{% if user.is_authenticated %}
+								<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="{% url 'website:support' %}">Поддержка</a></li>
+							{% else %}
+								<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="https://wa.link/8z2wor">Поддержка</a></li>
+							{% endif %}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+
+
+<!-- Back to top -->
+<style>
+.back-top {
+    position: fixed; /* Fixed position so it stays on the screen */
+    left: 20px; /* Adjust the left position as needed */
+    bottom: 20px; /* Adjust the bottom position as needed */
+    background-color: #169916; /* Background color of the button */
+    color: #fff; /* Text color */
+    padding: 10px; /* Padding around the text */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Change the cursor to a pointer on hover */
+    z-index: 1000; /* Make sure it's above other elements */
+}
+</style>
+<div class="back-top"></div>
+
+<div class="navbar navbar-mobile" style="padding: 15px;">
+	<ul class="navbar-nav">
+		<!-- Nav item Home -->
+		<li class="nav-item">
+			<a class="nav-link" href="{% url 'website:home' %}"><i class="bi bi-house-door fa-fw"></i>
+				<span class="mb-0 nav-text">Главная</span>
+			</a>
+		</li>
+
+		<!-- Nav item My Trips -->
+		<li class="nav-item">
+			<a class="nav-link active" style="color: green;" href="{% url 'apartments:apartments' %}">
+				<i class="bi bi-door-open fa-fw"></i> <!-- Заменили класс иконки -->
+				<span class="mb-0 nav-text">Квартиры</span>
+			</a>
+		</li>
+
+
+		<li class="nav-item">
+			<a class="nav-link" href="{% url 'apartments:add' %}">
+				<i class="bi bi-plus-circle fa-fw"></i>
+				<span class="mb-0 nav-text">Добавить</span>
+			</a>
+		</li>
+
+
+		<li class="nav-item">
+			{% if user.is_authenticated %}
+				<a class="nav-link" href="{% url 'users:favorites' %}">
+					<i class="bi bi-heart fa-fw"></i>
+					<span class="mb-0 nav-text">Избранное</span>
+				</a>
+			{% else %}
+				<a class="nav-link" href="{% url 'users:signin' %}">
+					<i class="bi bi-heart fa-fw"></i>
+					<span class="mb-0 nav-text">Избранное</span>
+				</a>
+			{% endif %}
+		</li>
+
+
+		<li class="nav-item">
+			{% if user.is_authenticated %}
+				<a class="nav-link" href="{% url 'users:profile' %}">
+					<i class="bi bi-person-circle fa-fw"></i>
+					<span class="mb-0 nav-text">Аккаунт</span>
+				</a>
+			{% else %}
+				<a class="nav-link" href="{% url 'users:signin' %}">
+					<i class="bi bi-person-circle fa-fw"></i>
+					<span class="mb-0 nav-text">Аккаунт</span>
+				</a>
+			{% endif %}
+		</li>
+	</ul>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- Vendors -->
+<script src="{% static 'js/flatpickr.min.js' %}"></script>
+<script src="{% static 'js/choices.min.js' %}"></script>
+<script src="{% static 'js/tiny-slider.js' %}"></script>
+
+
+<!-- ThemeFunctions -->
+<script src="{% static 'js/functions.js' %}"></script>
+
+<!-- Подключение Bootstrap JS и jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

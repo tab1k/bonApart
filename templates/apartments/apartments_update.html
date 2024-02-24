@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru" data-bs-theme="light">
+<head>
+	<title>BonApart - Аренда квартир.</title>
+
+		<!-- Meta Tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="author" content="bonapart.com">
+		<meta name="description" content="BonApart - Аренда квартир.">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="{% static 'images/logo.jpg' %}">
+
+		<!-- Google Font -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+		<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+
+		<!-- Plugins CSS -->
+		<link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-icons.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/glightbox.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/flatpickr.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/choices.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/tiny-slider.css' %}">
+
+		<!-- Theme CSS -->
+		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+        <style>
+        .nav-pills-primary-soft .nav-link.active, .nav-pills-primary-soft .nav-link:hover {
+          color: green;
+          background-color: #d2f4d2;
+        }
+        .icon-lg.btn.btn-round.btn-primary.mb-0 {
+          background-color: green;
+          border-color: green;
+        }
+        .btn-primary-soft {
+          color: green;
+          background-color: rgba(128, 255, 0, 0.1);
+        }
+        .btn-primary-soft:hover {
+          color: white;
+          background-color: green;
+          border-color: green;
+        }
+        .btn.btn-primary.mb-0 {
+          background-color: #169916;
+          border-color: #169916;
+        }
+
+
+    </style>
+
+</head>
+
+<body>
+<!--Start of Tawk.to Script-->
+<!--    <script type="text/javascript">-->
+<!--        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();-->
+<!--        (function(){-->
+<!--        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];-->
+<!--        s1.async=true;-->
+<!--        s1.src='https://embed.tawk.to/65432483f2439e1631eadedd/1he74d9d4';-->
+<!--        s1.charset='UTF-8';-->
+<!--        s1.setAttribute('crossorigin','*');-->
+<!--        s0.parentNode.insertBefore(s1,s0);-->
+<!--        })();-->
+<!--    </script>-->
+    <!--End of Tawk.to Script-->
+<header class="navbar-light py-3" style="padding: 15px;">
+	<!-- Logo Nav START -->
+	<nav class="navbar navbar-expand-lg">
+		<div class="container d-block">
+			<div class="row align-items-center">
+				<div class="col-4">
+					<!-- Logo START -->
+					<a class="navbar-brand d-flex align-items-center" href="{% url 'website:home' %}">
+						<img style="border-radius: 50px;" class="light-mode-item navbar-brand-item" src="{% static 'images/logo.jpg' %}" alt="logo">
+						<p style="margin: 0; padding: 0; margin-left: 8px;"><b>BonApart</b></p>
+					</a>
+					<!-- Logo END -->
+				</div>
+
+				<div class="col-8">
+					<!-- Navbar top Right-->
+					<div class="align-items-center justify-content-end d-none d-lg-flex">
+						<ul class="nav border-bottom mb-2">
+							<li class="dropdown nav-item">
+								<a class="nav-link small pb-2" href="#" role="button" id="languageDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-globe fa-fw me-2"></i>Язык</a>
+								<ul class="dropdown-menu dropdown-animation dropdown-menu-end min-w-auto" aria-labelledby="languageDropdown">
+									<li> <a class="dropdown-item me-4" href="#"><img class="fa-fw me-2" src="{% static 'images/flags/kz.svg' %}" alt="">Казахский</a> </li>
+									<li> <a class="dropdown-item me-4" href="#"><img class="fa-fw me-2" src="{% static 'images/flags/ru.svg' %}" alt="">Русский</a> </li>
+									<li> <a class="dropdown-item me-4" href="#"><img class="fa-fw me-2" src="{% static 'images/flags/us.svg' %}" alt="">English</a> </li>
+								</ul>
+							</li>
+
+							<li class="dropdown nav-item">
+								<a class="nav-link small pb-2" href="#" role="button" id="citiesDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="bi bi-building me-2"></i>Город
+								</a>
+								<ul class="dropdown-menu dropdown-animation dropdown-menu-end min-w-auto" aria-labelledby="citiesDropdown">
+									<input style="color: green;" type="text" class="form-control search-input" placeholder="Поиск...">
+									<div class="cities-list">
+										{% for c in cities %}
+										<li><a style="text-align: center;" class="dropdown-item me-4" href="#"><i class="bi bi-building me-2"></i>{{c.name}}</a></li>
+										{% endfor %}
+									</div>
+									<hr>
+									<li class="show-more"><a style="text-align: center;" class="dropdown-item me-4" href="#" id="showMoreBtn">Все города</a></li>
+								</ul>
+							</li>
+
+							<script>
+								document.addEventListener('DOMContentLoaded', function() {
+									var citiesList = document.querySelector('.cities-list');
+									var citiesDropdown = document.getElementById('citiesDropdown');
+
+									// Обработчик события клика на элементы списка городов
+									citiesList.addEventListener('click', function(event) {
+										var selectedCity = event.target.textContent.trim();
+										localStorage.setItem('selectedCity', selectedCity);
+										// После изменения города перенаправляем пользователя на страницу с новым выбранным городом
+										window.location.href = '/apartments/?selected_city=' + encodeURIComponent(selectedCity);
+									});
+
+									// При загрузке страницы проверяем, есть ли уже выбранный город в Local Storage
+									var selectedCity = localStorage.getItem('selectedCity');
+									if (selectedCity) {
+										// Обновляем текст в выпадающем меню с выбранным городом
+										citiesDropdown.textContent = selectedCity;
+									}
+								});
+							</script>
+
+
+
+							<li class="nav-item"> <a href="#" class="nav-link small pb-2"><i class="bi bi-chat me-2"></i>Сообщения</a> </li>
+<!--							<li class="nav-item"> <a href="sign-in.html" class="nav-link small pb-2"><i class="far fa-user me-2"></i>Sign In or Login</a> </li>-->
+
+						</ul>
+					</div>
+
+					<div class="d-sm-flex align-items-center justify-content-end mt-1">
+						<!-- Main navbar START -->
+						<div class="navbar-collapse collapse justify-content-end" id="navbarCategoryCollapse">
+							<ul class="navbar-nav navbar-nav-scroll nav-pills-primary-soft text-center  p-2 p-xl-0" style="margin-right: 10px;">
+								<!-- Nav item Hotel -->
+								<li class="nav-item"> <a style="color: black;" class="nav-link" href="{% url 'website:home' %}"><i class="fa-solid fa-hotel me-2"></i>Главная</a>	</li>
+
+								<!-- Nav item Cabs -->
+								<li class="nav-item"><a style="color: black;" class="nav-link active" href="{% url 'apartments:apartments' %}"><i class="fa-solid fa-building me-2"></i>Квартиры</a></li>
+
+
+								<li class="nav-item"><a style="color: black;" class="nav-link" href="{% url 'website:transfers' %}"><i class="fa-solid fa-shuttle-van me-2"></i>Трансфер</a></li>
+
+
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" style="color: black;" href="#" id="pagesFacilities" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Дополнительно</a>
+									<ul class="dropdown-menu" aria-labelledby="pagesFacilities">
+										<li class="dropdown-item"><a style="color: black;" href="{% url 'website:collaboration' %}"><i class="fa-solid fa-handshake me-2"></i>Сотрудничество</a></li>
+										<li class="dropdown-item"><a style="color: black;" href="{% url 'website:stock' %}"><i class="fa-solid fa-tags me-2"></i>Акции</a></li>
+										<li class="dropdown-item"><a style="color: black;" href="{% url 'website:about' %}"><i class="fa-solid fa-info-circle me-2"></i>О нас</a></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+						<!-- Main navbar END -->
+
+						<!-- Toggler button and stay button -->
+						<div class="d-flex align-items-center justify-content-end">
+							<!-- Responsive navbar toggler -->
+							<button class="navbar-toggler ms-sm-auto mx-3 me-md-0 p-0 p-sm-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCategoryCollapse" aria-controls="navbarCategoryCollapse" aria-expanded="false" aria-label="Toggle navigation">
+								<i style="color: black;" class="bi bi-grid-3x3-gap-fill fa-fw"></i><span class="d-none d-sm-inline-block small"></span>
+							</button>
+
+							<!-- Booking form dropdown START -->
+							<div class="nav-item dropdown form-control-bg-light">
+								<!-- Stay button -->
+								{% if user.is_authenticated %}
+									<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+
+									<!-- Notification dropdown START -->
+									<li class="nav-item dropdown ms-0 ms-md-3">
+										<!-- Notification button -->
+										<a class="nav-notification btn btn-light p-0 mb-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+											<i class="bi bi-bell fa-fw"></i>
+										</a>
+										<!-- Notification dote -->
+										{% if notifications %}
+											<span class="notif-badge animation-blink"></span>
+										{% endif %}
+										<!-- Notification dropdown menu START -->
+										<div class="dropdown-menu dropdown-animation dropdown-menu-end dropdown-menu-size-md shadow-lg p-0">
+											<div class="card bg-transparent">
+												<!-- Card header -->
+												<div class="card-header bg-transparent d-flex justify-content-between align-items-center border-bottom">
+													<h6 class="m-0">Уведомления <span class="badge bg-danger bg-opacity-10 text-danger ms-2">{{ notifications|length }} новое</span></h6>
+												</div>
+
+												<!-- Card body START -->
+												<div class="card-body p-0">
+													<ul class="list-group list-group-flush list-unstyled p-2">
+														{% for notification in notifications %}
+														<li>
+															<a href="{% url 'users:notifications' %}" class="list-group-item list-group-item-action rounded notif-unread border-0 mb-1 p-3">
+																<h6 class="mb-2">{{ notification.event_type }}</h6>
+																<p class="mb-0 small">{{ notification.message }}</p>
+																<span>{{ notification.timestamp }}</span>
+															</a>
+														</li>
+														{% endfor %}
+													</ul>
+												</div>
+												<!-- Card body END -->
+
+												<!-- Card footer -->
+												<div class="card-footer bg-transparent text-center border-top">
+													<a href="{% url 'users:notifications' %}" class="btn btn-sm btn-link mb-0 p-0">Посмотреть все</a>
+												</div>
+											</div>
+										</div>
+										<!-- Notification dropdown menu END -->
+									</li>
+									<!-- Notification dropdown END -->
+
+									<!-- Profile dropdown START -->
+									<li class="nav-item ms-3 dropdown">
+										<!-- Avatar -->
+										<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+											{% if user.photo %}
+												<img class="avatar-img rounded-circle shadow" src="{{ user.photo.url }}" alt="avatar">
+											{% else %}
+												<img class="avatar-img rounded-circle shadow" src="{% static 'images/user.png' %}" alt="avatar">
+											{% endif %}
+										</a>
+
+										<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
+											<!-- Profile info -->
+											<li class="px-3 mb-3">
+												<div class="d-flex align-items-center">
+													<!-- Avatar -->
+													<div class="avatar me-3">
+														{% if user.photo %}
+															<img class="avatar-img rounded-circle shadow" src="{{ user.photo.url }}" alt="avatar">
+														{% else %}
+															<img class="avatar-img rounded-circle shadow" src="{% static 'images/user.png' %}" alt="avatar">
+														{% endif %}
+													</div>
+													<div>
+														<a class="h7 mt-2 mt-sm-0" style="color: green;" href="{% url 'users:profile' %}">{{user.first_name}} {{user.last_name}}</a>
+														<p class="small m-0">{{ user.email }}</p>
+													</div>
+												</div>
+											</li>
+
+											<!-- Links -->
+											<li> <hr class="dropdown-divider"></li>
+
+											<li><a class="dropdown-item" href="{% url 'users:favorites' %}"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
+											{% if user.is_staff %}
+											<li><a class="dropdown-item" href="{% url 'users:apartment_pending' %}"><i class="bi bi-people fa-fw me-2"></i>Заявки</a></li>
+											{% endif %}
+											<li><a class="dropdown-item" href="{% url 'users:profile' %}"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
+											<li><a class="dropdown-item" href="{% url 'website:support' %}"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
+											{% if user.is_staff %}
+												<li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="bi bi-person fa-fw me-2"></i>Админ-панель</a></li>
+											{% endif %}
+											<li> <hr class="dropdown-divider"></li>
+											<li><a class="dropdown-item bg-danger-soft-hover" href="{% url 'users:logout' %}"><i class="bi bi-power fa-fw me-2"></i>Выйти</a></li>
+										</ul>
+										<style>
+											.dropdown-item:hover, .dropdown-item:focus {
+											  color: green;
+											  background-color: #d2f4d2;
+											}
+										</style>
+									</li>
+									<!-- Profile dropdown END -->
+								</ul>
+								{% else %}
+									<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+										<a style="background-color: #169916; color: white;" href="{% url 'users:signin' %}" class="btn mb-0">Войти</a>
+									</ul>
+								{% endif %}
+
+
+							</div>
+							<!-- Booking form dropdown END -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<!-- Logo Nav END -->
+</header>
+
+<main>
+		<section class="pt-0 mt-6">
+			<div class="container" data-sticky-container="">
+				<div class="row g-4 g-xl-5">
+					<!-- Content START -->
+					<div class="col-xl-7 order-1">
+						<div class="vstack gap-5">
+
+							<!-- About hotel START -->
+							<div class="card bg-transparent">
+								<!-- Card header -->
+								<div class="card-header border-bottom bg-transparent px-0 pt-0">
+									<h3 class="mb-0">Информация</h3>
+								</div>
+
+								<!-- Card body START -->
+								<div class="card-body pt-4 p-0">
+									<form method="post" action="{% url 'apartments:apartaments_edit' pk=apartment.pk %}">
+										{% csrf_token %}
+										{{ form.as_p }}
+										<button type="submit" class="btn btn-lg btn-primary-soft btn-green mb-0">Изменить</button>
+									</form>
+								</div>
+
+
+							</div>
+						</div>
+					</div>
+
+					<aside class="col-xl-5 order-xl-2">
+						<div data-sticky="" data-margin-top="100" data-sticky-for="1199">
+							<div class="mt-4 d-none d-xl-block">
+								<h4 class="mb-3">Приезжай с комфортом!</h4>
+
+								<div class="card shadow rounded-3 overflow-hidden">
+									<div class="row g-0 align-items-center">
+										<!-- Image -->
+										<div class="col-sm-6 col-md-12 col-lg-6">
+											<img src="/static/images/camry.jpeg" class="card-img rounded-0" alt="">
+										</div>
+
+										<!-- Title and content -->
+										<div class="col-sm-6 col-md-12 col-lg-6">
+											<div class="card-body p-3">
+												<h6 class="card-title"><a href="/transfers" class="stretched-link">Toyota Camry 70</a></h6>
+												<p class="mb-0">2.5 л. быстрее ветра!</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Best deal END -->
+						</div>
+					</aside>
+
+				</div>
+			</div>
+		</section>
+
+</main>
+
+<footer class="bg-dark pt-5">
+	<div class="container">
+		<div class="row g-4">
+			<div class="col-lg-3">
+				<a href="{% url 'website:home' %}" style="display: flex;">
+					<img class="h-40px" style="border-radius: 50px;" src="{% static 'images/logo.jpg' %}" alt="logo">
+					<p style="margin: auto; margin-left: 10px; color: white;"><b>BonApart</b></p>
+				</a>
+				<p class="my-3 text-body-secondary">BonApart - больше чем просто крыша!</p>
+				<p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+7 (778) 248 01 09</a> </p>
+				<p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+7 (747) 496 69 06</a> </p>
+				<p class="mb-0"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-envelope me-2"></i>bonapart.astana@gmail.com</a></p>
+			</div>
+
+
+			<div class="col-lg-8 ms-auto">
+				<div class="row g-4">
+
+					<div class="col-6 col-md-3">
+						<h5 class="text-white mb-2 mb-md-4">Страницы</h5>
+						<ul class="nav flex-column text-primary-hover">
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:home' %}">Главная</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'apartments:apartments' %}">Квартиры</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:stock' %}">Акции</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:collaboration' %}">Сотрудничество</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:transfers' %}">Трансфер</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:about' %}">О нас</a></li>
+						</ul>
+					</div>
+
+
+					<div class="col-6 col-md-3">
+                        <h5 class="text-white mb-2 mb-md-4">Ссылки</h5>
+                        <ul class="nav flex-column text-primary-hover">
+                            {% if user.is_authenticated %}
+                                <li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:support' %}">Поддержка</a></li>
+                            {% else %}
+                                <!-- Показать ссылки, если пользователь не аутентифицирован -->
+                                <li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'users:signup' %}">Регистрация</a></li>
+                                <li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'users:signin' %}">Войти</a></li>
+                                <li class="nav-item"><a class="nav-link text-body-secondary" href="{% url 'website:support' %}">Поддержка</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+					<div class="col-6 col-md-3">
+						<h5 class="text-white mb-2 mb-md-4">BonApart</h5>
+						<ul class="nav flex-column text-primary-hover">
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="https://wa.link/yzcce5">WhatsApp</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="https://www.instagram.com/bonapart.ast?igsh=MXhjZzlua2R6dzkwdQ%3D%3D&utm_source=qr">Instagram</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+
+
+
+		<div class="row g-4 justify-content-between mt-0 mt-md-2">
+
+
+			<div class="col-sm-5 col-lg-1 text-sm-end">
+				<h5 class="text-white mb-2">Подпишись</h5>
+				<ul class="list-inline mb-0 mt-3">
+					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-instagram mb-0" href="https://www.instagram.com/bonapart.ast?igsh=MXhjZzlua2R6dzkwdQ%3D%3D&utm_source=qr"><i class="fab fa-fw fa-instagram"></i></a> </li>
+				</ul>
+			</div>
+		</div>
+
+		<hr class="mt-4 mb-0">
+
+		<div class="row">
+			<div class="container">
+				<div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
+					<div class="text-body-secondary text-primary-hover"> Copyrights ©2023 BonApart. Создано <a href="http://workbenchkz.pythonanywhere.com/" class="text-body-secondary">WorkBench</a></div>
+					<div class="nav mt-2 mt-lg-0">
+						<ul class="list-inline text-primary-hover mx-auto mb-0">
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="{% url 'website:privacy_policy' %}">Политика конфиденциальности</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="{% url 'website:terms' %}">Условия использования</a></li>
+							{% if user.is_authenticated %}
+								<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="{% url 'website:support' %}">Поддержка</a></li>
+							{% else %}
+								<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="https://wa.link/8z2wor">Поддержка</a></li>
+							{% endif %}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<!-- Map modal START -->
+<div class="modal fade" id="mapmodal" tabindex="-1" aria-labelledby="mapmodalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content">
+			<!-- Title -->
+			<div class="modal-header">
+				<h5 class="modal-title" id="mapmodalLabel">{{ form.address }}</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<!-- Map -->
+			<div class="modal-body p-0">
+				{% if geo.photo %}
+					<img src="{{ geo.photo.url }}">
+				{% else %}
+					<img src="{% static 'images/2gis.jpg' %}">
+				{% endif %}
+			</div>
+			<!-- Button -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-primary mb-0">
+					<a href="{{ geo.link }}" target="{{ geo.link }}" class="text-white">
+							<i class="bi fa-fw bi-pin-map-fill me-2"></i>Посмотреть в 2Гис
+					</a>
+				</button>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Map modal END -->
+
+<!-- Room modal START -->
+<div class="modal fade" id="roomDetail" tabindex="-1" aria-labelledby="roomDetailLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content p-0">
+
+			<!-- Title -->
+			<div class="modal-header p-3">
+				<h5 class="modal-title mb-0" id="roomDetailLabel">Room detail</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+
+			<!-- Modal body -->
+			<div class="modal-body p-0">
+
+				<!-- Card START -->
+				<div class="card bg-transparent p-3">
+					<!-- Slider START -->
+					<div class="tiny-slider arrow-round arrow-dark overflow-hidden rounded-2">
+						<div class="tiny-slider-inner rounded-2 overflow-hidden" data-autoplay="true" data-arrow="true" data-dots="false" data-items="1">
+							<!-- Image item -->
+							<div> <img src="{% static 'images/16.jpg' %}" class="rounded-2" alt="Card image"></div>
+
+							<!-- Image item -->
+							<div> <img src="{% static 'images/15.jpg' %}" class="rounded-2" alt="Card image"> </div>
+
+							<!-- Image item -->
+							<div> <img src="{% static 'images/15.jpg' %}" class="rounded-2" alt="Card image"> </div>
+
+							<!-- Image item -->
+							<div> <img src="{% static 'images/15.jpg' %}" class="rounded-2" alt="Card image"> </div>
+						</div>
+					</div>
+					<!-- Slider END -->
+
+					<!-- Card header -->
+					<div class="card-header bg-transparent pb-0">
+						<h3 class="card-title mb-0">Deluxe Pool View</h3>
+					</div>
+
+					<!-- Card body START -->
+					<div class="card-body">
+						<!-- Content -->
+						<p>Club rooms are well furnished with air conditioner, 32 inch LCD television and a mini bar. They have attached bathroom with showerhead and hair dryer and 24 hours supply of hot and cold running water. Complimentary wireless internet access is available. Additional amenities include bottled water, a safe and a desk.</p>
+
+						<div class="row">
+							<h5 class="mb-0">Amenities</h5>
+
+							<!-- List -->
+							<div class="col-md-6">
+								<!-- List -->
+								<ul class="list-group list-group-borderless mt-2 mb-0">
+									<li class="list-group-item d-flex mb-0">
+										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">Swimming pool</span>
+									</li>
+									<li class="list-group-item d-flex mb-0">
+										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">Spa</span>
+									</li>
+									<li class="list-group-item d-flex mb-0">
+										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">Kids play area.</span>
+									</li>
+									<li class="list-group-item d-flex mb-0">
+										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">Gym</span>
+									</li>
+								</ul>
+							</div>
+
+							<!-- List -->
+							<div class="col-md-6">
+								<!-- List -->
+								<ul class="list-group list-group-borderless mt-2 mb-0">
+									<li class="list-group-item d-flex mb-0">
+										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">TV</span>
+									</li>
+									<li class="list-group-item d-flex mb-0">
+										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">Mirror</span>
+									</li>
+									<li class="list-group-item d-flex mb-0">
+										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">AC</span>
+									</li>
+									<li class="list-group-item d-flex mb-0">
+										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">Slippers</span>
+									</li>
+								</ul>
+							</div>
+						</div> <!-- Row END -->
+					</div>
+					<!-- Card body END -->
+				</div>
+				<!-- Card END -->
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Room modal END -->
+
+<!-- Back to top -->
+<style>
+.back-top {
+    position: fixed; /* Fixed position so it stays on the screen */
+    left: 20px; /* Adjust the left position as needed */
+    bottom: 20px; /* Adjust the bottom position as needed */
+    background-color: #169916; /* Background color of the button */
+    color: #fff; /* Text color */
+    padding: 10px; /* Padding around the text */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Change the cursor to a pointer on hover */
+    z-index: 1000; /* Make sure it's above other elements */
+}
+</style>
+<div class="back-top"></div>
+
+<!-- Bootstrap JS -->
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- Vendors -->
+<script src="{% static 'js/glightbox.js' %}"></script>
+<script src="{% static 'js/flatpickr.min.js' %}"></script>
+<script src="{% static 'js/choices.min.js' %}"></script>
+<script src="{% static 'js/tiny-slider.js' %}"></script>
+
+<!-- ThemeFunctions -->
+<script src="{% static 'js/functions.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

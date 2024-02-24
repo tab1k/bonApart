@@ -1,5 +1,12 @@
-from django.shortcuts import render, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.sites import requests
+from django.core.exceptions import ImproperlyConfigured
+from django.db.models import Q
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
 from django.views import View
+from django.views.generic import ListView, CreateView, UpdateView
+from django.contrib import messages
 from apartments.forms import *
 from .forms import ApartmentFilterForm, ReservationForm
 from apartments.models import *
@@ -7,6 +14,7 @@ from users.models import *
 from django.core.paginator import Paginator
 from django.http import JsonResponse, Http404
 from users.forms import CommentForm
+
 
 class SearchResultsView(View):
     template_name = 'website/search_results.html'
@@ -28,9 +36,16 @@ class ApartmentView(View):
     def get(self, request):
 
         form = ApartmentFilterForm(request.GET)
-        apartments = Apartment.objects.all().order_by('-id')
+        cities = City.objects.all()
+        apartments = Apartment.objects.filter(status='approved').order_by('-id')
         discount = Discount.objects.filter(apartment__in=apartments)
         notifications = Notification.objects.filter(read=False).order_by('-timestamp')
+        selected_city = request.GET.get('selected_city')
+
+        if selected_city:
+            apartments = Apartment.objects.filter(city__name=selected_city, status='approved')
+        else:
+            apartments = Apartment.objects.filter(status='approved')
 
         if form.is_valid():
             class_choice = form.cleaned_data['class_choice']
@@ -43,7 +58,7 @@ class ApartmentView(View):
 
             if price_choice:
                 if price_choice == '1':
-                    apartments = apartments.filter(price__gte=10000)
+                    apartments = apartments.filter(price__gte=10000, city__name=selected_city)
                 elif price_choice == '2':
                     apartments = apartments.filter(price__range=(10000, 15000))
                 elif price_choice == '3':
@@ -73,6 +88,7 @@ class ApartmentView(View):
             'form': form,
             'discount': discount,
             'notifications': notifications,
+            'cities': cities,
         }
         return render(request, self.template_name, context)
 
@@ -225,12 +241,142 @@ class ApartamentsDetailView(View):
         return render(request, 'website/apartments_list.html', context)
 
 
+class ApartamentsUpdateView(LoginRequiredMixin, UpdateView):
+    model = Apartment
+    form_class = ApartmentForm
+    template_name = 'apartments/apartments_update.html'
+
+    def get_success_url(self):
+        return reverse_lazy('apartments:apartaments_edit', kwargs={'pk': self.object.pk})
+
+
 class SuccessReservation(View):
 
     def get(self, request):
         return render(request, 'website/success.html')
 
 
+class ApartmentBuyView(ListView):
+    template_name = 'apartments/apartments_buy.html'
+    context_object_name = 'apartment'
+
+    def get_queryset(self):
+        selected_city = self.request.GET.get('selected_city')
+        queryset = Apartment.objects.filter(deal_type='sale', status='approved')
+        if selected_city:
+            queryset = queryset.filter(city__name=selected_city, status='approved')
+        return queryset.order_by('-timestamp')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cities'] = City.objects.all()
+        return context
+
+
+class ApartmentRentView(ListView):
+    template_name = 'apartments/apartments_rent.html'
+    context_object_name = 'apartment'
+
+    def get_queryset(self):
+        selected_city = self.request.GET.get('selected_city')
+        queryset = Apartment.objects.filter(status='approved')
+
+        if selected_city:
+            queryset = queryset.filter(city__name=selected_city)
+
+        queryset = queryset.filter(Q(deal_type='monthly_rent') | Q(deal_type='daily_rent'))
+
+        return queryset.order_by('-timestamp')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cities'] = City.objects.all()
+        return context
+
+
+class ApartmentRentBaseView(ListView):
+    template_name = ''
+    context_object_name = 'apartment'
+    deal_type = None
+
+    def get_template_names(self):
+        if self.template_name:
+            return [self.template_name]
+        raise ImproperlyConfigured("Template name not specified")
+
+    def get_queryset(self):
+        selected_city = self.request.GET.get('selected_city')
+        queryset = Apartment.objects.filter(deal_type=self.deal_type, status='approved')
+
+        if selected_city:
+            queryset = queryset.filter(city__name=selected_city)
+
+        return queryset.order_by('-timestamp')
+
+
+class ApartmentRentDayView(ApartmentRentBaseView):
+    template_name = 'apartments/apartments_rent_day.html'
+    deal_type = 'daily_rent'
+
+
+class ApartmentRentMonthView(ApartmentRentBaseView):
+    template_name = 'apartments/apartments_rent_month.html'
+    deal_type = 'monthly_rent'
+
+
+
+class ApartmentAddView(LoginRequiredMixin, CreateView):
+    template_name = 'apartments/apartments_add.html'
+    model = Apartment
+    form_class = ApartmentAddForm
+    success_url = reverse_lazy('apartments:apartments')
+
+    def form_valid(self, form):
+        # Устанавливаем статус квартиры как "На рассмотрении"
+        form.instance.status = 'pending'
+
+        # Устанавливаем владельца квартиры в текущего пользователя
+        form.instance.owner = self.request.user
+
+        # Сохраняем квартиру
+        self.object = form.save()
+
+        # Получаем текущего пользователя
+        user = self.request.user
+
+        # Присваиваем объект квартиры полю apartments текущего пользователя
+        user.apartments = self.object
+        user.save()
+
+        # Добавляем сообщение об успешном добавлении квартиры для пользователя
+        messages.success(self.request, 'Квартира была добавлена и находится на рассмотрении администратора.')
+
+        return super().form_valid(form)
+
+
+class ApartmentApproveView(View):
+    def post(self, request, pk):
+        apartment = get_object_or_404(Apartment, pk=pk)
+        apartment.status = 'approved'
+        apartment.save()
+        if apartment.owner and apartment.status == 'approved':
+
+            message = f"Ваша квартира '{apartment.name}' была одобрена!"
+
+            messages.success(request, message)
+
+        return redirect('apartments:apartaments-detail', pk=pk)
+
+
+
+
+
+class ApartmentRejectView(View):
+    def post(self, request, pk):
+        apartment = get_object_or_404(Apartment, pk=pk)
+        apartment.delete()
+        messages.success(request, 'Квартира удалена!')
+        return redirect('users:apartment_pending')
 
 
 

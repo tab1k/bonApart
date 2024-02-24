@@ -101,13 +101,44 @@
 							</li>
 
 							<li class="dropdown nav-item">
-								<a class="nav-link small pb-2" href="#" role="button" id="languageDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-building me-2"></i>Город</a>
-								<ul class="dropdown-menu dropdown-animation dropdown-menu-end min-w-auto" aria-labelledby="languageDropdown">
-									<li> <a style="text-align: center;" class="dropdown-item me-4" href="#">Астана</a> </li>
-									<li> <a style="text-align: center;" class="dropdown-item me-4" href="#">Алматы</a> </li>
-									<li> <a style="text-align: center;" class="dropdown-item me-4" href="#">Кокшетау</a> </li>
+								<a class="nav-link small pb-2" href="#" role="button" id="citiesDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="bi bi-building me-2"></i>Город
+								</a>
+								<ul class="dropdown-menu dropdown-animation dropdown-menu-end min-w-auto" aria-labelledby="citiesDropdown">
+									<input style="color: green;" type="text" class="form-control search-input" placeholder="Поиск...">
+									<div class="cities-list">
+										{% for c in cities %}
+										<li><a style="text-align: center;" class="dropdown-item me-4" href="#"><i class="bi bi-building me-2"></i>{{c.name}}</a></li>
+										{% endfor %}
+									</div>
+									<hr>
+									<li class="show-more"><a style="text-align: center;" class="dropdown-item me-4" href="#" id="showMoreBtn">Все города</a></li>
 								</ul>
 							</li>
+
+							<script>
+								document.addEventListener('DOMContentLoaded', function() {
+									var citiesList = document.querySelector('.cities-list');
+									var citiesDropdown = document.getElementById('citiesDropdown');
+
+									// Обработчик события клика на элементы списка городов
+									citiesList.addEventListener('click', function(event) {
+										var selectedCity = event.target.textContent.trim();
+										localStorage.setItem('selectedCity', selectedCity);
+										// После изменения города перенаправляем пользователя на страницу с новым выбранным городом
+										window.location.href = '/apartments/?selected_city=' + encodeURIComponent(selectedCity);
+									});
+
+									// При загрузке страницы проверяем, есть ли уже выбранный город в Local Storage
+									var selectedCity = localStorage.getItem('selectedCity');
+									if (selectedCity) {
+										// Обновляем текст в выпадающем меню с выбранным городом
+										citiesDropdown.textContent = selectedCity;
+									}
+								});
+							</script>
+
+
 
 							<li class="nav-item"> <a href="#" class="nav-link small pb-2"><i class="bi bi-chat me-2"></i>Сообщения</a> </li>
 <!--							<li class="nav-item"> <a href="sign-in.html" class="nav-link small pb-2"><i class="far fa-user me-2"></i>Sign In or Login</a> </li>-->
@@ -232,6 +263,9 @@
 											<li> <hr class="dropdown-divider"></li>
 
 											<li><a class="dropdown-item" href="{% url 'users:favorites' %}"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
+											{% if user.is_staff %}
+											<li><a class="dropdown-item" href="{% url 'users:apartment_pending' %}"><i class="bi bi-people fa-fw me-2"></i>Заявки</a></li>
+											{% endif %}
 											<li><a class="dropdown-item" href="{% url 'users:profile' %}"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
 											<li><a class="dropdown-item" href="{% url 'website:support' %}"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
 											{% if user.is_staff %}
@@ -555,9 +589,9 @@ Cab list END -->
 					<p style="margin: auto; margin-left: 10px; color: white;"><b>BonApart</b></p>
 				</a>
 				<p class="my-3 text-body-secondary">BonApart - больше чем просто крыша!</p>
-				<p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+7 (778) 980 71 02</a> </p>
-				<p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+7 (778) 706 61 00</a> </p>
-				<p class="mb-0"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-envelope me-2"></i>example@gmail.com</a></p>
+				<p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+7 (778) 248 01 09</a> </p>
+				<p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+7 (747) 496 69 06</a> </p>
+				<p class="mb-0"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-envelope me-2"></i>bonapart.astana@gmail.com</a></p>
 			</div>
 
 
@@ -595,7 +629,7 @@ Cab list END -->
 						<h5 class="text-white mb-2 mb-md-4">BonApart</h5>
 						<ul class="nav flex-column text-primary-hover">
 							<li class="nav-item"><a class="nav-link text-body-secondary" href="https://wa.link/yzcce5">WhatsApp</a></li>
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="https://www.instagram.com/bonapart_ast/">Instagram</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="https://www.instagram.com/bonapart.ast?igsh=MXhjZzlua2R6dzkwdQ%3D%3D&utm_source=qr">Instagram</a></li>
 						</ul>
 					</div>
 				</div>
@@ -612,7 +646,7 @@ Cab list END -->
 			<div class="col-sm-5 col-lg-1 text-sm-end">
 				<h5 class="text-white mb-2">Подпишись</h5>
 				<ul class="list-inline mb-0 mt-3">
-					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-instagram mb-0" href="https://www.instagram.com/bonapart_ast/"><i class="fab fa-fw fa-instagram"></i></a> </li>
+					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-instagram mb-0" href="https://www.instagram.com/bonapart.ast?igsh=MXhjZzlua2R6dzkwdQ%3D%3D&utm_source=qr"><i class="fab fa-fw fa-instagram"></i></a> </li>
 				</ul>
 			</div>
 		</div>

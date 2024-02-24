@@ -69,6 +69,94 @@
 
 <body class="has-navbar-mobile">
 
+	<div class="modal fade" id="cityModal" tabindex="-1" aria-labelledby="cityModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="cityModalLabel">Выберите ваш город</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form id="cityForm">
+						<select id="citySelect" name="city" class="form-select">
+							{% for city in cities %}
+							<option value="{{ city.name }}">{{ city.name }}</option>
+							{% endfor %}
+						</select>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+					<button type="button" class="btn btn-primary" id="confirmCity">Подтвердить</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		var selectedCity = localStorage.getItem('selectedCity');
+		if (selectedCity) {
+			var urlParams = new URLSearchParams(window.location.search);
+			var currentSelectedCity = urlParams.get('selected_city');
+			if (!currentSelectedCity || currentSelectedCity !== selectedCity) {
+				window.location.search = '?selected_city=' + encodeURIComponent(selectedCity);
+			}
+		}
+
+		document.addEventListener('DOMContentLoaded', function() {
+			var cityModal = new bootstrap.Modal(document.getElementById('cityModal'));
+
+			if (!selectedCity) {
+				// Если выбранный город еще не сохранен, показываем модальное окно
+				cityModal.show();
+			}
+
+			var confirmCityButton = document.getElementById('confirmCity');
+			var citySelect = document.getElementById('citySelect');
+
+			// При изменении выбора города сохраняем его в локальном хранилище
+			citySelect.addEventListener('change', function(event) {
+				localStorage.setItem('selectedCity', event.target.value);
+				updateURLParams();
+			});
+
+			// При изменении значений фильтров обновляем URL
+			function updateURLParams() {
+				var queryParams = new URLSearchParams(window.location.search);
+				// Добавляем параметры фильтрации в URL
+				queryParams.set('class_choice', classSelect.value);
+				queryParams.set('price_choice', priceSelect.value);
+				queryParams.set('rating_choice', ratingSelect.value);
+				queryParams.set('additional_choice', additionalSelect.value);
+				window.history.replaceState({}, '', window.location.pathname + '?' + queryParams.toString());
+			}
+
+			// Обработчик нажатия на кнопку "Подтвердить"
+			confirmCityButton.addEventListener('click', function(event) {
+				var selectedCity = citySelect.value;
+				// Сохраняем выбранный город в Local Storage
+				localStorage.setItem('selectedCity', selectedCity);
+				// Закрываем модальное окно
+				cityModal.hide();
+				// Перенаправляем пользователя на страницу списка квартир с выбранным городом
+				window.location.href = '/apartments/?selected_city=' + encodeURIComponent(selectedCity);
+			});
+
+			// Обработчик закрытия модального окна
+			cityModal._element.addEventListener('hidden.bs.modal', function(event) {
+				var selectedCity = localStorage.getItem('selectedCity');
+				if (selectedCity) {
+					// Здесь вы можете использовать выбранный город для запроса на сервер и отображения соответствующих данных
+					console.log('Выбранный город:', selectedCity);
+				}
+			});
+		});
+	</script>
+
+
+
+
+
     <!--Start of Tawk.to Script-->
 <!--    <script type="text/javascript">-->
 <!--        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();-->
@@ -111,13 +199,90 @@
 							</li>
 
 							<li class="dropdown nav-item">
-								<a class="nav-link small pb-2" href="#" role="button" id="languageDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-building me-2"></i>Город</a>
-								<ul class="dropdown-menu dropdown-animation dropdown-menu-end min-w-auto" aria-labelledby="languageDropdown">
-									<li> <a style="text-align: center;" class="dropdown-item me-4" href="#">Астана</a> </li>
-									<li> <a style="text-align: center;" class="dropdown-item me-4" href="#">Алматы</a> </li>
-									<li> <a style="text-align: center;" class="dropdown-item me-4" href="#">Кокшетау</a> </li>
+								<a class="nav-link small pb-2" href="#" role="button" id="citiesDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="bi bi-building me-2"></i>Город
+								</a>
+								<ul class="dropdown-menu dropdown-animation dropdown-menu-end min-w-auto" aria-labelledby="citiesDropdown">
+									<input style="color: green;" type="text" class="form-control search-input" placeholder="Поиск...">
+									<div class="cities-list">
+										{% for c in cities %}
+										<li><a style="text-align: center;" class="dropdown-item me-4" href="#"><i class="bi bi-building me-2"></i>{{c.name}}</a></li>
+										{% endfor %}
+									</div>
+									<hr>
+									<li class="show-more"><a style="text-align: center;" class="dropdown-item me-4" href="#" id="showMoreBtn">Все города</a></li>
 								</ul>
 							</li>
+
+							<script>
+								document.addEventListener('DOMContentLoaded', function() {
+									var citiesList = document.querySelector('.cities-list');
+									var citiesDropdown = document.getElementById('citiesDropdown');
+
+									// Обработчик события клика на элементы списка городов
+									citiesList.addEventListener('click', function(event) {
+										var selectedCity = event.target.textContent.trim();
+										localStorage.setItem('selectedCity', selectedCity);
+										// После изменения города перенаправляем пользователя на страницу с новым выбранным городом
+										window.location.href = '/apartments/?selected_city=' + encodeURIComponent(selectedCity);
+									});
+
+									// При загрузке страницы проверяем, есть ли уже выбранный город в Local Storage
+									var selectedCity = localStorage.getItem('selectedCity');
+									if (selectedCity) {
+										// Обновляем текст в выпадающем меню с выбранным городом
+										citiesDropdown.textContent = selectedCity;
+									}
+								});
+							</script>
+
+							<script>
+								var selectedCity = localStorage.getItem('selectedCity');
+								if (selectedCity) {
+									var urlParams = new URLSearchParams(window.location.search);
+									var currentSelectedCity = urlParams.get('selected_city');
+									if (!currentSelectedCity || currentSelectedCity !== selectedCity) {
+										window.location.search = '?selected_city=' + encodeURIComponent(selectedCity);
+									}
+								}
+
+								document.addEventListener('DOMContentLoaded', function() {
+									var cityModal = new bootstrap.Modal(document.getElementById('cityModal'));
+
+									if (!selectedCity) {
+										// Если выбранный город еще не сохранен, показываем модальное окно
+										cityModal.show();
+									}
+
+									var confirmCityButton = document.getElementById('confirmCity');
+									var citySelect = document.getElementById('citySelect');
+
+									// При изменении выбора города сохраняем его в локальном хранилище
+									citySelect.addEventListener('change', function(event) {
+										localStorage.setItem('selectedCity', event.target.value);
+									});
+
+									// Обработчик нажатия на кнопку "Подтвердить"
+									confirmCityButton.addEventListener('click', function(event) {
+										var selectedCity = citySelect.value;
+										// Сохраняем выбранный город в Local Storage
+										localStorage.setItem('selectedCity', selectedCity);
+										// Закрываем модальное окно
+										cityModal.hide();
+										// Перенаправляем пользователя на страницу списка квартир с выбранным городом
+										window.location.href = '/apartments/?selected_city=' + encodeURIComponent(selectedCity);
+									});
+
+									// Обработчик закрытия модального окна
+									cityModal._element.addEventListener('hidden.bs.modal', function(event) {
+										var selectedCity = localStorage.getItem('selectedCity');
+										if (selectedCity) {
+											// Здесь вы можете использовать выбранный город для запроса на сервер и отображения соответствующих данных
+											console.log('Выбранный город:', selectedCity);
+										}
+									});
+								});
+							</script>
 
 							<li class="nav-item"> <a href="#" class="nav-link small pb-2"><i class="bi bi-chat me-2"></i>Сообщения</a> </li>
 <!--							<li class="nav-item"> <a href="sign-in.html" class="nav-link small pb-2"><i class="far fa-user me-2"></i>Sign In or Login</a> </li>-->
@@ -136,15 +301,15 @@
 								<li class="nav-item"><a class="nav-link" href="{% url 'apartments:apartments' %}"><i class="fa-solid fa-building me-2"></i>Квартиры</a></li>
 
 
-								<li class="nav-item"><a class="nav-link" href="{% url 'website:transfers' %}"><i class="fa-solid fa-shuttle-van me-2"></i>Трансфер</a></li>
+								<li class="nav-item"><a class="nav-link" href="{% url 'website:transfers' %}?selected_city={{ selectedCity }}"><i class="fa-solid fa-shuttle-van me-2"></i>Трансфер</a></li>
 
 
 								<li class="nav-item dropdown">
 									<a class="nav-link dropdown-toggle" href="#" id="pagesFacilities" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Дополнительно</a>
 									<ul class="dropdown-menu" aria-labelledby="pagesFacilities">
-										<li class="dropdown-item"><a style="color: black;" href="{% url 'website:collaboration' %}"><i class="fa-solid fa-handshake me-2"></i>Сотрудничество</a></li>
-										<li class="dropdown-item"><a style="color: black;" href="{% url 'website:stock' %}"><i class="fa-solid fa-tags me-2"></i>Акции</a></li>
-										<li class="dropdown-item"><a style="color: black;" href="{% url 'website:about' %}"><i class="fa-solid fa-info-circle me-2"></i>О нас</a></li>
+										<li class="dropdown-item"><a style="color: black;" href="{% url 'website:collaboration' %}?selected_city={{ selectedCity }}"><i class="fa-solid fa-handshake me-2"></i>Сотрудничество</a></li>
+										<li class="dropdown-item"><a style="color: black;" href="{% url 'website:stock' %}?selected_city={{ selectedCity }}"><i class="fa-solid fa-tags me-2"></i>Акции</a></li>
+										<li class="dropdown-item"><a style="color: black;" href="{% url 'website:about' %}?selected_city={{ selectedCity }}"><i class="fa-solid fa-info-circle me-2"></i>О нас</a></li>
 									</ul>
 								</li>
 							</ul>
@@ -242,6 +407,9 @@
 											<li> <hr class="dropdown-divider"></li>
 
 											<li><a class="dropdown-item" href="{% url 'users:favorites' %}"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
+											{% if user.is_staff %}
+											<li><a class="dropdown-item" href="{% url 'users:apartment_pending' %}"><i class="bi bi-people fa-fw me-2"></i>Заявки</a></li>
+											{% endif %}
 											<li><a class="dropdown-item" href="{% url 'users:profile' %}"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
 											<li><a class="dropdown-item" href="{% url 'website:support' %}"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
 											{% if user.is_staff %}
@@ -475,106 +643,6 @@ Main Banner START -->
 				</div>
 			</div>
 			<!-- Content and Image END -->
-
-		<!-- Search START -->
-		<div class="row">
-			<div class="col-xl-10 position-relative mt-n3 mt-xl-n1">
-				<!-- Title -->
-				<h5 class="d-none d-xl-block mb-3 mt-5">Проверить наличие свободных квартир</h5>
-
-				<!-- Booking from START -->
-				<form method="get" class="card shadow rounded-3 position-relative p-4 pe-md-5 pb-5 pb-md-4">
-					<div class="row g-4 align-items-center">
-						<!-- Location -->
-						<div class="col-lg-4">
-							<div class="form-control-border form-control-transparent form-fs-md d-flex">
-								<!-- Icon -->
-								<i class="bi bi-geo-alt fs-3 me-2 mt-2"></i>
-								<!-- Select input -->
-								<div class="flex-grow-1">
-									<label for="district_choice" class="form-label">Локация</label>
-									<select id="district_choice" name="district_choice" class="form-select js-choice" data-search-enabled="true">
-										<option value="">Выберите локацию</option>
-										<option value="Алматинский район">Алматинский район</option>
-										<option value="Байконурский район">Байконурский район</option>
-										<option value="Есильский район">Есильский район</option>
-                                        <option value="Нуринский район">Нуринский район</option>
-                                        <option value="Сарыаркинский район">Сарыаркинский район</option>
-									</select>
-								</div>
-							</div>
-						</div>
-
-						<!-- Check in -->
-						<div class="col-lg-4">
-							<div class="d-flex">
-								<!-- Icon -->
-								<i class="bi bi-calendar fs-3 me-2 mt-2"></i>
-								<!-- Date input -->
-								<div class="form-control-border form-control-transparent form-fs-md">
-									<label class="form-label">Заезд - выезд</label>
-									<input type="text" class="form-control flatpickr" lang="ru" data-mode="range" placeholder="Выберите дату" value="19 Сен до 28 Сен">
-								</div>
-							</div>
-						</div>
-
-						<!-- Guest -->
-						<div class="col-lg-4">
-							<div class="form-control-border form-control-transparent form-fs-md d-flex">
-								<!-- Icon -->
-								<i class="bi bi-person fs-3 me-2 mt-2"></i>
-								<!-- Dropdown input -->
-								<div class="w-100">
-									<label class="form-label">Люди &amp; комнаты</label>
-									<div class="dropdown guest-selector me-2">
-										<input type="text" class="form-guest-selector form-control selection-result" value="2 чел 1 комната" data-bs-auto-close="outside" data-bs-toggle="dropdown">
-
-										<!-- dropdown items -->
-										<ul class="dropdown-menu guest-selector-dropdown">
-											<!-- Adult -->
-											<li class="d-flex justify-content-between">
-												<div>
-													<h6 class="mb-0">Люди</h6>
-													<small>Ages 13 or above</small>
-												</div>
-
-												<div class="hstack gap-1 align-items-center">
-													<button type="button" class="btn btn-link adult-remove p-0 mb-0"><i class="bi bi-dash-circle fs-5 fa-fw"></i></button>
-													<h6 class="guest-selector-count mb-0 adults">2</h6>
-													<button type="button" class="btn btn-link adult-add p-0 mb-0"><i class="bi bi-plus-circle fs-5 fa-fw"></i></button>
-												</div>
-											</li>
-
-											<!-- Divider -->
-											<li class="dropdown-divider"></li>
-
-											<!-- Rooms -->
-											<li class="d-flex justify-content-between">
-												<div>
-													<h6 class="mb-0">Комнаты</h6>
-													<small>Максимальное кол-во комнат: 8</small>
-												</div>
-
-												<div class="hstack gap-1 align-items-center">
-													<button type="button" class="btn btn-link room-remove p-0 mb-0"><i class="bi bi-dash-circle fs-5 fa-fw"></i></button>
-													<h6 class="guest-selector-count mb-0 rooms">1</h6>
-													<button type="button" class="btn btn-link room-add p-0 mb-0"><i class="bi bi-plus-circle fs-5 fa-fw"></i></button>
-												</div>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- Button -->
-					<div class="btn-position-md-middle">
-						<a type="submit" class="icon-lg btn btn-round btn-primary mb-0" href="{% url 'apartments:apartments' %}"><i class="bi bi-search fa-fw"></i></a>
-					</div>
-				</form>
-				<!-- Booking from END -->
-			</div>
-		</div>
 	</div>
 </section>
 
@@ -616,7 +684,7 @@ Main Banner START -->
 						<!-- Card body -->
 						<div class="card-body px-2">
 							<!-- Title -->
-							<h5 class="card-title"><a href="{% url 'website:apartaments-detail' i.pk %}" class="stretched-link">{{ i.name }}</a></h5>
+							<h5 class="card-title"><a href="#" class="stretched-link">{{ i.name }}</a></h5>
 							<!-- Price and rating -->
 							<div class="d-flex justify-content-between align-items-center">
 								<h6 class="text-success mb-0">{{ i.price }} тг <small class="fw-light"></small> </h6>
@@ -1007,9 +1075,9 @@ Best deal END -->
 					<p style="margin: auto; margin-left: 10px; color: white;"><b>BonApart</b></p>
 				</a>
 				<p class="my-3 text-body-secondary">BonApart - больше чем просто крыша!</p>
-				<p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+7 (778) 980 71 02</a> </p>
-				<p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+7 (778) 706 61 00</a> </p>
-				<p class="mb-0"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-envelope me-2"></i>example@gmail.com</a></p>
+				<p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+7 (778) 248 01 09</a> </p>
+				<p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+7 (747) 496 69 06</a> </p>
+				<p class="mb-0"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-envelope me-2"></i>bonapart.astana@gmail.com</a></p>
 			</div>
 
 
@@ -1047,7 +1115,7 @@ Best deal END -->
 						<h5 class="text-white mb-2 mb-md-4">BonApart</h5>
 						<ul class="nav flex-column text-primary-hover">
 							<li class="nav-item"><a class="nav-link text-body-secondary" href="https://wa.link/yzcce5">WhatsApp</a></li>
-							<li class="nav-item"><a class="nav-link text-body-secondary" href="https://www.instagram.com/bonapart_ast/">Instagram</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="https://www.instagram.com/bonapart.ast?igsh=MXhjZzlua2R6dzkwdQ%3D%3D&utm_source=qr">Instagram</a></li>
 						</ul>
 					</div>
 				</div>
@@ -1064,7 +1132,7 @@ Best deal END -->
 			<div class="col-sm-5 col-lg-1 text-sm-end">
 				<h5 class="text-white mb-2">Подпишись</h5>
 				<ul class="list-inline mb-0 mt-3">
-					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-instagram mb-0" href="https://www.instagram.com/bonapart_ast/"><i class="fab fa-fw fa-instagram"></i></a> </li>
+					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-instagram mb-0" href="https://www.instagram.com/bonapart.ast?igsh=MXhjZzlua2R6dzkwdQ%3D%3D&utm_source=qr"><i class="fab fa-fw fa-instagram"></i></a> </li>
 				</ul>
 			</div>
 		</div>
@@ -1129,17 +1197,11 @@ Best deal END -->
 
 
 		<li class="nav-item">
-			<a class="nav-link" href="javascript:void(0);" onclick="showAlert()">
+			<a class="nav-link" href="{% url 'apartments:add' %}">
 				<i class="bi bi-plus-circle fa-fw"></i>
 				<span class="mb-0 nav-text">Добавить</span>
 			</a>
 		</li>
-
-		<script>
-			function showAlert() {
-				alert("Извините, эта функция находится в разработке. Разработчик: WorkBench Company.");
-			}
-		</script>
 
 
 		<li class="nav-item">
@@ -1190,3 +1252,5 @@ Best deal END -->
 
 </body>
 </html>
+
+

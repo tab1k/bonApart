@@ -14,6 +14,8 @@ from users.models import *
 from django.core.paginator import Paginator
 from django.http import JsonResponse, Http404
 from users.forms import CommentForm
+import requests
+
 
 
 class SearchResultsView(View):
@@ -52,6 +54,12 @@ class ApartmentView(View):
             price_choice = form.cleaned_data['price_choice']
             rating_choice = form.cleaned_data['rating_choice']
             additional_choice = form.cleaned_data['additional_choice']
+            city_choice = form.cleaned_data['city_choice']
+
+            if city_choice:
+                apartments = apartments.filter(city__name=city_choice, status='approved')
+            else:
+                apartments = apartments.filter(status='approved')
 
             if class_choice:
                 apartments = apartments.filter(level=class_choice)
@@ -89,6 +97,7 @@ class ApartmentView(View):
             'discount': discount,
             'notifications': notifications,
             'cities': cities,
+            'selected_city': selected_city,
         }
         return render(request, self.template_name, context)
 
@@ -96,7 +105,18 @@ class ApartmentView(View):
         try:
             bot_token = self.TELEGRAM_BOT_TOKEN
             chat_id = self.TELEGRAM_CHAT_ID
-            message = f'Пользователь забронировал квартиру:\n\n'
+            message = ''
+
+            if apartment.deal_type == 'daily_rent':
+                message = f'Пользователь забронировал квартиру на аренду по суточно:\n\n'
+            elif apartment.deal_type == 'monthly_rent':
+                message = f'Пользователь забронировал квартиру на аренду помесячно:\n\n'
+            elif apartment.deal_type == 'sale':
+                message = f'Пользователь хочет купить квартиру:\n\n'
+            else:
+                return JsonResponse({'error': 'Неизвестный тип сделки!'})
+
+            message += f'Жилой комплекс: {apartment.name}\n'
             message += f'Имя: {form.cleaned_data["name"]}\n'
             message += f'Фамилия: {form.cleaned_data["surname"]}\n'
             message += f'Телефон: {form.cleaned_data["phone"]}\n'
@@ -109,7 +129,7 @@ class ApartmentView(View):
             response = requests.post(url, data=data)
 
             if response.status_code == 200:
-                return redirect('website:success_reservation')
+                return redirect('apartments:success_reservation')
             else:
                 return JsonResponse({'error': 'Не удалось отправить сообщение!'})
         except Exception as e:
@@ -172,12 +192,17 @@ class ApartamentsDetailView(View):
         comments = Comment.objects.filter(apartment=apartments_detail)
         comment_form = CommentForm()
 
+        if apartments_detail.owner:
+            owner_phone = apartments_detail.owner.phone_number
+        else:
+            owner_phone = None
         context = {
             'geo': geo,
             'detail': apartments_detail,
             'comments': comments,
             'notifications': notifications,
             'comment_form': comment_form,
+            'owner_phone': owner_phone,
         }
 
         return render(request, 'website/detail.html', context)
@@ -186,7 +211,17 @@ class ApartamentsDetailView(View):
         try:
             bot_token = self.TELEGRAM_BOT_TOKEN
             chat_id = self.TELEGRAM_CHAT_ID
-            message = f'Пользователь забронировал квартиру:\n\n'
+            message = ''
+
+            if apartment.deal_type == 'daily_rent':
+                message = f'Пользователь забронировал квартиру на аренду по суточно:\n\n'
+            elif apartment.deal_type == 'monthly_rent':
+                message = f'Пользователь забронировал квартиру на аренду помесячно:\n\n'
+            elif apartment.deal_type == 'sale':
+                message = f'Пользователь хочет купить квартиру:\n\n'
+            else:
+                return JsonResponse({'error': 'Неизвестный тип сделки!'})
+
             message += f'Жилой комплекс: {apartment.name}\n'
             message += f'Имя: {form.cleaned_data["name"]}\n'
             message += f'Фамилия: {form.cleaned_data["surname"]}\n'
@@ -200,7 +235,7 @@ class ApartamentsDetailView(View):
             response = requests.post(url, data=data)
 
             if response.status_code == 200:
-                return redirect('website:success_reservation')
+                return redirect('apartments:success_reservation')
             else:
                 return JsonResponse({'error': 'Не удалось отправить сообщение!'})
         except Exception as e:
@@ -259,17 +294,41 @@ class SuccessReservation(View):
 class ApartmentBuyView(ListView):
     template_name = 'apartments/apartments_buy.html'
     context_object_name = 'apartment'
+    form_class = ApartmentBuyFilterForm
 
     def get_queryset(self):
         selected_city = self.request.GET.get('selected_city')
         queryset = Apartment.objects.filter(deal_type='sale', status='approved')
         if selected_city:
             queryset = queryset.filter(city__name=selected_city, status='approved')
+
+        form = self.form_class(self.request.GET)
+
+        if form.is_valid():
+            floor_choice = form.cleaned_data.get('floor_choice')
+            room_choice = form.cleaned_data.get('room_choice')
+            square_choice = form.cleaned_data.get('square_choice')
+            price_from = form.cleaned_data.get('price_from')
+            price_to = form.cleaned_data.get('price_to')
+
+            # Применение фильтров к queryset
+            if floor_choice:
+                queryset = queryset.filter(floor=floor_choice)
+            if room_choice:
+                queryset = queryset.filter(room=room_choice)
+            if square_choice:
+                queryset = queryset.filter(square=square_choice)
+            if price_from:
+                queryset = queryset.filter(price__gte=price_from)
+            if price_to:
+                queryset = queryset.filter(price__lte=price_to)
+
         return queryset.order_by('-timestamp')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['cities'] = City.objects.all()
+        context['form'] = self.form_class(self.request.GET)
         return context
 
 
@@ -313,6 +372,15 @@ class ApartmentRentBaseView(ListView):
 
         return queryset.order_by('-timestamp')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cities'] = City.objects.all()  # Add cities to the context
+        if self.deal_type == 'daily_rent':
+            context['form'] = ApartmentFilterForm(self.request.GET)
+        elif self.deal_type == 'monthly_rent':
+            context['form'] = ApartmentBuyFilterForm(self.request.GET)
+        return context
+
 
 class ApartmentRentDayView(ApartmentRentBaseView):
     template_name = 'apartments/apartments_rent_day.html'
@@ -322,7 +390,6 @@ class ApartmentRentDayView(ApartmentRentBaseView):
 class ApartmentRentMonthView(ApartmentRentBaseView):
     template_name = 'apartments/apartments_rent_month.html'
     deal_type = 'monthly_rent'
-
 
 
 class ApartmentAddView(LoginRequiredMixin, CreateView):
@@ -366,9 +433,6 @@ class ApartmentApproveView(View):
             messages.success(request, message)
 
         return redirect('apartments:apartaments-detail', pk=pk)
-
-
-
 
 
 class ApartmentRejectView(View):

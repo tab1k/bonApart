@@ -57,9 +57,13 @@ class UserProfileUpdateForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'email', 'phone_number', 'city', 'address']
+        fields = ['photo', 'first_name', 'last_name', 'email', 'phone_number', 'city', 'address']
 
-
+    photo = forms.CharField(
+        label='Фото',
+        widget=forms.ClearableFileInput(attrs={'class': 'form-control form-control-lg'}),
+        required=False
+    )
 
     first_name = forms.CharField(
         label='Имя',

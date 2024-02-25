@@ -413,20 +413,25 @@ Main Banner END -->
             <div class="gap-3 justify-content-between justify-content-md-end text-end">
                 <ul class="nav nav-pills ml-auto">
 
-
-                    <li class="nav-item" style="margin-left: 8px;">
-                        <a href="{% url 'apartments:apartment-rent-day' %}" class="btn btn-primary-soft mb-0">
-                            <i class="fa-solid fa-tenge  me-1"></i> Арендовать по суточно
+					<li class="nav-item" style="margin-left: 3px;">
+                        <a href="{% url 'apartments:apartments' %}" class="btn btn-primary-soft mb-0">
+                            <i class="fas fa-home me-1"></i> Все квартиры
                         </a>
                     </li>
 
-                    <li class="nav-item active" style="margin-left: 8px;">
-                        <a href="{% url 'apartments:apartment-rent-month' %}" class="btn btn-primary-soft mb-0">
-                            <i class="fa-solid fa-calendar me-1"></i> Арендовать по месячно
-                        </a>
-                    </li>
 
-                    <!-- Слово "Добавить" -->
+                    <div class="dropdown ml-3">
+						<button class="btn btn-primary-soft dropdown-toggle" type="button" id="rentDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+							<i class="fa-solid fa-tenge me-1"></i> Арендовать
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="rentDropdown">
+							<li><a class="dropdown-item" href="{% url 'apartments:apartment-rent-day' %}"><i class="fa-solid fa-clock-four  me-1"></i> По суточно</a></li>
+							<li><a class="dropdown-item" href="{% url 'apartments:apartment-rent-month' %}"><i class="fa-solid fa-calendar me-1"></i> По месячно</a></li>
+						</ul>
+					</div>
+
+
+
 					<ul class="ms-auto">
 						<li class="nav-item ml-3 d-none d-md-inline">
 							<a href="{% url 'apartments:add' %}" class="btn btn-primary-soft mb-0">
@@ -458,18 +463,16 @@ Hotel list START -->
 						<i class="fa-solid fa-sliders-h me-1"></i> Фильтр
 					</button>
 
-					<ul class="nav nav-pills" style="display: flex; flex-wrap: nowrap; list-style-type: none; overflow-x: scroll;">
-						<li class="nav-item" style="margin-left: 3px;">
-							<button class="btn btn-primary-soft mb-0 d-xl-none" type="button">
-								<i class="fa-solid fa-shopping-cart me-1"></i> Купить
-							</button>
-						</li>
-						<li class="nav-item" style="margin-left: 8px;">
-							<button class="btn btn-primary-soft mb-0 d-xl-none" type="button">
-								<i class="fa-solid fa-home me-1"></i> Аренда
-							</button>
-						</li>
-					</ul>
+					<div class="dropdown">
+						<button class="btn btn-primary-soft dropdown-toggle mb-0 d-xl-none" type="button" id="rentDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+							<i class="fa-solid fa-home me-1"></i> Аренда
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="rentDropdown">
+							<li><a class="dropdown-item" href="{% url 'apartments:apartments' %}">Все квартиры</a></li>
+							<li><a class="dropdown-item" href="{% url 'apartments:apartment-rent-day' %}">По суточно</a></li>
+							<li><a class="dropdown-item" href="{% url 'apartments:apartment-rent-month' %}">По месячно</a></li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -558,31 +561,30 @@ Hotel list START -->
 								<!-- Title -->
 								<h6 class="mb-2">Рейтинг</h6>
 								<!-- Rating Star group -->
-								<ul class="list-inline mb-0 g-3" >
+								<ul class="list-inline mb-0 g-3 d-flex" style="overflow-x: scroll;">
 									<!-- Item -->
-									<div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="rating_choice" value="1" id="rating1">
+									<div class="form-check p-0">
+                                        <input class="form-check-input" style="display: none;" type="checkbox" name="rating_choice" value="1" id="rating1">
                                         <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating1">1<i class="bi bi-star-fill"></i></label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="rating_choice" value="2" id="rating2">
+                                        <input class="form-check-input" style="display: none;" type="checkbox" name="rating_choice" value="2" id="rating2">
                                         <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating2">2<i class="bi bi-star-fill"></i></label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="rating_choice" value="3" id="rating3">
+                                        <input class="form-check-input" style="display: none;" type="checkbox" name="rating_choice" value="3" id="rating3">
                                         <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating3">3<i class="bi bi-star-fill"></i></label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="rating_choice" value="4" id="rating4">
+                                        <input class="form-check-input" style="display: none;" type="checkbox" name="rating_choice" value="4" id="rating4">
                                         <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating4">4<i class="bi bi-star-fill"></i></label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="rating_choice" value="5" id="rating5">
+                                        <input class="form-check-input" style="display: none;" type="checkbox" name="rating_choice" value="5" id="rating5">
                                         <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating5">5<i class="bi bi-star-fill"></i></label>
                                     </div>
 								</ul>
 							</div>
-							<!-- Rating Star END -->
 
 							<hr class="my-0"> <!-- Divider -->
 
@@ -663,8 +665,8 @@ Hotel list START -->
 
 			<div class="col-xl-8 col-xxl-9">
 				<div class="vstack gap-4">
-<!--                {% if apartment %}-->
-<!--					{% for i in apartment %}-->
+                {% if apartment %}
+					{% for i in apartment %}
 					<div class="card shadow p-2">
 						<div class="row g-0">
 							<!-- Card img -->
@@ -827,15 +829,15 @@ Hotel list START -->
 
                                                             <div class="form-group">
                                                                 <label for="name">Имя</label>
-                                                                <input type="text" class="form-control" id="name" name="name" required>
+                                                                <input type="text" value="{{ user.first_name }}" class="form-control" id="name" name="name" required>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="surname">Фамилия</label>
-                                                                <input type="text" class="form-control" id="surname" name="surname" required>
+                                                                <input type="text" value="{{ user.last_name }}" class="form-control" id="surname" name="surname" required>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="phone">Номер телефона</label>
-                                                                <input type="tel" class="form-control" id="phone" name="phone" required>
+                                                                <input type="tel" value="{{ user.phone_number }}" class="form-control" id="phone" name="phone" required>
                                                             </div>
 
                                                             <button type="submit" class="btn btn-primary" style="background-color: green; border-color: green;">Забронировать</button>
@@ -848,10 +850,10 @@ Hotel list START -->
 							</div>
 						</div>
 					</div>
-<!--                    {% endfor %}-->
-<!--                {% else %}-->
-<!--                    <p>Извините, но результаты не найдены.</p>-->
-<!--                {% endif %}-->
+                    {% endfor %}
+                {% else %}
+                    <p>Извините, но результаты не найдены.</p>
+                {% endif %}
 
 
 
@@ -1017,10 +1019,17 @@ Hotel list START -->
 
 
 		<li class="nav-item">
+			{% if user.is_authenticated %}
 			<a class="nav-link" href="{% url 'apartments:add' %}">
 				<i class="bi bi-plus-circle fa-fw"></i>
 				<span class="mb-0 nav-text">Добавить</span>
 			</a>
+			{% else %}
+			<a class="nav-link" href="{% url 'users:signin' %}">
+				<i class="bi bi-plus-circle fa-fw"></i>
+				<span class="mb-0 nav-text">Добавить</span>
+			</a>
+			{% endif %}
 		</li>
 
 

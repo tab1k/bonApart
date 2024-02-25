@@ -80,11 +80,8 @@ class ApartmentAddForm(forms.ModelForm):
         self.fields['bath'].widget.attrs.update({'class': 'form-check-input'})
 
 
-
-
-
-
 class ApartmentFilterForm(forms.Form):
+
     CLASS_CHOICES = [
         ('', 'Выберите класс'),
         ('comfort', 'Комфорт'),
@@ -123,11 +120,60 @@ class ApartmentFilterForm(forms.Form):
         ('elevator', 'Лифт'),
     ]
 
+
+    city_choice = forms.ChoiceField(required=False, label='Город')
     class_choice = forms.ChoiceField(choices=CLASS_CHOICES, required=False, label='Класс квартир')
     price_choice = forms.ChoiceField(choices=PRICE_CHOICES, required=False, label='Цена')
     rating_choice = forms.ChoiceField(choices=RATING_CHOICES, required=False, label='Рейтинг')
     additional_choice = forms.MultipleChoiceField(choices=ADDITIONAL_CHOICES, required=False,
                                                   widget=forms.CheckboxSelectMultiple, label='Дополнительно')
+
+
+class ApartmentBuyFilterForm(ApartmentFilterForm, forms.Form):
+
+    FLOOR_CHOICES = (
+        ('', 'Любой'),
+        ('1', '1'),
+        ('2', '2'),
+        ('3', '3'),
+        ('4', '4'),
+        ('5', '5'),
+        ('6', '6'),
+        ('6+', '6+'),
+
+    )
+    ROOM_CHOICES = (
+        ('', 'Любое'),
+        ('1', '1 комната'),
+        ('2', '2 комнаты'),
+        ('3', '3 комната'),
+        ('4', '4 комнаты'),
+        ('5', '5 комнат'),
+        ('6', '6 комнат'),
+        ('7', '7+ комнат'),
+
+        # Другие варианты количества комнат
+    )
+    SQUARE_CHOICES = (
+        ('', 'Любая'),
+        ('50', 'До 50 кв.м'),
+        ('100', 'До 100 кв.м'),
+        ('100', 'Более 100 кв.м'),
+    )
+
+    floor_choice = forms.ChoiceField(choices=FLOOR_CHOICES, required=False, label='Этаж')
+    room_choice = forms.ChoiceField(choices=ROOM_CHOICES, required=False, label='Комнат')
+    square_choice = forms.ChoiceField(choices=SQUARE_CHOICES, required=False, label='Площадь')
+    price_from = forms.FloatField(required=False, label='Цена от')
+    price_to = forms.FloatField(required=False, label='Цена до')
+
+    def __init__(self, *args, **kwargs):
+        super(ApartmentBuyFilterForm, self).__init__(*args, **kwargs)
+        self.fields['floor_choice'].widget.attrs.update({'class': 'form-control form-control-lg'})
+        self.fields['room_choice'].widget.attrs.update({'class': 'form-control form-control-lg'})
+        self.fields['square_choice'].widget.attrs.update({'class': 'form-control form-control-lg'})
+        self.fields['price_from'].widget.attrs.update({'class': 'form-control form-control-lg'})
+        self.fields['price_to'].widget.attrs.update({'class': 'form-control form-control-lg'})
 
 
 class ReservationForm(forms.ModelForm):

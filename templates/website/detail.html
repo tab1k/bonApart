@@ -953,9 +953,12 @@ Image gallery START -->
 
 						<p class="h6 fw-light mb-4"><i class="bi bi-arrow-right me-2"></i>Free breakfast available</p>
 
-						<!-- Button -->
 						<div class="d-grid">
-							<a href="tel:+77787066100" class="btn btn-lg btn-primary-soft btn-green mb-0">Позвонить</a>
+							{% if owner_phone %}
+								<a href="tel:{{ owner_phone }}" class="btn btn-lg btn-primary-soft btn-green mb-0">Позвонить</a>
+							{% else %}
+								<a href="tel:+77787066100" class="btn btn-lg btn-primary-soft btn-green mb-0">Позвонить</a>
+							{% endif %}
 						</div>
 
                         <div class="d-grid">
@@ -979,15 +982,15 @@ Image gallery START -->
 
                                             <div class="form-group">
                                                 <label for="name">Имя</label>
-                                                <input type="text" class="form-control" id="name" name="name" required>
+                                                <input type="text" class="form-control" value="{{ user.first_name }}" id="name" name="name" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="surname">Фамилия</label>
-                                                <input type="text" class="form-control" id="surname" name="surname" required>
+                                                <input type="text" class="form-control" value="{{ user.last_name }}" id="surname" name="surname" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="phone">Номер телефона</label>
-                                                <input type="tel" class="form-control" id="phone" name="phone" required>
+                                                <input type="tel" class="form-control" value="{{ user.phone_number }}" id="phone" name="phone" required>
                                             </div>
                                             <div class="modal-footer">
                                                 <button style="background-color: green; color: white;" type="submit" class="btn">Забронировать</button>

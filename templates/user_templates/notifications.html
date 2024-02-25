@@ -54,299 +54,329 @@
 
     <header class="navbar-light py-3">
 	<!-- Logo Nav START -->
-	<nav class="navbar navbar-expand-lg">
-		<div class="container d-block">
-			<div class="row align-items-center">
-				<div class="col-4">
-					<!-- Logo START -->
-					<a class="navbar-brand d-flex align-items-center" href="{% url 'website:home' %}">
-						<img style="border-radius: 50px;" class="light-mode-item navbar-brand-item" src="{% static 'images/logo.jpg' %}" alt="logo">
-						<p style="margin: 0; padding: 0; margin-left: 8px;"><b>BonApart</b></p>
-					</a>
-					<!-- Logo END -->
-				</div>
-
-				<div class="col-8">
-					<!-- Navbar top Right-->
-					<div class="align-items-center justify-content-end d-none d-lg-flex">
-						<ul class="nav border-bottom mb-2">
-							<li class="dropdown nav-item">
-								<a class="nav-link small pb-2" href="#" role="button" id="languageDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-globe fa-fw me-2"></i>Язык</a>
-								<ul class="dropdown-menu dropdown-animation dropdown-menu-end min-w-auto" aria-labelledby="languageDropdown">
-									<li> <a class="dropdown-item me-4" href="#"><img class="fa-fw me-2" src="{% static 'images/flags/kz.svg' %}" alt="">Казахский</a> </li>
-									<li> <a class="dropdown-item me-4" href="#"><img class="fa-fw me-2" src="{% static 'images/flags/ru.svg' %}" alt="">Русский</a> </li>
-									<li> <a class="dropdown-item me-4" href="#"><img class="fa-fw me-2" src="{% static 'images/flags/us.svg' %}" alt="">English</a> </li>
-								</ul>
-							</li>
-
-							<li class="dropdown nav-item">
-								<a class="nav-link small pb-2" href="#" role="button" id="languageDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-building me-2"></i>Город</a>
-								<ul class="dropdown-menu dropdown-animation dropdown-menu-end min-w-auto" aria-labelledby="languageDropdown">
-									<li> <a style="text-align: center;" class="dropdown-item me-4" href="#">Астана</a> </li>
-									<li> <a style="text-align: center;" class="dropdown-item me-4" href="#">Алматы</a> </li>
-									<li> <a style="text-align: center;" class="dropdown-item me-4" href="#">Кокшетау</a> </li>
-								</ul>
-							</li>
-
-							<li class="nav-item"> <a href="#" class="nav-link small pb-2"><i class="bi bi-chat me-2"></i>Сообщения</a> </li>
-<!--							<li class="nav-item"> <a href="sign-in.html" class="nav-link small pb-2"><i class="far fa-user me-2"></i>Sign In or Login</a> </li>-->
-
-						</ul>
+		<nav class="navbar navbar-expand-lg">
+			<div class="container d-block">
+				<div class="row align-items-center">
+					<div class="col-4">
+						<!-- Logo START -->
+						<a class="navbar-brand d-flex align-items-center" href="{% url 'website:home' %}">
+							<img style="border-radius: 50px;" class="light-mode-item navbar-brand-item" src="{% static 'images/logo.jpg' %}" alt="logo">
+							<p style="margin: 0; padding: 0; margin-left: 8px;"><b>BonApart</b></p>
+						</a>
+						<!-- Logo END -->
 					</div>
 
-					<div class="d-sm-flex align-items-center justify-content-end mt-1">
-						<!-- Main navbar START -->
-						<div class="navbar-collapse collapse justify-content-end" id="navbarCategoryCollapse">
-							<ul class="navbar-nav navbar-nav-scroll nav-pills-primary-soft text-center  p-2 p-xl-0" style="margin-right: 10px;">
-								<!-- Nav item Hotel -->
-								<li class="nav-item"> <a class="nav-link active" href="{% url 'website:home' %}"><i class="fa-solid fa-hotel me-2"></i>Главная</a>	</li>
-
-								<!-- Nav item Cabs -->
-								<li class="nav-item"><a class="nav-link" href="{% url 'apartments:apartments' %}"><i class="fa-solid fa-building me-2"></i>Квартиры</a></li>
-
-
-								<li class="nav-item"><a class="nav-link" href="{% url 'website:transfers' %}"><i class="fa-solid fa-shuttle-van me-2"></i>Трансфер</a></li>
-
-
-								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="#" id="pagesFacilities" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Дополнительно</a>
-									<ul class="dropdown-menu" aria-labelledby="pagesFacilities">
-										<li class="dropdown-item"><a style="color: black;" href="{% url 'website:collaboration' %}"><i class="fa-solid fa-handshake me-2"></i>Сотрудничество</a></li>
-										<li class="dropdown-item"><a style="color: black;" href="{% url 'website:stock' %}"><i class="fa-solid fa-tags me-2"></i>Акции</a></li>
-										<li class="dropdown-item"><a style="color: black;" href="{% url 'website:about' %}"><i class="fa-solid fa-info-circle me-2"></i>О нас</a></li>
+					<div class="col-8">
+						<!-- Navbar top Right-->
+						<div class="align-items-center justify-content-end d-none d-lg-flex">
+							<ul class="nav border-bottom mb-2 ">
+								<li class="dropdown nav-item ">
+									<a class="nav-link small pb-2" href="#" role="button" id="languageDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-globe fa-fw me-2"></i>Язык</a>
+									<ul class="dropdown-menu dropdown-animation dropdown-menu-end min-w-auto" aria-labelledby="languageDropdown">
+										<li> <a class="dropdown-item me-4" href="#"><img class="fa-fw me-2" src="{% static 'images/flags/kz.svg' %}" alt="">Казахский</a> </li>
+										<li> <a class="dropdown-item me-4" href="#"><img class="fa-fw me-2" src="{% static 'images/flags/ru.svg' %}" alt="">Русский</a> </li>
+										<li> <a class="dropdown-item me-4" href="#"><img class="fa-fw me-2" src="{% static 'images/flags/us.svg' %}" alt="">English</a> </li>
 									</ul>
 								</li>
+
+								<li class="dropdown nav-item">
+									<a class="nav-link small pb-2" href="#" role="button" id="citiesDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<i class="bi bi-building me-2"></i>Город
+									</a>
+									<ul class="dropdown-menu dropdown-animation dropdown-menu-end min-w-auto" aria-labelledby="citiesDropdown">
+										<input style="color: green;" type="text" class="form-control search-input" placeholder="Поиск...">
+										<div class="cities-list">
+											{% for c in cities %}
+											<li><a style="text-align: center;" class="dropdown-item me-4" href="#"><i class="bi bi-building me-2"></i>{{c.name}}</a></li>
+											{% endfor %}
+										</div>
+										<hr>
+										<li class="show-more"><a style="text-align: center;" class="dropdown-item me-4" href="#" id="showMoreBtn">Все города</a></li>
+									</ul>
+								</li>
+
+								<script>
+									document.addEventListener('DOMContentLoaded', function() {
+										var citiesList = document.querySelector('.cities-list');
+										var citiesDropdown = document.getElementById('citiesDropdown');
+
+										// Обработчик события клика на элементы списка городов
+										citiesList.addEventListener('click', function(event) {
+											var selectedCity = event.target.textContent.trim();
+											localStorage.setItem('selectedCity', selectedCity);
+											// После изменения города перенаправляем пользователя на страницу с новым выбранным городом
+											window.location.href = '/apartments/?selected_city=' + encodeURIComponent(selectedCity);
+										});
+
+										// При загрузке страницы проверяем, есть ли уже выбранный город в Local Storage
+										var selectedCity = localStorage.getItem('selectedCity');
+										if (selectedCity) {
+											// Обновляем текст в выпадающем меню с выбранным городом
+											citiesDropdown.textContent = selectedCity;
+										}
+									});
+								</script>
+
+
+								<li class="nav-item"> <a href="#" class="nav-link small pb-2"><i class="bi bi-chat me-2"></i>Сообщения</a> </li>
+	<!--							<li class="nav-item"> <a href="sign-in.html" class="nav-link small pb-2"><i class="far fa-user me-2"></i>Sign In or Login</a> </li>-->
+
 							</ul>
 						</div>
-						<!-- Main navbar END -->
 
-						<!-- Toggler button and stay button -->
-						<div class="d-flex align-items-center justify-content-end">
-							<!-- Responsive navbar toggler -->
-							<button class="navbar-toggler ms-sm-auto mx-3 me-md-0 p-0 p-sm-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCategoryCollapse" aria-controls="navbarCategoryCollapse" aria-expanded="false" aria-label="Toggle navigation">
-								<i class="bi bi-grid-3x3-gap-fill fa-fw"></i><span class="d-none d-sm-inline-block small"></span>
-							</button>
+						<div class="d-sm-flex align-items-center justify-content-end mt-1">
+							<!-- Main navbar START -->
+							<div class="navbar-collapse collapse justify-content-end" id="navbarCategoryCollapse">
+								<ul class="navbar-nav navbar-nav-scroll nav-pills-primary-soft text-center  p-2 p-xl-0" style="margin-right: 10px;">
+									<!-- Nav item Hotel -->
+									<li class="nav-item"> <a class="nav-link active" href="{% url 'website:home' %}"><i class="fa-solid fa-hotel me-2"></i>Главная</a>	</li>
 
-							<!-- Booking form dropdown START -->
-							<div class="nav-item dropdown form-control-bg-light">
-								<!-- Stay button -->
-								{% if user.is_authenticated %}
-									<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+									<!-- Nav item Cabs -->
+									<li class="nav-item"><a class="nav-link" href="{% url 'apartments:apartments' %}"><i class="fa-solid fa-building me-2"></i>Квартиры</a></li>
 
-									<!-- Notification dropdown START -->
-									<li class="nav-item dropdown ms-0 ms-md-3">
-										<!-- Notification button -->
-										<a class="nav-notification btn btn-light p-0 mb-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-											<i class="bi bi-bell fa-fw"></i>
-										</a>
-										<!-- Notification dote -->
-										{% if notifications %}
-											<span class="notif-badge animation-blink"></span>
-										{% endif %}
-										<!-- Notification dropdown menu START -->
-										<div class="dropdown-menu dropdown-animation dropdown-menu-end dropdown-menu-size-md shadow-lg p-0">
-											<div class="card bg-transparent">
-												<!-- Card header -->
-												<div class="card-header bg-transparent d-flex justify-content-between align-items-center border-bottom">
-													<h6 class="m-0">Уведомления <span class="badge bg-danger bg-opacity-10 text-danger ms-2">{{ notifications|length }} новое</span></h6>
-												</div>
 
-												<!-- Card body START -->
-												<div class="card-body p-0">
-													<ul class="list-group list-group-flush list-unstyled p-2">
-														{% for notification in notifications %}
-														<li>
-															<a href="{% url 'users:notifications' %}" class="list-group-item list-group-item-action rounded notif-unread border-0 mb-1 p-3">
-																<h6 class="mb-2">{{ notification.event_type }}</h6>
-																<p class="mb-0 small">{{ notification.message }}</p>
-																<span>{{ notification.timestamp }}</span>
-															</a>
-														</li>
-														{% endfor %}
-													</ul>
-												</div>
-												<!-- Card body END -->
+									<li class="nav-item"><a class="nav-link" href="{% url 'website:transfers' %}?selected_city={{ selectedCity }}"><i class="fa-solid fa-shuttle-van me-2"></i>Трансфер</a></li>
 
-												<!-- Card footer -->
-												<div class="card-footer bg-transparent text-center border-top">
-													<a href="{% url 'users:notifications' %}" class="btn btn-sm btn-link mb-0 p-0">Посмотреть все</a>
-												</div>
-											</div>
-										</div>
-										<!-- Notification dropdown menu END -->
-									</li>
-									<!-- Notification dropdown END -->
 
-									<!-- Profile dropdown START -->
-									<li class="nav-item ms-3 dropdown">
-										<!-- Avatar -->
-										<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
-											{% if user.photo %}
-												<img class="avatar-img rounded-circle shadow" src="{{ user.photo.url }}" alt="avatar">
-											{% else %}
-												<img class="avatar-img rounded-circle shadow" src="{% static 'images/user.png' %}" alt="avatar">
-											{% endif %}
-										</a>
-
-										<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
-											<!-- Profile info -->
-											<li class="px-3 mb-3">
-												<div class="d-flex align-items-center">
-													<!-- Avatar -->
-													<div class="avatar me-3">
-														{% if user.photo %}
-															<img class="avatar-img rounded-circle shadow" src="{{ user.photo.url }}" alt="avatar">
-														{% else %}
-															<img class="avatar-img rounded-circle shadow" src="{% static 'images/user.png' %}" alt="avatar">
-														{% endif %}
-													</div>
-													<div>
-														<a class="h7 mt-2 mt-sm-0" style="color: green;" href="{% url 'users:profile' %}">{{user.first_name}} {{user.last_name}}</a>
-														<p class="small m-0">{{ user.email }}</p>
-													</div>
-												</div>
-											</li>
-
-											<!-- Links -->
-											<li> <hr class="dropdown-divider"></li>
-
-											<li><a class="dropdown-item" href="{% url 'users:favorites' %}"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
-											{% if user.is_staff %}
-											<li><a class="dropdown-item" href="{% url 'users:apartment_pending' %}"><i class="bi bi-people fa-fw me-2"></i>Заявки</a></li>
-											{% endif %}
-											<li><a class="dropdown-item" href="{% url 'users:profile' %}"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
-											<li><a class="dropdown-item" href="{% url 'website:support' %}"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
-											{% if user.is_staff %}
-												<li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="bi bi-person fa-fw me-2"></i>Админ-панель</a></li>
-											{% endif %}
-											<li> <hr class="dropdown-divider"></li>
-											<li><a class="dropdown-item bg-danger-soft-hover" href="{% url 'users:logout' %}"><i class="bi bi-power fa-fw me-2"></i>Выйти</a></li>
+									<li class="nav-item dropdown">
+										<a class="nav-link dropdown-toggle" href="#" id="pagesFacilities" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Дополнительно</a>
+										<ul class="dropdown-menu" aria-labelledby="pagesFacilities">
+											<li class="dropdown-item"><a style="color: black;" href="{% url 'website:collaboration' %}?selected_city={{ selectedCity }}"><i class="fa-solid fa-handshake me-2"></i>Сотрудничество</a></li>
+											<li class="dropdown-item"><a style="color: black;" href="{% url 'website:stock' %}?selected_city={{ selectedCity }}"><i class="fa-solid fa-tags me-2"></i>Акции</a></li>
+											<li class="dropdown-item"><a style="color: black;" href="{% url 'website:about' %}?selected_city={{ selectedCity }}"><i class="fa-solid fa-info-circle me-2"></i>О нас</a></li>
 										</ul>
-										<style>
-											.dropdown-item:hover, .dropdown-item:focus {
-											  color: green;
-											  background-color: #d2f4d2;
-											}
-										</style>
 									</li>
-									<!-- Profile dropdown END -->
 								</ul>
-								{% else %}
-									<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
-										<a href="{% url 'users:signin' %}" class="btn btn-primary mb-0">Войти</a>
-									</ul>
-								{% endif %}
+							</div>
+							<!-- Main navbar END -->
 
-								<!-- Form START -->
-								<div class="dropdown-menu dropdown-animation dropdown-menu-end dropdown-menu-size-md p-0 mt-2">
-									<!-- Card START -->
-									<div class="card">
-										<!-- Card header -->
-										<div class="card-header border-bottom">
-											<h6 class="mb-0">Search your Destination</h6>
-										</div>
+							<!-- Toggler button and stay button -->
+							<div class="d-flex align-items-center justify-content-end">
+								<!-- Responsive navbar toggler -->
+								<button class="navbar-toggler ms-sm-auto mx-3 me-md-0 p-0 p-sm-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCategoryCollapse" aria-controls="navbarCategoryCollapse" aria-expanded="false" aria-label="Toggle navigation">
+									<i class="bi bi-grid-3x3-gap-fill fa-fw"></i><span class="d-none d-sm-inline-block small"></span>
+								</button>
 
-										<!-- Card body -->
-										<div class="card-body">
-											<div class="row g-3">
-												<!-- Pickup -->
-												<div class="col-12">
-													<label class="form-label mb-0">Hotel or Destination</label>
-													<div class="choices" data-type="select-one" tabindex="0" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false"><div class="choices__inner"><select class="form-select js-choice choices__input" data-search-enabled="true" aria-label=".form-select-sm" hidden="" tabindex="-1" data-choice="active"><option value="" data-custom-properties="[object Object]">Select location</option></select><div class="choices__list choices__list--single"><div class="choices__item choices__placeholder choices__item--selectable" data-item="" data-id="1" data-value="" data-custom-properties="[object Object]" aria-selected="true">Select location</div></div></div><div class="choices__list choices__list--dropdown" aria-expanded="false"><input type="search" name="search_terms" class="choices__input choices__input--cloned" autocomplete="off" autocapitalize="none" spellcheck="false" role="textbox" aria-autocomplete="list" aria-label="Select location" placeholder=""><div class="choices__list" role="listbox"><div id="choices--7tnd-item-choice-1" class="choices__item choices__item--choice is-selected choices__placeholder choices__item--selectable is-highlighted" role="option" data-choice="" data-id="1" data-value="" data-select-text="Press to select" data-choice-selectable="" aria-selected="true">Select location</div><div id="choices--7tnd-item-choice-2" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="2" data-value="San Jacinto, USA" data-select-text="Press to select" data-choice-selectable="">San Jacinto, USA</div><div id="choices--7tnd-item-choice-3" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="3" data-value="North Dakota, Canada" data-select-text="Press to select" data-choice-selectable="">North Dakota, Canada</div><div id="choices--7tnd-item-choice-4" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="4" data-value="West Virginia, Paris" data-select-text="Press to select" data-choice-selectable="">West Virginia, Paris</div></div></div></div>
-												</div>
+								<!-- Booking form dropdown START -->
+								<div class="nav-item dropdown form-control-bg-light">
+									<!-- Stay button -->
+									{% if user.is_authenticated %}
+										<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
 
-												<!-- Date -->
-												<div class="col-md-6">
-													<label class="form-label mb-0">Check in</label>
-													<input type="text" class="form-control flatpickr flatpickr-input" data-date-format="d M Y" placeholder="Select date" readonly="readonly">
-												</div>
+										<!-- Notification dropdown START -->
+										<li class="nav-item dropdown ms-0 ms-md-3">
+											<!-- Notification button -->
+											<a class="nav-notification btn btn-light p-0 mb-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+												<i class="bi bi-bell fa-fw"></i>
+											</a>
+											<!-- Notification dote -->
+											{% if notifications %}
+												<span class="notif-badge animation-blink"></span>
+											{% endif %}
+											<!-- Notification dropdown menu START -->
+											<div class="dropdown-menu dropdown-animation dropdown-menu-end dropdown-menu-size-md shadow-lg p-0">
+												<div class="card bg-transparent">
+													<!-- Card header -->
+													<div class="card-header bg-transparent d-flex justify-content-between align-items-center border-bottom">
+														<h6 class="m-0">Уведомления <span class="badge bg-danger bg-opacity-10 text-danger ms-2">{{ notifications|length }} новое</span></h6>
+													</div>
 
-												<!-- Date -->
-												<div class="col-md-6">
-													<label class="form-label mb-0">Check out</label>
-													<input type="text" class="form-control flatpickr flatpickr-input" data-date-format="d M Y" placeholder="Select date" readonly="readonly">
-												</div>
-
-												<!-- Occupant -->
-												<div class="col-12">
-													<!-- Dropdown input -->
-													<label class="form-label mb-0">Guests &amp; rooms</label>
-													<div class="dropdown guest-selector me-2">
-														<input type="text" class="form-guest-selector form-control selection-result" value="2 Guests 1 Room" data-bs-auto-close="outside" data-bs-toggle="dropdown">
-
-														<!-- dropdown items -->
-														<ul class="dropdown-menu guest-selector-dropdown">
-															<!-- Adult -->
-															<li class="d-flex justify-content-between">
-																<div>
-																	<h6 class="mb-0">Adults</h6>
-																	<small>Ages 13 or above</small>
-																</div>
-
-																<div class="hstack gap-1 align-items-center">
-																	<button type="button" class="btn btn-link adult-remove p-0 mb-0"><i class="bi bi-dash-circle fs-5 fa-fw"></i></button>
-																	<h6 class="guest-selector-count mb-0 adults">2</h6>
-																	<button type="button" class="btn btn-link adult-add p-0 mb-0"><i class="bi bi-plus-circle fs-5 fa-fw"></i></button>
-																</div>
+													<!-- Card body START -->
+													<div class="card-body p-0">
+														<ul class="list-group list-group-flush list-unstyled p-2">
+															{% for notification in notifications %}
+															<li>
+																<a href="{% url 'users:notifications' %}" class="list-group-item list-group-item-action rounded notif-unread border-0 mb-1 p-3">
+																	<h6 class="mb-2">{{ notification.event_type }}</h6>
+																	<p class="mb-0 small">{{ notification.message }}</p>
+																	<span>{{ notification.timestamp }}</span>
+																</a>
 															</li>
-
-															<!-- Divider -->
-															<li class="dropdown-divider"></li>
-
-															<!-- Child -->
-															<li class="d-flex justify-content-between">
-																<div>
-																	<h6 class="mb-0">Child</h6>
-																	<small>Ages 13 below</small>
-																</div>
-
-																<div class="hstack gap-1 align-items-center">
-																	<button type="button" class="btn btn-link child-remove p-0 mb-0"><i class="bi bi-dash-circle fs-5 fa-fw"></i></button>
-																	<h6 class="guest-selector-count mb-0 child">0</h6>
-																	<button type="button" class="btn btn-link child-add p-0 mb-0"><i class="bi bi-plus-circle fs-5 fa-fw"></i></button>
-																</div>
-															</li>
-
-															<!-- Divider -->
-															<li class="dropdown-divider"></li>
-
-															<!-- Rooms -->
-															<li class="d-flex justify-content-between">
-																<div>
-																	<h6 class="mb-0">Rooms</h6>
-																	<small>Max room 8</small>
-																</div>
-
-																<div class="hstack gap-1 align-items-center">
-																	<button type="button" class="btn btn-link room-remove p-0 mb-0"><i class="bi bi-dash-circle fs-5 fa-fw"></i></button>
-																	<h6 class="guest-selector-count mb-0 rooms">1</h6>
-																	<button type="button" class="btn btn-link room-add p-0 mb-0"><i class="bi bi-plus-circle fs-5 fa-fw"></i></button>
-																</div>
-															</li>
+															{% endfor %}
 														</ul>
 													</div>
-												</div>
+													<!-- Card body END -->
 
-												<!-- Buttons -->
-												<div class="col-12 text-center">
-													<a href="#" class="text-primary-hover text-decoration-underline">Have a promo code?</a>
-													<button class="btn btn-primary-soft w-100 mt-3 mb-0">Check Availability</button>
+													<!-- Card footer -->
+													<div class="card-footer bg-transparent text-center border-top">
+														<a style="color: green;" href="{% url 'users:notifications' %}" class="btn btn-sm btn-link mb-0 p-0">Посмотреть все</a>
+													</div>
 												</div>
+											</div>
+											<!-- Notification dropdown menu END -->
+										</li>
+										<!-- Notification dropdown END -->
 
+										<!-- Profile dropdown START -->
+										<li class="nav-item ms-3 dropdown">
+											<!-- Avatar -->
+											<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+												{% if user.photo %}
+													<img class="avatar-img rounded-circle shadow" src="{{ user.photo.url }}" alt="avatar">
+												{% else %}
+													<img class="avatar-img rounded-circle shadow" src="{% static 'images/user.png' %}" alt="avatar">
+												{% endif %}
+											</a>
+
+											<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
+												<!-- Profile info -->
+												<li class="px-3 mb-3">
+													<div class="d-flex align-items-center">
+														<!-- Avatar -->
+														<div class="avatar me-3">
+															{% if user.photo %}
+																<img class="avatar-img rounded-circle shadow" src="{{ user.photo.url }}" alt="avatar">
+															{% else %}
+																<img class="avatar-img rounded-circle shadow" src="{% static 'images/user.png' %}" alt="avatar">
+															{% endif %}
+														</div>
+														<div>
+															<a class="h7 mt-2 mt-sm-0" style="color: green;" href="{% url 'users:profile' %}">{{user.first_name}} {{user.last_name}}</a>
+															<p class="small m-0">{{ user.email }}</p>
+														</div>
+													</div>
+												</li>
+
+												<!-- Links -->
+												<li> <hr class="dropdown-divider"></li>
+
+												<li><a class="dropdown-item" href="{% url 'users:favorites' %}"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
+												{% if user.is_staff %}
+												<li><a class="dropdown-item" href="{% url 'users:apartment_pending' %}"><i class="bi bi-people fa-fw me-2"></i>Заявки</a></li>
+												{% endif %}
+												<li><a class="dropdown-item" href="{% url 'users:profile' %}"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
+												<li><a class="dropdown-item" href="{% url 'website:support' %}"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
+												{% if user.is_staff %}
+													<li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="bi bi-person fa-fw me-2"></i>Админ-панель</a></li>
+												{% endif %}
+												<li> <hr class="dropdown-divider"></li>
+												<li><a class="dropdown-item bg-danger-soft-hover" href="{% url 'users:logout' %}"><i class="bi bi-power fa-fw me-2"></i>Выйти</a></li>
+											</ul>
+											<style>
+												.dropdown-item:hover, .dropdown-item:focus {
+												  color: green;
+												  background-color: #d2f4d2;
+												}
+											</style>
+										</li>
+										<!-- Profile dropdown END -->
+									</ul>
+									{% else %}
+										<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+											<a href="{% url 'users:signin' %}" class="btn btn-primary mb-0">Войти</a>
+										</ul>
+									{% endif %}
+
+									<!-- Form START -->
+									<div class="dropdown-menu dropdown-animation dropdown-menu-end dropdown-menu-size-md p-0 mt-2">
+										<!-- Card START -->
+										<div class="card">
+											<!-- Card header -->
+											<div class="card-header border-bottom">
+												<h6 class="mb-0">Search your Destination</h6>
+											</div>
+
+											<!-- Card body -->
+											<div class="card-body">
+												<div class="row g-3">
+													<!-- Pickup -->
+													<div class="col-12">
+														<label class="form-label mb-0">Hotel or Destination</label>
+														<div class="choices" data-type="select-one" tabindex="0" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false"><div class="choices__inner"><select class="form-select js-choice choices__input" data-search-enabled="true" aria-label=".form-select-sm" hidden="" tabindex="-1" data-choice="active"><option value="" data-custom-properties="[object Object]">Select location</option></select><div class="choices__list choices__list--single"><div class="choices__item choices__placeholder choices__item--selectable" data-item="" data-id="1" data-value="" data-custom-properties="[object Object]" aria-selected="true">Select location</div></div></div><div class="choices__list choices__list--dropdown" aria-expanded="false"><input type="search" name="search_terms" class="choices__input choices__input--cloned" autocomplete="off" autocapitalize="none" spellcheck="false" role="textbox" aria-autocomplete="list" aria-label="Select location" placeholder=""><div class="choices__list" role="listbox"><div id="choices--7tnd-item-choice-1" class="choices__item choices__item--choice is-selected choices__placeholder choices__item--selectable is-highlighted" role="option" data-choice="" data-id="1" data-value="" data-select-text="Press to select" data-choice-selectable="" aria-selected="true">Select location</div><div id="choices--7tnd-item-choice-2" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="2" data-value="San Jacinto, USA" data-select-text="Press to select" data-choice-selectable="">San Jacinto, USA</div><div id="choices--7tnd-item-choice-3" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="3" data-value="North Dakota, Canada" data-select-text="Press to select" data-choice-selectable="">North Dakota, Canada</div><div id="choices--7tnd-item-choice-4" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="4" data-value="West Virginia, Paris" data-select-text="Press to select" data-choice-selectable="">West Virginia, Paris</div></div></div></div>
+													</div>
+
+													<!-- Date -->
+													<div class="col-md-6">
+														<label class="form-label mb-0">Check in</label>
+														<input type="text" class="form-control flatpickr flatpickr-input" data-date-format="d M Y" placeholder="Select date" readonly="readonly">
+													</div>
+
+													<!-- Date -->
+													<div class="col-md-6">
+														<label class="form-label mb-0">Check out</label>
+														<input type="text" class="form-control flatpickr flatpickr-input" data-date-format="d M Y" placeholder="Select date" readonly="readonly">
+													</div>
+
+													<!-- Occupant -->
+													<div class="col-12">
+														<!-- Dropdown input -->
+														<label class="form-label mb-0">Guests &amp; rooms</label>
+														<div class="dropdown guest-selector me-2">
+															<input type="text" class="form-guest-selector form-control selection-result" value="2 Guests 1 Room" data-bs-auto-close="outside" data-bs-toggle="dropdown">
+
+															<!-- dropdown items -->
+															<ul class="dropdown-menu guest-selector-dropdown">
+																<!-- Adult -->
+																<li class="d-flex justify-content-between">
+																	<div>
+																		<h6 class="mb-0">Adults</h6>
+																		<small>Ages 13 or above</small>
+																	</div>
+
+																	<div class="hstack gap-1 align-items-center">
+																		<button type="button" class="btn btn-link adult-remove p-0 mb-0"><i class="bi bi-dash-circle fs-5 fa-fw"></i></button>
+																		<h6 class="guest-selector-count mb-0 adults">2</h6>
+																		<button type="button" class="btn btn-link adult-add p-0 mb-0"><i class="bi bi-plus-circle fs-5 fa-fw"></i></button>
+																	</div>
+																</li>
+
+																<!-- Divider -->
+																<li class="dropdown-divider"></li>
+
+																<!-- Child -->
+																<li class="d-flex justify-content-between">
+																	<div>
+																		<h6 class="mb-0">Child</h6>
+																		<small>Ages 13 below</small>
+																	</div>
+
+																	<div class="hstack gap-1 align-items-center">
+																		<button type="button" class="btn btn-link child-remove p-0 mb-0"><i class="bi bi-dash-circle fs-5 fa-fw"></i></button>
+																		<h6 class="guest-selector-count mb-0 child">0</h6>
+																		<button type="button" class="btn btn-link child-add p-0 mb-0"><i class="bi bi-plus-circle fs-5 fa-fw"></i></button>
+																	</div>
+																</li>
+
+																<!-- Divider -->
+																<li class="dropdown-divider"></li>
+
+																<!-- Rooms -->
+																<li class="d-flex justify-content-between">
+																	<div>
+																		<h6 class="mb-0">Rooms</h6>
+																		<small>Max room 8</small>
+																	</div>
+
+																	<div class="hstack gap-1 align-items-center">
+																		<button type="button" class="btn btn-link room-remove p-0 mb-0"><i class="bi bi-dash-circle fs-5 fa-fw"></i></button>
+																		<h6 class="guest-selector-count mb-0 rooms">1</h6>
+																		<button type="button" class="btn btn-link room-add p-0 mb-0"><i class="bi bi-plus-circle fs-5 fa-fw"></i></button>
+																	</div>
+																</li>
+															</ul>
+														</div>
+													</div>
+
+													<!-- Buttons -->
+													<div class="col-12 text-center">
+														<a href="#" class="text-primary-hover text-decoration-underline">Have a promo code?</a>
+														<button class="btn btn-primary-soft w-100 mt-3 mb-0">Check Availability</button>
+													</div>
+
+												</div>
 											</div>
 										</div>
+										<!-- Card END -->
 									</div>
-									<!-- Card END -->
+									<!-- Form END -->
 								</div>
-								<!-- Form END -->
+								<!-- Booking form dropdown END -->
 							</div>
-							<!-- Booking form dropdown END -->
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</nav>
+		</nav>
 	<!-- Logo Nav END -->
 </header>
 

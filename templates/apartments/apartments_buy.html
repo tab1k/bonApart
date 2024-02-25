@@ -52,15 +52,6 @@
 
 <script>
     var selectedCity = localStorage.getItem('selectedCity');
-    if (selectedCity) {
-        var urlParams = new URLSearchParams(window.location.search);
-        var currentSelectedCity = urlParams.get('selected_city');
-        if (!currentSelectedCity || currentSelectedCity !== selectedCity) {
-            // Удаляем параметр selected_city из URL
-            urlParams.delete('selected_city');
-            window.history.replaceState({}, '', window.location.pathname + '?' + urlParams.toString());
-        }
-    }
 
     document.addEventListener('DOMContentLoaded', function() {
         var cityModal = new bootstrap.Modal(document.getElementById('cityModal'));
@@ -180,13 +171,7 @@
 
 							<script>
 								var selectedCity = localStorage.getItem('selectedCity');
-								if (selectedCity) {
-									var urlParams = new URLSearchParams(window.location.search);
-									var currentSelectedCity = urlParams.get('selected_city');
-									if (!currentSelectedCity || currentSelectedCity !== selectedCity) {
-										window.location.search = '?selected_city=' + encodeURIComponent(selectedCity);
-									}
-								}
+
 
 								document.addEventListener('DOMContentLoaded', function() {
 									var cityModal = new bootstrap.Modal(document.getElementById('cityModal'));
@@ -480,8 +465,8 @@ Hotel list START -->
 							</a>
 						</li>
 						<li class="nav-item" style="margin-left: 5px;">
-							<a class="btn btn-primary-soft mb-0 d-xl-none" type="button">
-								<i class="fa-solid fa-calendar me-1"></i> Арендовать
+							<a href="{% url 'apartments:rent' %}" class="btn btn-primary-soft mb-0 d-xl-none" type="button">
+								<i class="fa-solid fa-calendar me-1"></i> Арендa
 							</a>
 						</li>
 					</ul>
@@ -500,104 +485,160 @@ Hotel list START -->
 						<button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasSidebar" aria-label="Close"></button>
 					</div>
 					<div class="offcanvas-body flex-column p-3 p-xl-0">
-						<form class="rounded-3 shadow" action="{% url 'apartments:apartments' %}" method="get">
-							<!-- Hotel type START -->
+						<form class="rounded-3 shadow" action="{% url 'apartments:buy' %}" method="get">
+							{% csrf_token %}
+
 							<div class="card card-body rounded-0 rounded-top p-4">
-								<!-- Title -->
-								<h6 class="mb-2">Класс квартир</h6>
-								<!-- Hotel Type group -->
+
+								<h6 class="mb-2">Город</h6>
+
 								<div class="col-12">
-									<!-- Checkbox -->
+
+									<div class="form-group">
+										<select class="form-select" id="cityChoice" name="selected_city">
+											<option value="">Все города</option>
+											{% for city in cities %}
+												<option value="{{ city.name }}">{{ city.name }}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<script>
+								document.addEventListener('DOMContentLoaded', function() {
+									// Получаем выбранный город из Local Storage
+									var selectedCity = localStorage.getItem('selectedCity');
+
+									// Находим элемент выпадающего списка для выбора города
+									var citySelect = document.getElementById('cityChoice');
+
+									// Если выбранный город есть в Local Storage, устанавливаем его как выбранный в выпадающем списке
+									if (selectedCity) {
+										for (var i = 0; i < citySelect.options.length; i++) {
+											if (citySelect.options[i].value === selectedCity) {
+												citySelect.selectedIndex = i;
+												break;
+											}
+										}
+									}
+								});
+							</script>
+
+							<hr class="my-0">
+
+							<div class="card card-body rounded-0 rounded-top p-4">
+								<h6 class="mb-2">Класс квартир</h6>
+								<div class="col-12">
+
 									<div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="class_choice" value="Комфорт" id="classComfort">
                                         <label class="form-check-label" for="classComfort">Комфорт</label>
                                     </div>
-									<!-- Checkbox -->
+
 									<div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="class_choice" value="Бизнес" id="classBusiness">
                                         <label class="form-check-label" for="classBusiness">Бизнес</label>
                                     </div>
-									<!-- Checkbox -->
+
 									<div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="class_choice" value="Премиум" id="classPremium">
                                         <label class="form-check-label" for="classPremium">Премиум</label>
                                     </div>
 
-
-{#									<a class="p-0 mb-0 mt-2 btn-more d-flex align-items-center collapsed" data-bs-toggle="collapse" href="#hotelType" role="button" aria-expanded="false" aria-controls="hotelType">#}
-{#										See <span class="see-more ms-1">more</span><span class="see-less ms-1">less</span><i class="fa-solid fa-angle-down ms-2"></i>#}
-{#									</a>#}
 								</div>
 							</div>
-							<!-- Hotel type END -->
 
-							<hr class="my-0"> <!-- Divider -->
+							<hr class="my-0">
 
-							<!-- Price range START -->
-							<div class="card card-body rounded-0 p-4">
-								<!-- Title -->
-								<h6 class="mb-2">Цена</h6>
-								<!-- Price range group -->
+							<div class="card card-body rounded-0 rounded-top p-4">
+
+								<h6 class="mb-2">Этаж</h6>
+
 								<div class="col-12">
-									<!-- Checkbox -->
-									<div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="price_choice" value="1" id="priceRange1">
-                                        <label class="form-check-label" for="priceRange1">от 10.000 тг</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="price_choice" value="2" id="priceRange2">
-                                        <label class="form-check-label" for="priceRange2">10.000 тг - 15.000 тг</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="price_choice" value="3" id="priceRange3">
-                                        <label class="form-check-label" for="priceRange3">15.000 тг - 20.000 тг</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="price_choice" value="4" id="priceRange4">
-                                        <label class="form-check-label" for="priceRange4">20.000 тг - 25.000 тг</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="price_choice" value="5" id="priceRange5">
-                                        <label class="form-check-label" for="priceRange5">25.000+ тг</label>
-                                    </div>
+
+									<div class="form-group">
+										{{ form.floor_choice }}
+									</div>
 								</div>
 							</div>
-							<!-- Price range END -->
 
-							<hr class="my-0"> <!-- Divider -->
+							<hr class="my-0">
+
+							<div class="card card-body rounded-0 rounded-top p-4">
+
+								<h6 class="mb-2">Площадь</h6>
+
+								<div class="col-12">
+
+									<div class="form-group">
+										{{ form.square_choice }}
+									</div>
+								</div>
+							</div>
+
+							<hr class="my-0">
+
+							<div class="card card-body rounded-0 rounded-top p-4">
+
+								<h6 class="mb-2">Площадь</h6>
+
+								<div class="col-12">
+
+									<div class="form-group d-flex">
+										<div class="mr-2">от {{ form.price_from }} </div>
+										<div class="ml-2">до {{ form.price_to }} </div>
+									</div>
+								</div>
+							</div>
+
+							<hr class="my-0">
 
 
-
-							<!-- Rating Star START -->
 							<div class="card card-body rounded-0 p-4">
 								<!-- Title -->
 								<h6 class="mb-2">Рейтинг</h6>
 								<!-- Rating Star group -->
-								<ul class="list-inline mb-0 g-3" >
+								<ul class="list-inline mb-0 g-3 d-flex" style="overflow-x: scroll;">
 									<!-- Item -->
-									<div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="rating_choice" value="1" id="rating1">
+									<div class="form-check p-0">
+                                        <input class="form-check-input" style="display: none;" type="checkbox" name="rating_choice" value="1" id="rating1">
                                         <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating1">1<i class="bi bi-star-fill"></i></label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="rating_choice" value="2" id="rating2">
+                                        <input class="form-check-input" style="display: none;" type="checkbox" name="rating_choice" value="2" id="rating2">
                                         <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating2">2<i class="bi bi-star-fill"></i></label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="rating_choice" value="3" id="rating3">
+                                        <input class="form-check-input" style="display: none;" type="checkbox" name="rating_choice" value="3" id="rating3">
                                         <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating3">3<i class="bi bi-star-fill"></i></label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="rating_choice" value="4" id="rating4">
+                                        <input class="form-check-input" style="display: none;" type="checkbox" name="rating_choice" value="4" id="rating4">
                                         <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating4">4<i class="bi bi-star-fill"></i></label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="rating_choice" value="5" id="rating5">
+                                        <input class="form-check-input" style="display: none;" type="checkbox" name="rating_choice" value="5" id="rating5">
                                         <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating5">5<i class="bi bi-star-fill"></i></label>
                                     </div>
 								</ul>
 							</div>
-							<!-- Rating Star END -->
+
+							<script>
+
+								const labels = document.querySelectorAll('.list-inline label');
+
+								// Перебираем найденные элементы
+								labels.forEach(label => {
+									// Добавляем обработчик события click
+									label.addEventListener('click', () => {
+										// Переключаем класс active для label
+										label.classList.toggle('active');
+									});
+								});
+							</script>
+
+
 
 							<hr class="my-0"> <!-- Divider -->
 
@@ -1032,10 +1073,17 @@ Hotel list START -->
 
 
 		<li class="nav-item">
+			{% if user.is_authenticated %}
 			<a class="nav-link" href="{% url 'apartments:add' %}">
 				<i class="bi bi-plus-circle fa-fw"></i>
 				<span class="mb-0 nav-text">Добавить</span>
 			</a>
+			{% else %}
+			<a class="nav-link" href="{% url 'users:signin' %}">
+				<i class="bi bi-plus-circle fa-fw"></i>
+				<span class="mb-0 nav-text">Добавить</span>
+			</a>
+			{% endif %}
 		</li>
 
 

@@ -39,7 +39,6 @@ class ApartmentForm(forms.ModelForm):
         self.fields['price'].widget.attrs.update({'class': 'form-control form-control-lg'})
 
 
-
 class ApartmentAddForm(forms.ModelForm):
     class Meta:
         model = Apartment
@@ -47,7 +46,8 @@ class ApartmentAddForm(forms.ModelForm):
                   'level', 'rating', 'capacity', 'room', 'square', 'floor',
                   'total_floors', 'elevator', 'singlebeds', 'doublebeds', 'doublebeds',
                   'price', 'wifi', 'air_conditioning', 'parking', 'orthopedic_mattress',
-                  'smart_tv', 'hairdryer', 'iron', 'washing_machine', 'bath']
+                  'smart_tv', 'hairdryer', 'iron', 'washing_machine', 'bath', 'fridge', 'electric_kettle', 'plate', 'mini_bar', 'hygiene',
+                  'dishes', 'shower']
 
     def __init__(self, *args, **kwargs):
         super(ApartmentAddForm, self).__init__(*args, **kwargs)
@@ -78,6 +78,13 @@ class ApartmentAddForm(forms.ModelForm):
         self.fields['iron'].widget.attrs.update({'class': 'form-check-input'})
         self.fields['washing_machine'].widget.attrs.update({'class': 'form-check-input'})
         self.fields['bath'].widget.attrs.update({'class': 'form-check-input'})
+        self.fields['fridge'].widget.attrs.update({'class': 'form-check-input'})
+        self.fields['electric_kettle'].widget.attrs.update({'class': 'form-check-input'})
+        self.fields['plate'].widget.attrs.update({'class': 'form-check-input'})
+        self.fields['mini_bar'].widget.attrs.update({'class': 'form-check-input'})
+        self.fields['hygiene'].widget.attrs.update({'class': 'form-check-input'})
+        self.fields['dishes'].widget.attrs.update({'class': 'form-check-input'})
+        self.fields['shower'].widget.attrs.update({'class': 'form-check-input'})
 
 
 class ApartmentFilterForm(forms.Form):

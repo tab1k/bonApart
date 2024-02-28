@@ -77,6 +77,15 @@ class Apartment(models.Model):
     hairdryer = models.BooleanField(default=False, verbose_name='Фен')
     iron = models.BooleanField(default=False, verbose_name='Утюг')
     washing_machine = models.BooleanField(default=False, verbose_name='Стиральная машинка')
+
+    fridge = models.BooleanField(default=False, verbose_name='Холодильник')
+    electric_kettle = models.BooleanField(default=False, verbose_name='Электрический чайник')
+    plate = models.BooleanField(default=False, verbose_name='Плита')
+    mini_bar = models.BooleanField(default=False, verbose_name='Мини Бар')
+    hygiene = models.BooleanField(default=False, verbose_name='Гигиенические принадлежности')
+    dishes = models.BooleanField(default=False, verbose_name='Посуда')
+    shower = models.BooleanField(default=False, verbose_name='Душ')
+
     timestamp = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='owned_apartments', blank=True, null=True)

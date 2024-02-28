@@ -93,8 +93,6 @@
 		</div>
 	</div>
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-
 	<script>
 		var selectedCity = localStorage.getItem('selectedCity');
 
@@ -606,14 +604,16 @@ Main Banner START -->
 				<!-- Slider item -->
                 {% for i in apartment %}
 				<div class="col-sm-6 col-xl-3">
-					<!-- Card START -->
-					<div class="card card-img-scale overflow-hidden bg-transparent">
+					<a href="{% url 'apartments:apartaments-detail' pk=i.pk %}">
+						<div class="card card-img-scale overflow-hidden bg-transparent">
 						<!-- Image and overlay -->
 						<div class="card-img-scale-wrapper rounded-3">
 							<!-- Image -->
+							<a href="{% url 'apartments:apartaments-detail' pk=i.pk %}">
 							{% if i.image2 %}
 							<img src="{{ i.image2.url }}" class="card-img" alt="hotel image">
 							{% endif %}
+							</a>
 							<!-- Badge -->
 							<div class="position-absolute bottom-0 start-0 p-3">
 								<div class="badge text-bg-dark fs-6 rounded-pill stretched-link"><i class="bi bi-geo-alt me-2"></i>{{ i.address }}</div>
@@ -622,15 +622,16 @@ Main Banner START -->
 	
 						<!-- Card body -->
 						<div class="card-body px-2">
-							<!-- Title -->
-							<h5 class="card-title"><a href="#" class="stretched-link">{{ i.name }}</a></h5>
-							<!-- Price and rating -->
+							<a href="{% url 'apartments:apartaments-detail' pk=i.pk %}">
+								<h5 class="card-title"><a href="{% url 'apartments:apartaments-detail' pk=i.pk %}" class="stretched-link">{{ i.name }}</a></h5>
+							</a>
 							<div class="d-flex justify-content-between align-items-center">
 								<h6 class="text-success mb-0">{{ i.price }} тг <small class="fw-light"></small> </h6>
 								<h6 class="mb-0">4.5<i class="fa-solid fa-star text-warning ms-1"></i></h6>
 							</div>
 						</div>
 					</div>
+					</a>
 				</div>
                 {% endfor %}
 

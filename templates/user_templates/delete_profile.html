@@ -405,10 +405,12 @@ Content START -->
 									<li class="nav-item">
 										<a class="nav-link" href="{% url 'users:favorites' %}"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a>
 									</li>
-
+									
+									{% if user.is_staff %}
 									<li class="nav-item">
 										<a class="nav-link" href="{% url 'users:apartment_pending' %}"><i class="bi bi-people fa-fw me-2"></i>Заявки</a>
 									</li>
+									{% endif %}
 
 									<li class="nav-item">
 										<a class="nav-link" href="{% url 'website:support' %}"><i class="bi bi-wallet fa-fw me-2"></i>Поддержка</a>

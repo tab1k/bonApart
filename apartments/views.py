@@ -41,7 +41,7 @@ class ApartmentView(View):
         cities = City.objects.all()
         apartments = Apartment.objects.filter(status='approved').order_by('-id')
         discount = Discount.objects.filter(apartment__in=apartments)
-        notifications = Notification.objects.filter(read=False).order_by('-timestamp')
+        notifications = Notification.objects.filter(read=False).order_by('timestamp')
         selected_city = request.GET.get('selected_city')
 
         if selected_city:
@@ -188,7 +188,7 @@ class ApartamentsDetailView(View):
         except GeoPosition.MultipleObjectsReturned:
 
             raise Http404("Multiple GeoPosition objects found for the Apartment")
-        notifications = Notification.objects.filter(read=False).order_by('-timestamp')
+        notifications = Notification.objects.filter(read=False).order_by('timestamp')
         comments = Comment.objects.filter(apartment=apartments_detail)
         comment_form = CommentForm()
 
@@ -264,7 +264,7 @@ class ApartamentsDetailView(View):
                 return redirect('users:signup')
 
         comments = Comment.objects.filter(apartment=apartments_detail)
-        notifications = Notification.objects.filter(read=False).order_by('-timestamp')
+        notifications = Notification.objects.filter(read=False).order_by('timestamp')
 
         context = {
             'detail': apartments_detail,
@@ -323,7 +323,7 @@ class ApartmentBuyView(ListView):
             if price_to:
                 queryset = queryset.filter(price__lte=price_to)
 
-        return queryset.order_by('-timestamp')
+        return queryset.order_by('timestamp')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -345,7 +345,7 @@ class ApartmentRentView(ListView):
 
         queryset = queryset.filter(Q(deal_type='monthly_rent') | Q(deal_type='daily_rent'))
 
-        return queryset.order_by('-timestamp')
+        return queryset.order_by('timestamp')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -370,7 +370,7 @@ class ApartmentRentBaseView(ListView):
         if selected_city:
             queryset = queryset.filter(city__name=selected_city)
 
-        return queryset.order_by('-timestamp')
+        return queryset.order_by('timestamp')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

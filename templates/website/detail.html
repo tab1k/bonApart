@@ -567,9 +567,11 @@ Image gallery START -->
 
 							<p class="mb-3"><b>{{ detail.description }}</b></p>
 
-							<a class="p-0 mb-4 mt-2 btn-more d-flex align-items-center collapsed" data-bs-toggle="collapse" href="#collapseContent" role="button" aria-expanded="false" aria-controls="collapseContent">
-								 <span class="see-more ms-1">Больше</span><span class="see-less ms-1">less</span><i class="fa-solid fa-angle-down ms-2"></i>
+							{% if detail.video %}
+							<a class="p-0 mb-4 mt-2 btn-more d-flex align-items-center collapsed" href="{{ detail.video }}">
+								 <span class="see-more ms-1">Посмотреть видео-обзор квартиры</span><i class="bi bi-instagram ml-1"></i>
 							</a>
+							{% endif %}
 
 {#							<!-- List -->#}
 {#							<h5 class="fw-light mb-2">Преимущества</h5>#}

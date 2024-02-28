@@ -52,6 +52,8 @@ class Apartment(models.Model):
     doublebeds = models.PositiveSmallIntegerField(default=1, verbose_name='Двухспальных мест')
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')
 
+    video = models.URLField(blank=True, null=True, verbose_name='Видео-ролик')
+
     image1 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
     image2 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
     image3 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
@@ -85,7 +87,6 @@ class Apartment(models.Model):
     hygiene = models.BooleanField(default=False, verbose_name='Гигиенические принадлежности')
     dishes = models.BooleanField(default=False, verbose_name='Посуда')
     shower = models.BooleanField(default=False, verbose_name='Душ')
-
     timestamp = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='owned_apartments', blank=True, null=True)

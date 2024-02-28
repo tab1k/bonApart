@@ -2,7 +2,7 @@ from datetime import timezone
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.conf import settings
-
+from PIL import Image
 
 class Apartment(models.Model):
 
@@ -90,11 +90,29 @@ class Apartment(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='owned_apartments', blank=True, null=True)
 
-    def __str__(self):
-        return f'{self.name} {self.price}'
+    def upload_to(self, filename):
+
+        max_width = 853
+        max_height = 853
+
+        # Откройте изображение с помощью Pillow
+        img = Image.open(filename)
+
+        # Обрежьте изображение до заданных размеров
+        img.thumbnail((max_width, max_height), Image.ANTIALIAS)
+
+        # Сохраните обрезанное изображение и верните путь к нему
+        cropped_image_path = f"apartment_images/{filename.name}"
+        img.save(cropped_image_path)
+
+        return cropped_image_path
 
     def get_deal_type(self):
         return self.get_deal_type_display()
+
+    def __str__(self):
+        return f'{self.name} {self.price}'
+
 
     class Meta:
         verbose_name = 'Квартира'

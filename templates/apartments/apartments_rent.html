@@ -344,6 +344,7 @@
 
 											<!-- Links -->
 											<li> <hr class="dropdown-divider"></li>
+											<li><a class="dropdown-item" href="{% url 'users:my-apartments' %}"><i class="bi bi-house fa-fw me-2"></i>Мои квартиры</a></li>
 
 											<li><a class="dropdown-item" href="{% url 'users:favorites' %}"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
 											{% if user.is_staff %}
@@ -748,11 +749,19 @@ Hotel list START -->
 									<!-- Rating and buttons -->
 									<div class="d-flex justify-content-between align-items-center">
 										<ul class="list-inline mb-0">
-											<li class="list-inline-item me-0 small"><i class="fa-solid fa-star text-warning"></i></li>
-											<li class="list-inline-item me-0 small"><i class="fa-solid fa-star text-warning"></i></li>
-											<li class="list-inline-item me-0 small"><i class="fa-solid fa-star text-warning"></i></li>
-											<li class="list-inline-item me-0 small"><i class="fa-solid fa-star text-warning"></i></li>
-											<li class="list-inline-item me-0 small"><i class="fa-solid fa-star-half-alt text-warning"></i></li>
+											<li class="list-inline-item me-0 small">
+												{% if i.video %}
+												<a href="{{ i.video }}">
+												<i class="bi bi-instagram"></i>
+													<i class="ml-2">Посмотреть видео-обзор на квартиру</i>
+												</a>
+												{% else %}
+												<a href="https://www.instagram.com/bonapart.ast/">
+												<i class="bi bi-instagram"></i>
+													<i class="ml-2">Посмотреть видео-обзор на квартиру</i>
+												</a>
+												{% endif %}
+											</li>
 										</ul>
 
 										<ul class="list-inline mb-0 z-index-2">

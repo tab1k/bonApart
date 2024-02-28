@@ -111,6 +111,12 @@ class Apartment(models.Model):
     def get_deal_type(self):
         return self.get_deal_type_display()
 
+    def get_level_type(self):
+        return self.get_level_display()
+
+    def get_status_type(self):
+        return self.get_status_display()
+
     def __str__(self):
         return f'{self.name} {self.price}'
 

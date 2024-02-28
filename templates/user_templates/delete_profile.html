@@ -214,6 +214,7 @@
 
 											<!-- Links -->
 											<li> <hr class="dropdown-divider"></li>
+											<li><a class="dropdown-item" href="{% url 'users:my-apartments' %}"><i class="bi bi-house fa-fw me-2"></i>Мои квартиры</a></li>
 
 											<li><a class="dropdown-item" href="{% url 'users:favorites' %}"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
 											{% if user.is_staff %}
@@ -398,14 +399,19 @@ Content START -->
 
 
 								<ul class="nav nav-pills-primary-soft flex-column">
+
 									<li class="nav-item">
 										<a class="nav-link" href="{% url 'users:profile' %}"><i class="bi bi-person fa-fw me-2"></i>Мой профиль</a>
+									</li>
+
+                                    <li class="nav-item">
+										<a class="nav-link" href="{% url 'users:my-apartments' %}"><i class="bi bi-house fa-fw me-2"></i>Мои квартиры</a>
 									</li>
 
 									<li class="nav-item">
 										<a class="nav-link" href="{% url 'users:favorites' %}"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a>
 									</li>
-									
+
 									{% if user.is_staff %}
 									<li class="nav-item">
 										<a class="nav-link" href="{% url 'users:apartment_pending' %}"><i class="bi bi-people fa-fw me-2"></i>Заявки</a>

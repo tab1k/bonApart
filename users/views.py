@@ -174,4 +174,11 @@ class ApartmentPendingListView(LoginRequiredMixin, ListView):
         return Apartment.objects.filter(status='pending')
 
 
+class UserApartmentsListView(LoginRequiredMixin, ListView):
+    model = Apartment
+    template_name = 'user_templates/my_apartments.html'
+    context_object_name = 'user_apartments'
+
+    def get_queryset(self):
+        return Apartment.objects.filter(owner=self.request.user)
 

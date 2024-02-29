@@ -207,6 +207,9 @@
 											<li><a class="dropdown-item" href="{% url 'users:my-apartments' %}"><i class="bi bi-house fa-fw me-2"></i>Мои квартиры</a></li>
 
 											<li><a class="dropdown-item" href="{% url 'users:favorites' %}"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a></li>
+											{% if user.is_staff %}
+											<li><a class="dropdown-item" href="{% url 'users:apartment_pending' %}"><i class="bi bi-people fa-fw me-2"></i>Заявки</a></li>
+											{% endif %}
 											<li><a class="dropdown-item" href="{% url 'users:profile' %}"><i class="bi bi-gear fa-fw me-2"></i>Настройки</a></li>
 											<li><a class="dropdown-item" href="{% url 'website:support' %}"><i class="bi bi-info-circle fa-fw me-2"></i>Поддержка</a></li>
 											{% if user.is_staff %}

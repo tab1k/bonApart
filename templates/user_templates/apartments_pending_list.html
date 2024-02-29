@@ -472,7 +472,13 @@
 							<div class="row g-0">
 								<!-- Card img -->
 								<div class="col-md-3">
-									<a href="{% url 'apartments:apartaments-detail' pk=apartment.pk %}"><img src="{{ apartment.image1.url }}" class="card-img rounded-2" alt="Card image"></a>
+									<a href="{% url 'apartments:apartaments-detail' pk=apartment.pk %}">
+										{% if apartment.image %}
+										<img src="{{ apartment.image1.url }}" class="card-img rounded-2" alt="Card image">
+										{% else %}
+										<img src="" class="card-img rounded-2" alt="Card image">
+										{% endif %}
+									</a>
 								</div>
 
 								<!-- Card body -->

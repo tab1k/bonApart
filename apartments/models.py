@@ -111,6 +111,9 @@ class Apartment(models.Model):
     def get_deal_type(self):
         return self.get_deal_type_display()
 
+    def get_owner_phone(self):
+        return self.get_owner_phone()
+
     def get_level_type(self):
         return self.get_level_display()
 

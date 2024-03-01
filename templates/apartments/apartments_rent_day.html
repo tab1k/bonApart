@@ -801,16 +801,11 @@ Hotel list START -->
 										</div>
 
 										<div class="mt-3 mt-sm-0">
-											{% if owner_phone %}
-												<a href="tel:{{ owner_phone }}" class="btn btn-sm btn-dark mb-0 w-100">
-													Позвонить
-												</a>
-											{% else %}
-												<a href="tel:+77787066100" class="btn btn-sm btn-dark mb-0 w-100">
+											{% if i.owner.phone_number %}
+												<a href="tel:{{i.owner.phone_number}}" class="btn btn-sm btn-dark mb-0 w-100">
 													Позвонить
 												</a>
 											{% endif %}
-
 										</div>
 
 									</div>

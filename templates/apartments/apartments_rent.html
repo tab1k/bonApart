@@ -798,10 +798,10 @@ Hotel list START -->
 
 									<ul class="list-group list-group-borderless small mb-0 mt-2">
 										<li class="list-group-item d-flex text-success p-0">
-											<i class="bi bi-patch-check-fill me-2"></i>10% скидка за регистрацию
+											<b style="color: black;">Хозяин: </b><p style="color: black; margin-left: 3px;">{{ i.owner.first_name }} {{ i.owner.last_name }} </p><i class="bi bi-patch-check-fill me-2 ml-2"></i>
 										</li>
 										<li class="list-group-item d-flex text-success p-0">
-											<i class="bi bi-patch-check-fill me-2"></i>10% скидка за репост в Instagram
+											<b style="color: black;"> Дата выхода: </b> <p style="color: black; margin-left: 3px;">{{ i.timestamp|date:"d-m-Y" }}</p>
 										</li>
 									</ul>
 
@@ -814,9 +814,15 @@ Hotel list START -->
 										</div>
 
 										<div class="mt-3 mt-sm-0">
-											<a href="" class="btn btn-sm btn-dark mb-0 w-100" data-apartment-id="{{ apartment.pk }}" data-jk-name="{{ apartment.name }}" data-toggle="modal" data-target="#reservationModal">
-                                                Забронировать
-                                            </a>
+											{% if owner_phone %}
+												<a href="tel:{{ owner_phone }}" class="btn btn-sm btn-dark mb-0 w-100">
+													Позвонить
+												</a>
+											{% else %}
+												<a href="tel:+77787066100" class="btn btn-sm btn-dark mb-0 w-100">
+													Позвонить
+												</a>
+											{% endif %}
 
 										</div>
 

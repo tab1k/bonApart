@@ -411,7 +411,7 @@ class ApartmentRentBaseView(ListView):
         if selected_city:
             queryset = queryset.filter(city__name=selected_city)
 
-        return queryset.order_by('-timestamp')
+            return queryset.order_by('-timestamp')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

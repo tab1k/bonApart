@@ -4,6 +4,7 @@ from django.db import models
 from django.conf import settings
 from PIL import Image
 
+
 class Apartment(models.Model):
 
     DEAL_CHOICES = (
@@ -12,10 +13,11 @@ class Apartment(models.Model):
         ('sale', 'Продажа'),
     )
 
-    CLASS_CHOICES = (
-        ('lux', 'Люкс'),
-        ('business', 'Бизнес'),
-        ('prestige', 'Престиж'),
+    ROOM_COUNT = (
+        ('1', '1'),
+        ('2', '2'),
+        ('3', '3'),
+        ('4', '4'),
     )
 
     STATUS_CHOICES = (
@@ -25,14 +27,6 @@ class Apartment(models.Model):
         # Добавьте другие статусы, если нужно
     )
 
-    RATING_CHOICES = (
-        (1, '1 звезда'),
-        (2, '2 звезды'),
-        (3, '3 звезды'),
-        (4, '4 звезды'),
-        (5, '5 звезд'),
-    )
-
 
     deal_type = models.CharField(max_length=20, choices=DEAL_CHOICES, default='daily_rent', verbose_name='Тип сделки')
     city = models.ForeignKey('City', on_delete=models.CASCADE, blank=True, null=True, verbose_name='Города')
@@ -40,10 +34,9 @@ class Apartment(models.Model):
     address = models.CharField(max_length=355, verbose_name = 'Адрес ЖК', blank=True, null=True)
     description = models.TextField(verbose_name='Подробнее')
     side = models.CharField(max_length=255, verbose_name='Район', blank=True, null=True)
-    level = models.CharField(max_length=10, choices=CLASS_CHOICES, verbose_name='Класс квартиры', blank=True, null=True)
-    rating = models.IntegerField(choices=RATING_CHOICES, blank=True, null=True)
+
     capacity = models.PositiveIntegerField(default=2, verbose_name='Вместимость')
-    room = models.PositiveIntegerField(default=1, verbose_name='Комнат')
+    room = models.PositiveIntegerField(choices=ROOM_COUNT, verbose_name='Комнат')
     square = models.PositiveIntegerField(default=37, verbose_name='Площадь')
     floor = models.PositiveIntegerField(default=5, verbose_name='Этаж')
     total_floors = models.PositiveSmallIntegerField(verbose_name='Кол-во этажей')
@@ -113,9 +106,6 @@ class Apartment(models.Model):
 
     def get_owner_phone(self):
         return self.get_owner_phone()
-
-    def get_level_type(self):
-        return self.get_level_display()
 
     def get_status_type(self):
         return self.get_status_display()

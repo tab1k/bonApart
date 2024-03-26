@@ -76,7 +76,6 @@
             // Добавляем параметры фильтрации в URL
             queryParams.set('class_choice', classSelect.value);
             queryParams.set('price_choice', priceSelect.value);
-            queryParams.set('rating_choice', ratingSelect.value);
             queryParams.set('additional_choice', additionalSelect.value);
             window.history.replaceState({}, '', window.location.pathname + '?' + queryParams.toString());
         }
@@ -515,29 +514,6 @@ Hotel list START -->
 								});
 							</script>
 
-							<hr class="my-0">
-
-							<div class="card card-body rounded-0 rounded-top p-4">
-								<h6 class="mb-2">Класс квартир</h6>
-								<div class="col-12">
-
-									<div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="class_choice" value="Комфорт" id="classComfort">
-                                        <label class="form-check-label" for="classComfort">Комфорт</label>
-                                    </div>
-
-									<div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="class_choice" value="Бизнес" id="classBusiness">
-                                        <label class="form-check-label" for="classBusiness">Бизнес</label>
-                                    </div>
-
-									<div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="class_choice" value="Премиум" id="classPremium">
-                                        <label class="form-check-label" for="classPremium">Премиум</label>
-                                    </div>
-
-								</div>
-							</div>
 
 							<hr class="my-0">
 
@@ -587,29 +563,29 @@ Hotel list START -->
 
 							<div class="card card-body rounded-0 p-4">
 								<!-- Title -->
-								<h6 class="mb-2">Рейтинг</h6>
+								<h6 class="mb-2">Комнат</h6>
 								<!-- Rating Star group -->
 								<ul class="list-inline mb-0 g-3 d-flex" style="overflow-x: scroll;">
 									<!-- Item -->
 									<div class="form-check p-0">
-                                        <input class="form-check-input" style="display: none;" type="checkbox" name="rating_choice" value="1" id="rating1">
-                                        <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating1">1<i class="bi bi-star-fill"></i></label>
+                                        <input class="form-check-input" style="display: none;" type="checkbox" name="room_choice" value="1" id="rating1">
+                                        <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating1">1<i class="bi bi-door-open"></i></label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" style="display: none;" type="checkbox" name="rating_choice" value="2" id="rating2">
-                                        <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating2">2<i class="bi bi-star-fill"></i></label>
+                                        <input class="form-check-input" style="display: none;" type="checkbox" name="room_choice" value="2" id="rating2">
+                                        <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating2">2<i class="bi bi-door-open"></i></label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" style="display: none;" type="checkbox" name="rating_choice" value="3" id="rating3">
-                                        <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating3">3<i class="bi bi-star-fill"></i></label>
+                                        <input class="form-check-input" style="display: none;" type="checkbox" name="room_choice" value="3" id="rating3">
+                                        <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating3">3<i class="bi bi-door-open"></i></label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" style="display: none;" type="checkbox" name="rating_choice" value="4" id="rating4">
-                                        <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating4">4<i class="bi bi-star-fill"></i></label>
+                                        <input class="form-check-input" style="display: none;" type="checkbox" name="room_choice" value="4" id="rating4">
+                                        <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating4">4<i class="bi bi-door-open"></i></label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" style="display: none;" type="checkbox" name="rating_choice" value="5" id="rating5">
-                                        <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating5">5<i class="bi bi-star-fill"></i></label>
+                                        <input class="form-check-input" style="display: none;" type="checkbox" name="room_choice" value="5" id="rating5">
+                                        <label class="btn btn-sm btn-light btn-primary-soft-check" for="rating5">5<i class="bi bi-door-open"></i></label>
                                     </div>
 								</ul>
 							</div>
@@ -632,72 +608,7 @@ Hotel list START -->
 
 							<hr class="my-0"> <!-- Divider -->
 
-							<!-- Amenities START -->
-							<div class="card card-body rounded-0 rounded-bottom p-4">
-								<!-- Title -->
-								<h6 class="mb-2">Дополнительно</h6>
-								<!-- Amenities group -->
-								<div class="col-12">
-									<!-- Checkbox -->
-									<div class="form-check">
-										<input class="form-check-input" type="checkbox" value="" id="amenitiesType1">
-										<label class="form-check-label" for="amenitiesType1">Wi-Fi</label>
-									</div>
-									<!-- Checkbox -->
-									<div class="form-check">
-										<input class="form-check-input" type="checkbox" value="" id="amenitiesType2">
-										<label class="form-check-label" for="amenitiesType2">Кондиционер</label>
-									</div>
-									<!-- Checkbox -->
-									<div class="form-check">
-										<input class="form-check-input" type="checkbox" value="" id="amenitiesType3">
-										<label class="form-check-label" for="amenitiesType3">Платная парковка</label>
-									</div>
-									<!-- Checkbox -->
-									<div class="form-check">
-										<input class="form-check-input" type="checkbox" value="" id="amenitiesType4">
-										<label class="form-check-label" for="amenitiesType4">Ванна</label>
-									</div>
-									<!-- Checkbox -->
-									<div class="form-check">
-										<input class="form-check-input" type="checkbox" value="" id="amenitiesType5">
-										<label class="form-check-label" for="amenitiesType5">Ортопедический матрац</label>
-									</div>
-									<!-- Checkbox -->
-									<div class="form-check">
-										<input class="form-check-input" type="checkbox" value="" id="amenitiesType6">
-										<label class="form-check-label" for="amenitiesType6">Smart TV</label>
-									</div>
 
-									<!-- Collapse body -->
-									<div class="multi-collapse collapse" id="amenitiesCollapes">
-										<!-- Checkbox -->
-										<div class="form-check">
-											<input class="form-check-input" type="checkbox" value="" id="amenitiesType7">
-											<label class="form-check-label" for="amenitiesType7">Фен</label>
-										</div>
-										<!-- Checkbox -->
-										<div class="form-check">
-											<input class="form-check-input" type="checkbox" value="" id="amenitiesType8">
-											<label class="form-check-label" for="amenitiesType8">Утюг</label>
-										</div>
-										<!-- Checkbox -->
-										<div class="form-check">
-											<input class="form-check-input" type="checkbox" value="" id="amenitiesType9">
-											<label class="form-check-label" for="amenitiesType9">Стиральная машина</label>
-										</div>
-										<!-- Checkbox -->
-										<div class="form-check">
-											<input class="form-check-input" type="checkbox" value="" id="amenitiesType10">
-											<label class="form-check-label" for="amenitiesType10">Лифт</label>
-										</div>
-									</div>
-									<!-- Collapse button -->
-									<a style="color: green;" class="p-0 mb-0 mt-2 btn-more d-flex align-items-center collapsed" data-bs-toggle="collapse" href="#amenitiesCollapes" role="button" aria-expanded="false" aria-controls="amenitiesCollapes">
-										Смотреть <span class="see-more ms-1">больше</span><span class="see-less ms-1">меньше</span><i class="fa-solid fa-angle-down ms-2"></i>
-									</a>
-								</div>
-							</div>
 							<div class="d-flex justify-content-between p-2 p-xl-3 mt-xl-4" style="margin-bottom: 1.6rem !important;">
                                 <button style="color: red; " class="btn btn-link p-0 mb-0">Очистить</button>
                                 <button style="background-color: green;border-color: green;" class="btn btn-primary mb-0">Искать</button>

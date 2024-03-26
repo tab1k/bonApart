@@ -24,10 +24,10 @@ class SearchResultsView(View):
     def post(self, request):
         class_choice = request.POST.get('class_choice')
         price_choice = request.POST.get('price_choice')
-        rating_choice = request.POST.get('rating_choice')
+
 
         return redirect('search_results', class_choice=class_choice, price_choice=price_choice,
-                        rating_choice=rating_choice)
+                        )
 
 
 class ApartmentView(View):
@@ -48,11 +48,11 @@ class ApartmentView(View):
         else:
             apartments = Apartment.objects.filter(status='approved')
 
+
+
         if form.is_valid():
-            class_choice = form.cleaned_data['class_choice']
+            room_choice = form.cleaned_data['room_choice']
             price_choice = form.cleaned_data['price_choice']
-            rating_choice = form.cleaned_data['rating_choice']
-            additional_choice = form.cleaned_data['additional_choice']
             city_choice = form.cleaned_data['city_choice']
 
             if city_choice:
@@ -60,8 +60,8 @@ class ApartmentView(View):
             else:
                 apartments = apartments.filter(status='approved')
 
-            if class_choice:
-                apartments = apartments.filter(level=class_choice)
+            if room_choice:
+                apartments = apartments.filter(room=room_choice)
 
             if price_choice:
                 if price_choice == '1':
@@ -75,15 +75,6 @@ class ApartmentView(View):
                 elif price_choice == '5':
                     apartments = apartments.filter(price__gte=25000)
 
-            if rating_choice:
-                apartments = apartments.filter(rating=rating_choice)
-
-            if rating_choice:
-                apartments = apartments.filter(rating=rating_choice)
-
-            if additional_choice:
-                for option in additional_choice:
-                    apartments = apartments.filter(**{option: True})
 
 
         paginator = Paginator(apartments, 10)  # 10 - количество элементов на странице
@@ -365,20 +356,21 @@ class ApartmentRentBaseView(ListView):
 
     def get_queryset(self):
         selected_city = self.request.GET.get('selected_city')
+        room_choice = self.request.GET.get('room_choice')  # Получаем выбор количества комнат из запроса
         queryset = Apartment.objects.filter(deal_type=self.deal_type, status='approved')
 
         if selected_city:
             queryset = queryset.filter(city__name=selected_city)
 
+        if room_choice:  # Если выбрано количество комнат, фильтруем по нему
+            queryset = queryset.filter(room=room_choice)
+
         return queryset.order_by('-timestamp')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['cities'] = City.objects.all()  # Add cities to the context
-        if self.deal_type == 'daily_rent':
-            context['form'] = ApartmentFilterForm(self.request.GET)
-        elif self.deal_type == 'monthly_rent':
-            context['form'] = ApartmentBuyFilterForm(self.request.GET)
+        context['cities'] = City.objects.all()
+        context['form'] = ApartmentFilterForm(self.request.GET)  # Передаем форму в контекст
         return context
 
 

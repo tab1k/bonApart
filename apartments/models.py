@@ -1,4 +1,5 @@
-from datetime import timezone
+import os
+from datetime import timezone, datetime
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.conf import settings
@@ -36,7 +37,7 @@ class Apartment(models.Model):
     side = models.CharField(max_length=255, verbose_name='Район', blank=True, null=True)
 
     capacity = models.PositiveIntegerField(default=2, verbose_name='Вместимость')
-    room = models.PositiveIntegerField(choices=ROOM_COUNT, verbose_name='Комнат')
+    room = models.CharField(choices=ROOM_COUNT, max_length=255 ,verbose_name='Комнат')
     square = models.PositiveIntegerField(default=37, verbose_name='Площадь')
     floor = models.PositiveIntegerField(default=5, verbose_name='Этаж')
     total_floors = models.PositiveSmallIntegerField(verbose_name='Кол-во этажей')
@@ -85,21 +86,13 @@ class Apartment(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='owned_apartments', blank=True, null=True)
 
     def upload_to(self, filename):
+        # Генерируем уникальное имя для файла
+        timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+        filename_base, filename_ext = os.path.splitext(filename)
+        filename = f"{timestamp}-{filename_base}{filename_ext}"
 
-        max_width = 853
-        max_height = 853
-
-        # Откройте изображение с помощью Pillow
-        img = Image.open(filename)
-
-        # Обрежьте изображение до заданных размеров
-        img.thumbnail((max_width, max_height), Image.ANTIALIAS)
-
-        # Сохраните обрезанное изображение и верните путь к нему
-        cropped_image_path = f"apartment_images/{filename.name}"
-        img.save(cropped_image_path)
-
-        return cropped_image_path
+        # Определяем путь для сохранения файла
+        return f"apartment_images/{filename}"
 
     def get_deal_type(self):
         return self.get_deal_type_display()

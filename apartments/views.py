@@ -3,7 +3,7 @@ from django.contrib.sites import requests
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import ListView, CreateView, UpdateView
 from django.contrib import messages
@@ -12,7 +12,7 @@ from .forms import ApartmentFilterForm, ReservationForm
 from apartments.models import *
 from users.models import *
 from django.core.paginator import Paginator
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse, Http404, HttpResponseRedirect
 from users.forms import CommentForm
 import requests
 
@@ -411,6 +411,11 @@ class ApartmentAddView(LoginRequiredMixin, CreateView):
         messages.success(self.request, 'Квартира была добавлена и находится на рассмотрении администратора.')
 
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        print(form.errors)
+        # Возвращаем HTTP-ответ с формой и ошибками
+        return super().form_invalid(form)
 
 
 class ApartmentApproveView(View):

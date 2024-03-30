@@ -41,7 +41,7 @@ class ApartmentAddForm(forms.ModelForm):
     class Meta:
         model = Apartment
         fields = ['image1','deal_type', 'city', 'name', 'address', 'description', 'side', 'capacity', 'room', 'square', 'floor',
-                  'total_floors', 'elevator', 'singlebeds', 'doublebeds', 'doublebeds',
+                  'total_floors', 'elevator', 'singlebeds', 'doublebeds',
                   'price', 'wifi', 'air_conditioning', 'parking', 'orthopedic_mattress',
                   'smart_tv', 'hairdryer', 'iron', 'washing_machine', 'bath', 'fridge', 'electric_kettle', 'plate', 'mini_bar', 'hygiene',
                   'dishes', 'shower']

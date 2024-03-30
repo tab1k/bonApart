@@ -473,10 +473,10 @@
 								<!-- Card img -->
 								<div class="col-md-3">
 									<a href="{% url 'apartments:apartaments-detail' pk=apartment.pk %}">
-										{% if apartment.image %}
+										{% if apartment.image1 %}
 										<img src="{{ apartment.image1.url }}" class="card-img rounded-2" alt="Card image">
 										{% else %}
-										<img src="" class="card-img rounded-2" alt="Card image">
+										<img src="" class="card-img rounded-2" alt="Нет фото квартиры">
 										{% endif %}
 									</a>
 								</div>

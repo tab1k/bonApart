@@ -1,3 +1,5 @@
+from random import shuffle
+from datetime import timedelta
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites import requests
 from django.core.exceptions import ImproperlyConfigured
@@ -38,15 +40,17 @@ class ApartmentView(View):
     def get(self, request):
         form = ApartmentFilterForm(request.GET)
         cities = City.objects.all()
-        apartments = Apartment.objects.filter(status='approved').order_by('-timestamp')
+        apartments = Apartment.objects.filter(status='approved', archived=False)
         discount = Discount.objects.filter(apartment__in=apartments)
         notifications = Notification.objects.filter(read=False).order_by('-timestamp')
         selected_city = request.GET.get('selected_city')
 
         if selected_city:
-            apartments = Apartment.objects.filter(city__name=selected_city, status='approved')
-        else:
-            apartments = Apartment.objects.filter(status='approved')
+            apartments = apartments.filter(city__name=selected_city)
+
+        apartments_list = list(apartments)
+
+        shuffle(apartments_list)
 
 
 
@@ -292,6 +296,12 @@ class ApartmentBuyView(ListView):
         queryset = Apartment.objects.filter(deal_type='sale', status='approved')
         if selected_city:
             queryset = queryset.filter(city__name=selected_city, status='approved')
+            # Получаем список квартир
+            queryset_list = list(queryset)
+            # Перемешиваем список квартир в случайном порядке
+            shuffle(queryset_list)
+        else:
+            queryset_list = queryset
 
         form = self.form_class(self.request.GET)
 
@@ -332,7 +342,13 @@ class ApartmentRentView(ListView):
         queryset = Apartment.objects.filter(status='approved')
 
         if selected_city:
-            queryset = queryset.filter(city__name=selected_city)
+            queryset = queryset.filter(city__name=selected_city, status='approved')
+            # Получаем список квартир
+            queryset_list = list(queryset)
+            # Перемешиваем список квартир в случайном порядке
+            shuffle(queryset_list)
+        else:
+            queryset_list = queryset
 
         queryset = queryset.filter(Q(deal_type='monthly_rent') | Q(deal_type='daily_rent'))
 
@@ -361,6 +377,12 @@ class ApartmentRentBaseView(ListView):
 
         if selected_city:
             queryset = queryset.filter(city__name=selected_city)
+            # Получаем список квартир
+            queryset_list = list(queryset)
+            # Перемешиваем список квартир в случайном порядке
+            shuffle(queryset_list)
+        else:
+            queryset_list = queryset
 
         if room_choice:  # Если выбрано количество комнат, фильтруем по нему
             queryset = queryset.filter(room=room_choice)
@@ -438,6 +460,45 @@ class ApartmentRejectView(View):
         apartment.delete()
         messages.success(request, 'Квартира удалена!')
         return redirect('users:apartment_pending')
+
+
+class ArchivedApartmentView(LoginRequiredMixin, View):
+    template_name = 'apartments/archived_apartments.html'
+
+    def get(self, request):
+        search_query = request.GET.get('search_query')
+
+        if request.user.is_superuser:
+            # Если текущий пользователь администратор, показываем все архивированные квартиры
+            archived_apartments = Apartment.objects.filter(status='approved', archived=True)
+        else:
+            # Иначе, если пользователь не администратор, показываем только его архивированные квартиры
+            archived_apartments = Apartment.objects.filter(status='approved', archived=True, owner=request.user)
+
+        # Применяем фильтрацию по поисковому запросу, если он был указан
+        if search_query:
+            archived_apartments = archived_apartments.filter(name__icontains=search_query)
+
+        context = {
+            'archived_apartments': archived_apartments,
+            'search_query': search_query,  # Передаем поисковой запрос в контекст для отображения в шаблоне
+        }
+
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        if 'extend_apartment' in request.POST:
+            apartment_id = request.POST.get('extend_apartment')
+            try:
+                apartment = Apartment.objects.get(id=apartment_id)
+                # Продление срока аренды на 30 дней
+                apartment.expiry_date += timedelta(days=30)
+                apartment.archived = False  # Убираем архивный статус
+                apartment.save()
+            except Apartment.DoesNotExist:
+                pass
+            return HttpResponseRedirect(reverse('apartments:archived_apartments'))
+        return super().get(request)
 
 
 

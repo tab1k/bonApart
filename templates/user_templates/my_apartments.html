@@ -456,9 +456,13 @@
 					</div>
 
 					<!-- Card body START -->
-					<div class="card-body p-0">
+					<div class="card-body pl-3">
+						{% if user.is_superuser %}
+						<div class="col-6 col-xl-3 mt-3">
+							<a href="{% url 'apartments:archived_apartments' %}" class="btn btn-primary-soft" style="width: 350px;">Все архивированные квартиры</a>
+						</div>
+						{% endif %}
 
-						<!-- Tabs content START -->
 						<div class="tab-content p-2 p-sm-4" id="nav-tabContent">
 
 							<!-- Tab content item START -->
@@ -472,18 +476,25 @@
 											<div class="icon-lg bg-light rounded-circle flex-shrink-0"><i class="fa-solid fa-home"></i></div>
 											<!-- Title -->
 											<div class="ms-2">
+												{% if apartment.archived %}
+												<h6 class="card-title mb-0" style="color: red;">{{ apartment.name }}</h6>
+												{% else %}
 												<h6 class="card-title mb-0">{{ apartment.name }}</h6>
+												{% endif %}
 												<ul class="nav nav-divider small">
+													{% if apartment.archived %}
+													<li class="nav-item" style="color: red;">Apartment ID: {{ apartment.id }}</li>
+													{% else %}
 													<li class="nav-item">Apartment ID: {{ apartment.id }}</li>
-													<li class="nav-item">{{ apartment.get_level_type }} класс</li>
+													{% endif %}
 												</ul>
 											</div>
 										</div>
 
-										<!-- Button -->
 										<div class="mt-2 mt-md-0">
 											<a href="{% url 'apartments:apartaments-detail' pk=apartment.pk %}" class="btn btn-primary-soft mb-0">Посмотреть</a>
 										</div>
+
 									</div>
 
 									<!-- Card body -->
@@ -495,14 +506,38 @@
 											</div>
 
 											<div class="col-sm-6 col-md-4">
-												<span>Хозяин квартиры</span>
-												<h6 class="mb-0">{{ apartment.owner }}</h6>
+												<span>Дата одобрения</span>
+												<h6 class="mb-0">{{ apartment.approval_date}}</h6>
 											</div>
+
+											{% if apartment.archived %}
+											<div class="col-sm-6 col-md-4">
+												<span>Дата истечения</span>
+												<h6 class="mb-0" style="color: red;">{{ apartment.expiry_date }}</h6>
+											</div>
+											{% else %}
+											<div class="col-sm-6 col-md-4">
+												<span>Дата истечения</span>
+												<h6 class="mb-0">{{ apartment.expiry_date }}</h6>
+											</div>
+											{% endif %}
 
 											<div class="col-md-4">
 												<span>Статус заявки</span>
 												<h6 class="mb-0">{{ apartment.get_status_type }}</h6>
 											</div>
+
+											<div class="col-md-4">
+												<span>Архивирован</span>
+												<h6 class="mb-0">{{ apartment.get_archive_bool }}</h6>
+											</div>
+
+											<div class="col-sm-6 col-md-4">
+												<span>Хозяин квартиры</span>
+												<h6 class="mb-0">{{ apartment.owner }}</h6>
+											</div>
+
+
 										</div>
 									</div>
 								</div>

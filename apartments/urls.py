@@ -11,6 +11,7 @@ urlpatterns = [
     path('rent/day/', ApartmentRentDayView.as_view(), name='apartment-rent-day'),
     path('rent/month/', ApartmentRentMonthView.as_view(), name='apartment-rent-month'),
     path('add/', ApartmentAddView.as_view(), name='add'),
+    path('archived-apartments/', ArchivedApartmentView.as_view(), name='archived_apartments'),
 
     path('<int:pk>/approve/', ApartmentApproveView.as_view(), name='approve'),
     path('<int:pk>/reject/', ApartmentRejectView.as_view(), name='reject'),

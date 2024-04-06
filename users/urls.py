@@ -13,6 +13,7 @@ urlpatterns = [
     path('mark_notification_as_read/<int:notification_id>/', mark_notification_as_read, name='mark_notification_as_read'),
     path('my-apartments/', UserApartmentsListView.as_view(), name='my-apartments'),
     path('delete_profile/', DeleteProfileView.as_view(), name='delete_profile'),
+
     path('favorites/', FavoritesView.as_view(), name='favorites'),
     path('clear_favorites/', ClearFavoritesView.as_view(), name='clear_favorites'),
     path('pending/', ApartmentPendingListView.as_view(), name='apartment_pending'),

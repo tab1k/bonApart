@@ -593,198 +593,168 @@ Hotel list START -->
 				<div class="vstack gap-4">
                 {% if apartment %}
 					{% for i in apartment %}
-					<div class="card shadow p-2">
-						<div class="row g-0">
-							<!-- Card img -->
-							<div class="col-md-5 position-relative">
+						<style>
+							@media only screen and (max-width: 768px) {
+								.hide-on-mobile {
+									display: none;
+								}
+							}
+						</style>
 
-								<!-- Overlay item -->
+						<div style=" box-shadow: var(--bs-box-shadow) !important; border-radius: 15px;">
 
-                                {% if i.discount %}  <!-- Check if the current apartment has a discount -->
-                                    <div class="position-absolute top-0 start-0 z-index-1 m-2">
-                                        <div class="badge text-bg-danger">{{ i.discount.discount_count }}% скидка!</div>
-                                    </div>
-                                {% endif %}
-
-
-								<!-- Slider START -->
-
-								<div class="tiny-slider arrow-round arrow-xs arrow-dark overflow-hidden rounded-2">
+							<div style="display: flex; padding: 5px;">
+								<div style="width: 40%; display: flex; justify-content: center; align-items: center;" class="tiny-slider arrow-round arrow-xs arrow-dark overflow-hidden rounded-2">
 									<div class="tiny-slider-inner" data-autoplay="false" data-arrow="true" data-dots="false" data-items="1">
-
-										<!-- Image item -->
 										{% if i.image1 %}
-										<div><img src="{{ i.image1.url }}" alt="Card image"></div>
-										{% endif %}
+															<div><img style="border-radius: 15px;" src="{{ i.image1.url }}" alt="Card image"></div>
+															{% endif %}
 
-                                        {% if i.image2 %}
-										<div><img src="{{ i.image2.url }}" alt="Card image"></div>
-										{% endif %}
+															{% if i.image2 %}
+															<div><img style="border-radius: 15px;" src="{{ i.image2.url }}" alt="Card image"></div>
+															{% endif %}
 
-                                        {% if i.image3 %}
-										<div><img src="{{ i.image3.url }}" alt="Card image"></div>
-										{% endif %}
+															{% if i.image3 %}
+															<div><img style="border-radius: 15px;" src="{{ i.image3.url }}" alt="Card image"></div>
+															{% endif %}
 
-										{% if i.image4 %}
-										<div><img src="{{ i.image4.url }}" alt="Card image"></div>
-										{% endif %}
+															{% if i.image4 %}
+															<div><img style="border-radius: 15px;" src="{{ i.image4.url }}" alt="Card image"></div>
+															{% endif %}
 
-										{% if i.image5 %}
-										<div><img src="{{ i.image5.url }}" alt="Card image"></div>
-										{% endif %}
+															{% if i.image5 %}
+															<div><img style="border-radius: 15px;" src="{{ i.image5.url }}" alt="Card image"></div>
+															{% endif %}
 
-                                        {% if i.image6 %}
-										<div><img src="{{ i.image6.url }}" alt="Card image"></div>
-										{% endif %}
+															{% if i.image6 %}
+															<div><img style="border-radius: 15px;" src="{{ i.image6.url }}" alt="Card image"></div>
+															{% endif %}
 
-										{% if i.image7 %}
-										<div><img src="{{ i.image7.url }}" alt="Card image"></div>
-										{% endif %}
+															{% if i.image7 %}
+															<div><img style="border-radius: 15px;" src="{{ i.image7.url }}" alt="Card image"></div>
+															{% endif %}
 
-										{% if i.image8 %}
-										<div><img src="{{ i.image8.url }}" alt="Card image"></div>
-										{% endif %}
+															{% if i.image8 %}
+															<div><img style="border-radius: 15px;" src="{{ i.image8.url }}" alt="Card image"></div>
+															{% endif %}
 
 
-										{% if i.image9 %}
-										<div><img src="{{ i.image9.url }}" alt="Card image"></div>
-										{% endif %}
+															{% if i.image9 %}
+															<div><img style="border-radius: 15px;" src="{{ i.image9.url }}" alt="Card image"></div>
+															{% endif %}
 
-										{% if i.image10 %}
-										<div><img src="{{ i.image10.url }}" alt="Card image"></div>
-										{% endif %}
+															{% if i.image10 %}
+															<div><img style="border-radius: 15px;" src="{{ i.image10.url }}" alt="Card image"></div>
+															{% endif %}
 
-										{% if i.image11 %}
-										<div><img src="{{ i.image11.url }}" alt="Card image"></div>
-										{% endif %}
+															{% if i.image11 %}
+															<div><img style="border-radius: 15px;" src="{{ i.image11.url }}" alt="Card image"></div>
+															{% endif %}
 
-										{% if i.image12 %}
-										<div><img src="{{ i.image12.url }}" alt="Card image"></div>
-										{% endif %}
+															{% if i.image12 %}
+															<div><img style="border-radius: 15px;" src="{{ i.image12.url }}" alt="Card image"></div>
+															{% endif %}
 									</div>
 								</div>
 
-								<!-- Slider END -->
-							</div>
+								<div style="width: 60%;">
+									<div class="card-body py-md-2 d-flex flex-column h-100 position-relative p-3">
 
-							<!-- Card body -->
-							<div class="col-md-7">
-								<div class="card-body py-md-2 d-flex flex-column h-100 position-relative">
+														<!-- Rating and buttons -->
+										<div class="d-flex justify-content-between align-items-center mb-2 mt-2">
+											<ul class="list-inline mb-0 hide-on-mobile">
+												<li class="list-inline-item me-0 small">
+													{% if i.video %}
+													<a href="{{ i.video }}">
+														<i class="bi bi-instagram"></i>
+														<i class="ml-2">Посмотреть видео-обзор на квартиру</i>
+													</a>
+													{% else %}
+													<a href="https://www.instagram.com/bonapart.ast/">
+														<i class="bi bi-instagram"></i>
+														<i class="ml-2">Посмотреть видео-обзор на квартиру</i>
+													</a>
+													{% endif %}
+												</li>
+											</ul>
 
-									<!-- Rating and buttons -->
-									<div class="d-flex justify-content-between align-items-center">
-										<ul class="list-inline mb-0">
-											<li class="list-inline-item me-0 small">
-												{% if i.video %}
-												<a href="{{ i.video }}">
-												<i class="bi bi-instagram"></i>
-													<i class="ml-2">Посмотреть видео-обзор на квартиру</i>
-												</a>
-												{% else %}
-												<a href="https://www.instagram.com/bonapart.ast/">
-												<i class="bi bi-instagram"></i>
-													<i class="ml-2">Посмотреть видео-обзор на квартиру</i>
-												</a>
-												{% endif %}
+
+										</div>
+
+										<h5 class="card-title mb-1"><a href="{% url 'apartments:apartaments-detail' pk=i.pk %}">{{ i.name }}</a></h5>
+										<small><i class="bi bi-geo-alt me-2"></i>{{ i.address }}</small>
+
+										<ul class="nav nav-divider mt-3 hide-on-mobile">
+											{% if i.air_conditioning == True %}
+											<li class="nav-item">Кондиционер</li>
+											{% endif %}
+											{% if i.wifi == True %}
+											<li class="nav-item">Wifi</li>
+											{% endif %}
+											{% if i.parking == True %}
+											<li class="nav-item">Платный паркинг</li>
+											{% endif %}
+											<li class="nav-item"><a style="color: green;" href="#" class="mb-0 ">Подробнее</a></li>
+										</ul>
+
+
+
+										<ul class="list-group list-group-borderless small mb-0 mt-2 hide-on-mobile">
+											<li class="list-group-item d-flex text-success p-0">
+												<b style="color: black;">Хозяин: </b><p style="color: black; margin-left: 3px;">{{ i.owner.first_name }} {{ i.owner.last_name }} </p><i class="bi bi-patch-check-fill me-2 ml-2"></i>
+											</li>
+											<li class="list-group-item d-flex text-success p-0">
+												<b style="color: black;"> Дата выхода: </b> <p style="color: black; margin-left: 3px;">{{ i.timestamp|date:"d-m-Y" }}</p>
 											</li>
 										</ul>
 
-										<ul class="list-inline mb-0 z-index-2">
-											<!-- Heart icon -->
-                                            <form method="post" action="{% url 'apartments:add_to_favorite' apartment_id=i.pk %}">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="action" value="add_to_favorites">
-                                                <input type="hidden" name="apartment_id" value="{{ i.pk }}">
-                                                <button style="border-radius: 100px;" type="submit" class="btn btn-sm btn-light favorite-button">
-                                                    <i class="fa-solid fa-fw fa-heart"></i>
-                                                </button>
-                                            </form>
 
+										<div class="d-sm-flex justify-content-sm-between align-items-center mt-3 mt-2">
+											<!-- Button -->
+											<div class="d-flex align-items-center">
+												<h5 class="fw-bold mb-0 me-1">{{ i.price }}</h5>
+												<span class="mb-0 me-2">/день</span>
+											</div>
 
-										</ul>
-									</div>
+											<div class="mt-3 mt-sm-0" style="display: flex; align-items: center;">
 
-									<h5 class="card-title mb-1"><a href="{% url 'apartments:apartaments-detail' pk=i.pk %}">{{ i.name }}</a></h5>
-									<small><i class="bi bi-geo-alt me-2"></i>{{ i.address }}</small>
+												<!-- Форма 1 -->
+												<form method="post" action="{% url 'apartments:add_to_favorite' apartment_id=i.pk %}">
+													{% csrf_token %}
+													<input type="hidden" name="action" value="add_to_favorites">
+													<input type="hidden" name="apartment_id" value="{{ i.pk }}">
+													<button style="border-radius: 100%; width: 40px; height: 40px; background-color: transparent; border: 1px solid #ccc; margin-right: 10px;" type="submit" class="favorite-button">
+														<i class="fa-solid fa-fw fa-heart"></i>
+													</button>
+												</form>
 
-									<ul class="nav nav-divider mt-3">
-                                        {% if i.air_conditioning == True %}
-										<li class="nav-item">Кондиционер</li>
-                                        {% endif %}
-                                        {% if i.wifi == True %}
-										<li class="nav-item">Wifi</li>
-                                        {% endif %}
-                                        {% if i.parking == True %}
-										<li class="nav-item">Платный паркинг</li>
-                                        {% endif %}
-										<li class="nav-item"><a style="color: green;" href="{% url 'apartments:apartaments-detail' pk=i.pk %}" class="mb-0 ">Подробнее</a></li>
-									</ul>
+																<!-- Информационная кнопка -->
+												<button style="border-radius: 100%; width: 40px; height: 40px; background-color: transparent; border: 1px solid #ccc; margin-right: 10px;" type="button" class="info-button ">
+													<i class="fa-solid fa-fw fa-info"></i>
+												</button>
+																<!-- Форма 2 -->
 
-
-									<ul class="list-group list-group-borderless small mb-0 mt-2">
-										<li class="list-group-item d-flex text-success p-0">
-											<b style="color: black;">Хозяин: </b><p style="color: black; margin-left: 3px;">{{ i.owner.first_name }} {{ i.owner.last_name }} </p><i class="bi bi-patch-check-fill me-2 ml-2"></i>
-										</li>
-										<li class="list-group-item d-flex text-success p-0">
-											<b style="color: black;"> Дата выхода: </b> <p style="color: black; margin-left: 3px;">{{ i.timestamp|date:"d-m-Y" }}</p>
-										</li>
-									</ul>
-
-
-									<div class="d-sm-flex justify-content-sm-between align-items-center mt-3 mt-2">
-										<!-- Button -->
-										<div class="d-flex align-items-center">
-											<h5 class="fw-bold mb-0 me-1">{{ i.price }}</h5>
-											<span class="mb-0 me-2">/день</span>
-										</div>
-
-										<div class="mt-3 mt-sm-0">
-											{% if i.owner.phone_number %}
-												<a href="tel:{{i.owner.phone_number}}" class="btn btn-sm btn-dark mb-0 w-100">
-													Позвонить
+												{% if i.owner.phone_number %}
+												<a href="tel:{{i.owner.phone_number}}">
+													<button style="border-radius: 100%; width: 40px; height: 40px; background-color: transparent; border: 1px solid #ccc;" type="submit" class="phone-button">
+														<i class="fa-solid fa-fw fa-phone"></i>
+													</button>
 												</a>
-											{% endif %}
+												{% endif %}
+
+
+
+
+											</div>
+
+
 										</div>
 
 									</div>
-                                    <div class="modal fade " id="reservationModal{{ apartment.id }}" tabindex="-1" role="dialog" aria-labelledby="reservationModalLabel{{ apartment.id }}" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content text-center">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="reservationModalLabel">Бронирование</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <!-- Форма для ввода данных бронирования -->
-                                                        <form id="reservationForm" action="{% url 'apartments:apartment_reserve' apartment_id=i.pk %}" method="POST">
-                                                            {% csrf_token %}
-                                                            <input type="hidden" name="apartment_id" value="{{ apartment.id }}">
-
-                                                            <div class="form-group">
-                                                                <label for="name">Имя</label>
-                                                                <input type="text" value="{{ user.first_name }}" class="form-control" id="name" name="name" required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="surname">Фамилия</label>
-                                                                <input type="text" value="{{ user.last_name }}" class="form-control" id="surname" name="surname" required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="phone">Номер телефона</label>
-                                                                <input type="tel" value="{{ user.phone_number }}" class="form-control" id="phone" name="phone" required>
-                                                            </div>
-
-                                                            <button type="submit" class="btn btn-primary" style="background-color: green; border-color: green;">Забронировать</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
 								</div>
 							</div>
+
 						</div>
-					</div>
                     {% endfor %}
                 {% else %}
                     <p>Извините, но результаты не найдены.</p>

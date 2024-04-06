@@ -15,9 +15,6 @@
 		<!-- Google Font -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-		<!-- Add this link in the head section of your HTML -->
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.19.0/font/bootstrap-icons.css" rel="stylesheet">
-
 		<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
 
 		<!-- Plugins CSS -->
@@ -36,7 +33,19 @@
               color: green;
               background-color: #d2f4d2;
             }
-
+            .icon-lg.btn.btn-round.btn-primary.mb-0 {
+              background-color: green;
+              border-color: green;
+            }
+            .btn-primary-soft {
+              color: green;
+              background-color: rgba(128, 255, 0, 0.1);
+            }
+            .btn-primary-soft:hover {
+              color: white;
+              background-color: green;
+              border-color: green;
+            }
             .btn.btn-primary.mb-0 {
               background-color: #169916;
               border-color: #169916;
@@ -233,108 +242,6 @@
 									</ul>
 								{% endif %}
 
-								<!-- Form START -->
-								<div class="dropdown-menu dropdown-animation dropdown-menu-end dropdown-menu-size-md p-0 mt-2">
-									<!-- Card START -->
-									<div class="card">
-										<!-- Card header -->
-										<div class="card-header border-bottom">
-											<h6 class="mb-0">Search your Destination</h6>
-										</div>
-
-										<!-- Card body -->
-										<div class="card-body">
-											<div class="row g-3">
-												<!-- Pickup -->
-												<div class="col-12">
-													<label class="form-label mb-0">Hotel or Destination</label>
-													<div class="choices" data-type="select-one" tabindex="0" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false"><div class="choices__inner"><select class="form-select js-choice choices__input" data-search-enabled="true" aria-label=".form-select-sm" hidden="" tabindex="-1" data-choice="active"><option value="" data-custom-properties="[object Object]">Select location</option></select><div class="choices__list choices__list--single"><div class="choices__item choices__placeholder choices__item--selectable" data-item="" data-id="1" data-value="" data-custom-properties="[object Object]" aria-selected="true">Select location</div></div></div><div class="choices__list choices__list--dropdown" aria-expanded="false"><input type="search" name="search_terms" class="choices__input choices__input--cloned" autocomplete="off" autocapitalize="none" spellcheck="false" role="textbox" aria-autocomplete="list" aria-label="Select location" placeholder=""><div class="choices__list" role="listbox"><div id="choices--7tnd-item-choice-1" class="choices__item choices__item--choice is-selected choices__placeholder choices__item--selectable is-highlighted" role="option" data-choice="" data-id="1" data-value="" data-select-text="Press to select" data-choice-selectable="" aria-selected="true">Select location</div><div id="choices--7tnd-item-choice-2" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="2" data-value="San Jacinto, USA" data-select-text="Press to select" data-choice-selectable="">San Jacinto, USA</div><div id="choices--7tnd-item-choice-3" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="3" data-value="North Dakota, Canada" data-select-text="Press to select" data-choice-selectable="">North Dakota, Canada</div><div id="choices--7tnd-item-choice-4" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="4" data-value="West Virginia, Paris" data-select-text="Press to select" data-choice-selectable="">West Virginia, Paris</div></div></div></div>
-												</div>
-
-												<!-- Date -->
-												<div class="col-md-6">
-													<label class="form-label mb-0">Check in</label>
-													<input type="text" class="form-control flatpickr flatpickr-input" data-date-format="d M Y" placeholder="Select date" readonly="readonly">
-												</div>
-
-												<!-- Date -->
-												<div class="col-md-6">
-													<label class="form-label mb-0">Check out</label>
-													<input type="text" class="form-control flatpickr flatpickr-input" data-date-format="d M Y" placeholder="Select date" readonly="readonly">
-												</div>
-
-												<!-- Occupant -->
-												<div class="col-12">
-													<!-- Dropdown input -->
-													<label class="form-label mb-0">Guests &amp; rooms</label>
-													<div class="dropdown guest-selector me-2">
-														<input type="text" class="form-guest-selector form-control selection-result" value="2 Guests 1 Room" data-bs-auto-close="outside" data-bs-toggle="dropdown">
-
-														<!-- dropdown items -->
-														<ul class="dropdown-menu guest-selector-dropdown">
-															<!-- Adult -->
-															<li class="d-flex justify-content-between">
-																<div>
-																	<h6 class="mb-0">Adults</h6>
-																	<small>Ages 13 or above</small>
-																</div>
-
-																<div class="hstack gap-1 align-items-center">
-																	<button type="button" class="btn btn-link adult-remove p-0 mb-0"><i class="bi bi-dash-circle fs-5 fa-fw"></i></button>
-																	<h6 class="guest-selector-count mb-0 adults">2</h6>
-																	<button type="button" class="btn btn-link adult-add p-0 mb-0"><i class="bi bi-plus-circle fs-5 fa-fw"></i></button>
-																</div>
-															</li>
-
-															<!-- Divider -->
-															<li class="dropdown-divider"></li>
-
-															<!-- Child -->
-															<li class="d-flex justify-content-between">
-																<div>
-																	<h6 class="mb-0">Child</h6>
-																	<small>Ages 13 below</small>
-																</div>
-
-																<div class="hstack gap-1 align-items-center">
-																	<button type="button" class="btn btn-link child-remove p-0 mb-0"><i class="bi bi-dash-circle fs-5 fa-fw"></i></button>
-																	<h6 class="guest-selector-count mb-0 child">0</h6>
-																	<button type="button" class="btn btn-link child-add p-0 mb-0"><i class="bi bi-plus-circle fs-5 fa-fw"></i></button>
-																</div>
-															</li>
-
-															<!-- Divider -->
-															<li class="dropdown-divider"></li>
-
-															<!-- Rooms -->
-															<li class="d-flex justify-content-between">
-																<div>
-																	<h6 class="mb-0">Rooms</h6>
-																	<small>Max room 8</small>
-																</div>
-
-																<div class="hstack gap-1 align-items-center">
-																	<button type="button" class="btn btn-link room-remove p-0 mb-0"><i class="bi bi-dash-circle fs-5 fa-fw"></i></button>
-																	<h6 class="guest-selector-count mb-0 rooms">1</h6>
-																	<button type="button" class="btn btn-link room-add p-0 mb-0"><i class="bi bi-plus-circle fs-5 fa-fw"></i></button>
-																</div>
-															</li>
-														</ul>
-													</div>
-												</div>
-
-												<!-- Buttons -->
-												<div class="col-12 text-center">
-													<a href="#" class="text-primary-hover text-decoration-underline">Have a promo code?</a>
-													<button class="btn btn-primary-soft w-100 mt-3 mb-0">Check Availability</button>
-												</div>
-
-											</div>
-										</div>
-									</div>
-									<!-- Card END -->
-								</div>
-								<!-- Form END -->
 							</div>
 							<!-- Booking form dropdown END -->
 						</div>
@@ -345,7 +252,6 @@
 	</nav>
 	<!-- Logo Nav END -->
 </header>
-
 
 <!-- **************** MAIN CONTENT START **************** -->
 <main>
@@ -386,14 +292,14 @@
 
 								<!-- Sidebar menu item START -->
 								<ul class="nav nav-pills-primary-soft flex-column">
+
 									<li class="nav-item">
 										<a class="nav-link" href="{% url 'users:profile' %}"><i class="bi bi-person fa-fw me-2"></i>Мой профиль</a>
 									</li>
 
-									<li class="nav-item">
-										<a class="nav-link" href="{% url 'users:my-apartments' %}"><i class="bi bi-house fa-fw me-2"></i>Мои квартиры</a>
+                                    <li class="nav-item">
+										<a class="nav-link active" href="{% url 'users:my-apartments' %}"><i class="bi bi-house fa-fw me-2"></i>Мои квартиры</a>
 									</li>
-
 
 									<li class="nav-item">
 										<a class="nav-link" href="{% url 'users:favorites' %}"><i class="bi bi-heart fa-fw me-2"></i>Понравившиеся</a>
@@ -406,7 +312,7 @@
 									{% endif %}
 
 									<li class="nav-item">
-										<a class="nav-link active" href="{% url 'website:support' %}"><i class="bi bi-wallet fa-fw me-2"></i>Поддержка</a>
+										<a class="nav-link" href="{% url 'website:support' %}"><i class="bi bi-wallet fa-fw me-2"></i>Поддержка</a>
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" href="{% url 'users:delete_profile' %}"><i class="bi bi-trash fa-fw me-2"></i>Удалить профиль</a>
@@ -422,7 +328,7 @@
                                       background-color: #d2f4d2;
                                     }
                                 </style>
-								<!-- Sidebar menu item END -->
+
 							</div>
 							<!-- Card body END -->
 						</div>
@@ -432,8 +338,7 @@
 			</div>
 			<!-- Sidebar END -->
 
-			<!-- Main content START -->
-			<div class="col-lg-8 col-xl-9">
+			<div class="col-lg-8 col-xl-9 ps-xl-5">
 
 				<!-- Offcanvas menu button -->
 				<div class="d-grid mb-0 d-lg-none w-100">
@@ -442,68 +347,112 @@
 					</button>
 				</div>
 
-				<!-- Wishlist START -->
 				<div class="card border bg-transparent">
 					<!-- Card header -->
 					<div class="card-header bg-transparent border-bottom">
-						<h4 class="card-header-title">Поддержка</h4>
+						<h4 class="card-header-title">Архивированные квартиры</h4>
 					</div>
 
 					<!-- Card body START -->
-					<div class="card-body vstack gap-4">
+					<div class="card-body pl-3">
 
-                        <section class="pt-0 pt-lg-5">
-                            <div class="container">
-                                <div class="row g-4 justify-content-center">
-                                    <!-- Action box item -->
-                                    <div class="col-md-6 position-relative overflow-hidden">
-                                        <div style="background-color: green;" class=" bg-opacity-10 rounded-3 h-100 p-4">
-                                            <!-- Content -->
-                                            <div class="d-flex">
-                                                <!-- Icon -->
-                                                <div style="background-color: white;" class="icon-lg text-white rounded-circle flex-shrink-0"><i style="color:green;" class="bi bi-whatsapp"></i></div>
-                                                <!-- Content -->
-                                                <div class="ms-3">
-                                                    <h4 style="color: white;" class="mb-1">WhatsApp</h4>
-                                                    <a style="background-color: white; color: green; border-color: white;" href="https://wa.link/ddcm54" class="btn btn-dark mb-0 mt-4">Связаться</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 position-relative overflow-hidden">
-                                        <div class="bg-primary bg-opacity-10 rounded-3 h-100 p-4">
-                                            <!-- Content -->
-                                            <div class="d-flex">
-                                                <!-- Icon -->
-                                                <div class="bg-primary icon-lg text-white rounded-circle flex-shrink-0"><i class="bi bi-telegram"></i></div>
-                                                <!-- Content -->
-                                                <div class="ms-3">
-                                                    <h4 class="mb-1">Telegram</h4>
-                                                    <a href="https://t.me/Nuralin_Darkhan" class="btn btn-dark mb-0 mt-4">Связаться</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                        <form method="GET" action="{% url 'apartments:archived_apartments' %}">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" name="search_query" placeholder="Поиск архивированных квартир" aria-label="Поиск архивированных квартир" aria-describedby="basic-addon2" value="{{ search_query }}">
+                                <button class="btn btn-success" type="submit">Найти</button>
                             </div>
-                        </section>
+                        </form>
 
-						<h3 class="qwe" style="text-align: center; color: green;">
-							<a type="tel" style="display: flex;" >
-								<i class="bi bi-phone"></i>
-								<p>
-									+7 (778) 706 61 00
-								</p>
-							</a>
-						</h3>
 
+						<div class="tab-content p-2 p-sm-4" id="nav-tabContent">
+
+							<!-- Tab content item START -->
+							<div class="tab-pane fade show active" id="tab-1">
+								{% for apartment in archived_apartments %}
+									<div class="card border mb-4">
+									<!-- Card header -->
+									<div class="card-header border-bottom d-md-flex justify-content-md-between align-items-center">
+										<!-- Icon and Title -->
+										<div class="d-flex align-items-center">
+											<div class="icon-lg bg-light rounded-circle flex-shrink-0"><i class="fa-solid fa-home"></i></div>
+											<!-- Title -->
+											<div class="ms-2">
+												{% if apartment.archived %}
+												<a href="{% url 'apartments:apartaments-detail' pk=apartment.pk %}"><h6 class="card-title mb-0" style="color: red;">{{ apartment.name }}</h6></a>
+												{% else %}
+												<h6 class="card-title mb-0">{{ apartment.name }}</h6>
+												{% endif %}
+												<ul class="nav nav-divider small">
+													{% if apartment.archived %}
+													<li class="nav-item" style="color: red;">Apartment ID: {{ apartment.id }}</li>
+													{% else %}
+													<li class="nav-item">Apartment ID: {{ apartment.id }}</li>
+													{% endif %}
+												</ul>
+											</div>
+										</div>
+
+										<div class="mt-2 mt-md-0">
+                                            <form method="post" action="{% url 'apartments:archived_apartments' %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="extend_apartment" value="{{ apartment.id }}">
+                                                <button type="submit" class="btn btn-success ms-2">Продлить</button>
+                                            </form>
+										</div>
+
+
+									</div>
+
+									<!-- Card body -->
+									<div class="card-body">
+										<div class="row g-3">
+											<div class="col-sm-6 col-md-4">
+												<span>Дата создания</span>
+												<h6 class="mb-0">{{ apartment.timestamp}}</h6>
+											</div>
+
+											<div class="col-sm-6 col-md-4">
+												<span>Дата одобрения</span>
+												<h6 class="mb-0">{{ apartment.approval_date}}</h6>
+											</div>
+
+											{% if apartment.archived %}
+											<div class="col-sm-6 col-md-4">
+												<span>Дата истечения</span>
+												<h6 class="mb-0" style="color: red;">{{ apartment.expiry_date }}</h6>
+											</div>
+											{% else %}
+											<div class="col-sm-6 col-md-4">
+												<span>Дата истечения</span>
+												<h6 class="mb-0">{{ apartment.expiry_date }}</h6>
+											</div>
+											{% endif %}
+
+											<div class="col-md-4">
+												<span>Статус заявки</span>
+												<h6 class="mb-0">{{ apartment.get_status_type }}</h6>
+											</div>
+
+											<div class="col-md-4">
+												<span>Архивирован</span>
+												<h6 class="mb-0">{{ apartment.get_archive_bool }}</h6>
+											</div>
+
+											<div class="col-sm-6 col-md-4">
+												<span>Хозяин квартиры</span>
+												<h6 class="mb-0">{{ apartment.owner }}</h6>
+											</div>
+
+
+										</div>
+									</div>
+								</div>
+								{% endfor %}
+							</div>
+						</div>
 					</div>
-					<!-- Card body END -->
 				</div>
-				<!-- Wishlist END -->
-
 			</div>
-			<!-- Main content END -->
 		</div>
 	</div>
 </section>
@@ -619,6 +568,7 @@
 }
 </style>
 <div class="back-top"></div>
+
 <div class="navbar navbar-mobile" style="padding: 15px;">
 	<ul class="navbar-nav">
 		<!-- Nav item Home -->
@@ -654,12 +604,12 @@
 
 		<li class="nav-item">
 			{% if user.is_authenticated %}
-				<a class="nav-link" href="{% url 'users:favorites' %}">
+				<a class="nav-link active" style="color: green;" href="{% url 'users:favorites' %}">
 					<i class="bi bi-heart fa-fw"></i>
 					<span class="mb-0 nav-text">Избранное</span>
 				</a>
 			{% else %}
-				<a class="nav-link"  href="{% url 'users:signin' %}">
+				<a class="nav-link active" style="color: green;" href="{% url 'users:signin' %}">
 					<i class="bi bi-heart fa-fw"></i>
 					<span class="mb-0 nav-text">Избранное</span>
 				</a>
@@ -669,12 +619,12 @@
 
 		<li class="nav-item">
 			{% if user.is_authenticated %}
-				<a class="nav-link active" style="color: green;"  href="{% url 'users:profile' %}">
+				<a class="nav-link" href="{% url 'users:profile' %}">
 					<i class="bi bi-person-circle fa-fw"></i>
 					<span class="mb-0 nav-text">Аккаунт</span>
 				</a>
 			{% else %}
-				<a class="nav-link active" href="{% url 'users:signin' %}">
+				<a class="nav-link" href="{% url 'users:signin' %}">
 					<i class="bi bi-person-circle fa-fw"></i>
 					<span class="mb-0 nav-text">Аккаунт</span>
 				</a>
@@ -695,4 +645,5 @@
 <script src="{% static 'js/functions.js' %}"></script>
 
 
-</body></html>
+</body>
+</html>

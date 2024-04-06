@@ -4,6 +4,9 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.conf import settings
 from PIL import Image
+from django.utils import timezone
+from datetime import timedelta
+
 
 
 class Apartment(models.Model):
@@ -28,6 +31,9 @@ class Apartment(models.Model):
         # Добавьте другие статусы, если нужно
     )
 
+    approval_date = models.DateTimeField(blank=True, null=True, verbose_name='Дата одобрения')
+    expiry_date = models.DateTimeField(blank=True, null=True, verbose_name='Дата истечения срока годности')
+    archived = models.BooleanField(default=False, verbose_name='В архиве')
 
     deal_type = models.CharField(max_length=20, choices=DEAL_CHOICES, default='daily_rent', verbose_name='Тип сделки')
     city = models.ForeignKey('City', on_delete=models.CASCADE, blank=True, null=True, verbose_name='Города')
@@ -94,8 +100,31 @@ class Apartment(models.Model):
         # Определяем путь для сохранения файла
         return f"apartment_images/{filename}"
 
+    def save(self, *args, **kwargs):
+        if self.status == 'approved' and not self.approval_date:
+            # Если квартира одобрена и у нее нет даты одобрения, устанавливаем текущую дату
+            self.approval_date = timezone.now()
+
+            # Устанавливаем дату истечения срока годности на 30 дней вперед от даты одобрения
+            self.expiry_date = self.approval_date + timezone.timedelta(days=30)
+
+        super().save(*args, **kwargs)
+
+    def is_expired(self):
+        # Проверяем, истек ли срок годности квартиры
+        return self.expiry_date and self.expiry_date < timezone.now()
+
+    def archive_if_expired(self):
+        # Помечаем квартиру как архивированную, если она просрочена
+        if self.is_expired():
+            self.archived = True
+            self.save()
+
     def get_deal_type(self):
         return self.get_deal_type_display()
+
+    def get_archive_bool(self):
+        return "Да" if self.archived else "Нет"
 
     def get_owner_phone(self):
         return self.get_owner_phone()

@@ -662,54 +662,11 @@ Main Banner END -->
 							<div style="display: flex; padding: 5px;">
 								<div style="width: 40%; display: flex; justify-content: center; align-items: center;" class="tiny-slider arrow-round arrow-xs arrow-dark overflow-hidden rounded-2">
 									<div class="tiny-slider-inner" data-autoplay="false" data-arrow="true" data-dots="false" data-items="1">
-										{% if i.image1 %}
-															<div><img style="border-radius: 15px;" src="{{ i.image1.url }}" alt="Card image"></div>
-															{% endif %}
-
-															{% if i.image2 %}
-															<div><img style="border-radius: 15px;" src="{{ i.image2.url }}" alt="Card image"></div>
-															{% endif %}
-
-															{% if i.image3 %}
-															<div><img style="border-radius: 15px;" src="{{ i.image3.url }}" alt="Card image"></div>
-															{% endif %}
-
-															{% if i.image4 %}
-															<div><img style="border-radius: 15px;" src="{{ i.image4.url }}" alt="Card image"></div>
-															{% endif %}
-
-															{% if i.image5 %}
-															<div><img style="border-radius: 15px;" src="{{ i.image5.url }}" alt="Card image"></div>
-															{% endif %}
-
-															{% if i.image6 %}
-															<div><img style="border-radius: 15px;" src="{{ i.image6.url }}" alt="Card image"></div>
-															{% endif %}
-
-															{% if i.image7 %}
-															<div><img style="border-radius: 15px;" src="{{ i.image7.url }}" alt="Card image"></div>
-															{% endif %}
-
-															{% if i.image8 %}
-															<div><img style="border-radius: 15px;" src="{{ i.image8.url }}" alt="Card image"></div>
-															{% endif %}
-
-
-															{% if i.image9 %}
-															<div><img style="border-radius: 15px;" src="{{ i.image9.url }}" alt="Card image"></div>
-															{% endif %}
-
-															{% if i.image10 %}
-															<div><img style="border-radius: 15px;" src="{{ i.image10.url }}" alt="Card image"></div>
-															{% endif %}
-
-															{% if i.image11 %}
-															<div><img style="border-radius: 15px;" src="{{ i.image11.url }}" alt="Card image"></div>
-															{% endif %}
-
-															{% if i.image12 %}
-															<div><img style="border-radius: 15px;" src="{{ i.image12.url }}" alt="Card image"></div>
-															{% endif %}
+										{% for image_url in i.get_image_urls %}
+											<div>
+												<img style="border-radius: 15px;" src="{{ image_url }}" alt="Card image">
+											</div>
+										{% endfor %}
 									</div>
 								</div>
 

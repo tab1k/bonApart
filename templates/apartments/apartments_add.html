@@ -494,7 +494,8 @@
 									{% csrf_token %}
 
 									<div class="col-12">
-										{{ form.image1 }}
+										<label class="form-label">Выберите фотографии:</label>
+										<input type="file" name="image" multiple>
 									</div>
 
 									<div class="col-md-12">

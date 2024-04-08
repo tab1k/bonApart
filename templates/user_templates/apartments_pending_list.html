@@ -470,18 +470,17 @@
 						{% for apartment in apartments %}
 						<div class="card shadow p-2">
 							<div class="row g-0">
-								<!-- Card img -->
+
 								<div class="col-md-3">
 									<a href="{% url 'apartments:apartaments-detail' pk=apartment.pk %}">
-										{% if apartment.image1 %}
-										<img src="{{ apartment.image1.url }}" class="card-img rounded-2" alt="Card image">
+										{% if apartment.images.exists %}
+											<img src="{{ apartment.images.first.image.url }}" class="card-img rounded-2" alt="Card image">
 										{% else %}
-										<img src="" class="card-img rounded-2" alt="Нет фото квартиры">
+											<img src="" class="card-img rounded-2" alt="Нет фото квартиры">
 										{% endif %}
 									</a>
 								</div>
 
-								<!-- Card body -->
 								<div class="col-md-9">
 									<div class="card-body py-md-2 d-flex flex-column h-100">
 

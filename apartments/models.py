@@ -8,7 +8,6 @@ from django.utils import timezone
 from datetime import timedelta
 
 
-
 class Apartment(models.Model):
 
     DEAL_CHOICES = (
@@ -53,21 +52,6 @@ class Apartment(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')
 
     video = models.URLField(blank=True, null=True, verbose_name='Видео-ролик')
-
-    image1 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
-    image2 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
-    image3 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
-    image4 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
-    image5 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
-
-    image6 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
-    image7 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
-    image8 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
-    image9 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
-    image10 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
-
-    image11 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
-    image12 = models.ImageField(upload_to='apartment_images/', blank=True, null=True)
 
     wifi = models.BooleanField(default=False, verbose_name='Wi-Fi')
     elevator = models.BooleanField(default=True, verbose_name='Лифт')
@@ -114,6 +98,9 @@ class Apartment(models.Model):
         # Проверяем, истек ли срок годности квартиры
         return self.expiry_date and self.expiry_date < timezone.now()
 
+    def get_image_urls(self):
+        return [image.image.url for image in self.images.all()]
+
     def archive_if_expired(self):
         # Помечаем квартиру как архивированную, если она просрочена
         if self.is_expired():
@@ -135,10 +122,22 @@ class Apartment(models.Model):
     def __str__(self):
         return f'{self.name} {self.price}'
 
-
     class Meta:
         verbose_name = 'Квартира'
         verbose_name_plural = 'Квартиры'
+
+
+class ApartmentImage(models.Model):
+    apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='apartment_images/')
+
+    def __str__(self):
+        return f'Image for {self.apartment.name}'
+
+    class Meta:
+        verbose_name = 'Фото квартиры'
+        verbose_name_plural = 'Фото квартир'
+
 
 
 class Discount(models.Model):

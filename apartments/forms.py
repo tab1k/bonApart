@@ -1,5 +1,5 @@
 from django import forms
-from .models import Reservation, Apartment
+from .models import Reservation, Apartment, ApartmentImage
 
 
 class ApartmentForm(forms.ModelForm):
@@ -9,18 +9,6 @@ class ApartmentForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ApartmentForm, self).__init__(*args, **kwargs)
-        self.fields['image1'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['image2'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['image3'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['image4'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['image5'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['image6'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['image7'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['image8'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['image9'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['image10'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['image11'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['image12'].widget.attrs.update({'class': 'form-control form-control-lg'})
         self.fields['deal_type'].widget.attrs.update({'class': 'form-control form-control-lg'})
         self.fields['city'].widget.attrs.update({'class': 'form-control form-control-lg'})
         self.fields['name'].widget.attrs.update({'class': 'form-control form-control-lg'})
@@ -36,50 +24,30 @@ class ApartmentForm(forms.ModelForm):
         self.fields['doublebeds'].widget.attrs.update({'class': 'form-control form-control-lg'})
         self.fields['price'].widget.attrs.update({'class': 'form-control form-control-lg'})
 
+class ApartmentImageForm(forms.ModelForm):
+    class Meta:
+        model = ApartmentImage
+        fields = ['image']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['image'].widget.attrs['multiple'] = True
+        self.fields['image'].widget.attrs.update({'class': 'form-control form-control-lg'})
 
 class ApartmentAddForm(forms.ModelForm):
     class Meta:
         model = Apartment
-        fields = ['image1','deal_type', 'city', 'name', 'address', 'description', 'side', 'capacity', 'room', 'square', 'floor',
-                  'total_floors', 'elevator', 'singlebeds', 'doublebeds',
-                  'price', 'wifi', 'air_conditioning', 'parking', 'orthopedic_mattress',
-                  'smart_tv', 'hairdryer', 'iron', 'washing_machine', 'bath', 'fridge', 'electric_kettle', 'plate', 'mini_bar', 'hygiene',
-                  'dishes', 'shower']
+        exclude = ['owner', 'status']
 
     def __init__(self, *args, **kwargs):
         super(ApartmentAddForm, self).__init__(*args, **kwargs)
-        self.fields['image1'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['deal_type'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['city'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['name'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['address'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['description'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['side'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['capacity'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['room'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['square'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['floor'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['total_floors'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['elevator'].widget.attrs.update({'class': 'form-check-input'})
-        self.fields['singlebeds'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['doublebeds'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['price'].widget.attrs.update({'class': 'form-control form-control-lg'})
-        self.fields['wifi'].widget.attrs.update({'class': 'form-check-input'})
-        self.fields['air_conditioning'].widget.attrs.update({'class': 'form-check-input'})
-        self.fields['parking'].widget.attrs.update({'class': 'form-check-input'})
-        self.fields['orthopedic_mattress'].widget.attrs.update({'class': 'form-check-input'})
-        self.fields['smart_tv'].widget.attrs.update({'class': 'form-check-input'})
-        self.fields['hairdryer'].widget.attrs.update({'class': 'form-check-input'})
-        self.fields['iron'].widget.attrs.update({'class': 'form-check-input'})
-        self.fields['washing_machine'].widget.attrs.update({'class': 'form-check-input'})
-        self.fields['bath'].widget.attrs.update({'class': 'form-check-input'})
-        self.fields['fridge'].widget.attrs.update({'class': 'form-check-input'})
-        self.fields['electric_kettle'].widget.attrs.update({'class': 'form-check-input'})
-        self.fields['plate'].widget.attrs.update({'class': 'form-check-input'})
-        self.fields['mini_bar'].widget.attrs.update({'class': 'form-check-input'})
-        self.fields['hygiene'].widget.attrs.update({'class': 'form-check-input'})
-        self.fields['dishes'].widget.attrs.update({'class': 'form-check-input'})
-        self.fields['shower'].widget.attrs.update({'class': 'form-check-input'})
+        for field_name, field in self.fields.items():
+            if isinstance(field.widget, forms.CheckboxInput):
+                # Если это чекбокс, обновляем класс атрибута для его виджета
+                field.widget.attrs.update({'class': 'form-check-input'})
+            else:
+                # Для остальных полей, например, текстовых полей, используем form-control-lg
+                field.widget.attrs.update({'class': 'form-control form-control-lg'})
 
 
 class ApartmentFilterForm(forms.Form):

@@ -12,6 +12,7 @@
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 		<!-- Favicon -->
 		<link rel="shortcut icon" href="{% static 'images/logo.jpg' %}">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.0/main.min.css" rel="stylesheet">
 
 		<!-- Google Font -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -354,12 +355,12 @@ Image gallery START -->
 		<div class="tiny-slider arrow-round arrow-blur">
 			<div class="tiny-slider-inner" data-autoplay="true" data-arrow="true" data-edge="0" data-dots="false" data-items="2" data-items-sm="1">
 				<!-- Slider item -->
-				{% if detail.image1 %}
+				{% for image_url in detail.get_image_urls %}
 				<div>
-					<a class="w-100 h-100" data-glightbox="" data-gallery="gallery" href="{{ detail.image1.url }}">
+					<a class="w-100 h-100" data-glightbox="" data-gallery="gallery" href="{{ image_url }}">
 						<div class="card card-element-hover card-overlay-hover overflow-hidden">
 							<!-- Image -->
-							<img src="{{ detail.image1.url }}" class="rounded-3" alt="">
+							<img src="{{ image_url }}" class="rounded-3" alt="">
 							<!-- Full screen button -->
 							<div class="hover-element w-100 h-100">
 								<i class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
@@ -367,177 +368,7 @@ Image gallery START -->
 						</div>
 					</a>
 				</div>
-				{% endif %}
-
-				<!-- Slider item -->
-				{% if detail.image2 %}
-				<div>
-					<a class="w-100 h-100" data-glightbox="" data-gallery="gallery" href="{{ detail.image2.url }}">
-						<div class="card card-element-hover card-overlay-hover overflow-hidden">
-							<!-- Image -->
-							<img src="{{ detail.image2.url }}" class="rounded-3" alt="">
-							<!-- Full screen button -->
-							<div class="hover-element w-100 h-100">
-								<i class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
-							</div>
-						</div>
-					</a>
-				</div>
-				{% endif %}
-
-				<!-- Slider item -->
-				{% if detail.image3 %}
-					<div>
-						<a class="w-100 h-100" data-glightbox="" data-gallery="gallery" href="{{ detail.image3.url }}">
-							<div class="card card-element-hover card-overlay-hover overflow-hidden">
-								<!-- Image -->
-								<img src="{{ detail.image3.url }}" class="rounded-3" alt="">
-								<!-- Full screen button -->
-								<div class="hover-element w-100 h-100">
-									<i class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
-								</div>
-							</div>
-						</a>
-					</div>
-				{% endif %}
-
-
-				<!-- Slider item -->
-				{% if detail.image4 %}
-				<div>
-					<a class="w-100 h-100" data-glightbox="" data-gallery="gallery" href="{{ detail.image4.url }}">
-						<div class="card card-element-hover card-overlay-hover overflow-hidden">
-							<!-- Image -->
-							<img src="{{ detail.image4.url }}" class="rounded-3" alt="">
-							<!-- Full screen button -->
-							<div class="hover-element w-100 h-100">
-								<i class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
-							</div>
-						</div>
-					</a>
-				</div>
-				{% endif %}
-
-
-				{% if detail.image5 %}
-                <div>
-					<a class="w-100 h-100" data-glightbox="" data-gallery="gallery" href="{{ detail.image5.url }}">
-						<div class="card card-element-hover card-overlay-hover overflow-hidden">
-							<!-- Image -->
-							<img src="{{ detail.image5.url }}" class="rounded-3" alt="">
-							<!-- Full screen button -->
-							<div class="hover-element w-100 h-100">
-								<i class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
-							</div>
-						</div>
-					</a>
-				</div>
-				{% endif %}
-
-				{% if detail.image6 %}
-                <div>
-					<a class="w-100 h-100" data-glightbox="" data-gallery="gallery" href="{{ detail.image6.url }}">
-						<div class="card card-element-hover card-overlay-hover overflow-hidden">
-							<!-- Image -->
-							<img src="{{ detail.image6.url }}" class="rounded-3" alt="">
-							<!-- Full screen button -->
-							<div class="hover-element w-100 h-100">
-								<i class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
-							</div>
-						</div>
-					</a>
-				</div>
-				{% endif %}
-
-				{% if detail.image7 %}
-                <div>
-					<a class="w-100 h-100" data-glightbox="" data-gallery="gallery" href="{{ detail.image7.url }}">
-						<div class="card card-element-hover card-overlay-hover overflow-hidden">
-							<!-- Image -->
-							<img src="{{ detail.image7.url }}" class="rounded-3" alt="">
-							<!-- Full screen button -->
-							<div class="hover-element w-100 h-100">
-								<i class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
-							</div>
-						</div>
-					</a>
-				</div>
-				{% endif %}
-
-				{% if detail.image8 %}
-                <div>
-					<a class="w-100 h-100" data-glightbox="" data-gallery="gallery" href="{{ detail.image8.url }}">
-						<div class="card card-element-hover card-overlay-hover overflow-hidden">
-							<!-- Image -->
-							<img src="{{ detail.image8.url }}" class="rounded-3" alt="">
-							<!-- Full screen button -->
-							<div class="hover-element w-100 h-100">
-								<i class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
-							</div>
-						</div>
-					</a>
-				</div>
-				{% endif %}
-
-				{% if detail.image9 %}
-                <div>
-					<a class="w-100 h-100" data-glightbox="" data-gallery="gallery" href="{{ detail.image9.url }}">
-						<div class="card card-element-hover card-overlay-hover overflow-hidden">
-							<!-- Image -->
-							<img src="{{ detail.image9.url }}" class="rounded-3" alt="">
-							<!-- Full screen button -->
-							<div class="hover-element w-100 h-100">
-								<i class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
-							</div>
-						</div>
-					</a>
-				</div>
-				{% endif %}
-
-				{% if detail.image10 %}
-                <div>
-					<a class="w-100 h-100" data-glightbox="" data-gallery="gallery" href="{{ detail.image10.url }}">
-						<div class="card card-element-hover card-overlay-hover overflow-hidden">
-							<!-- Image -->
-							<img src="{{ detail.image10.url }}" class="rounded-3" alt="">
-							<!-- Full screen button -->
-							<div class="hover-element w-100 h-100">
-								<i class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
-							</div>
-						</div>
-					</a>
-				</div>
-				{% endif %}
-
-				{% if detail.image11 %}
-                <div>
-					<a class="w-100 h-100" data-glightbox="" data-gallery="gallery" href="{{ detail.image11.url }}">
-						<div class="card card-element-hover card-overlay-hover overflow-hidden">
-							<!-- Image -->
-							<img src="{{ detail.image11.url }}" class="rounded-3" alt="">
-							<!-- Full screen button -->
-							<div class="hover-element w-100 h-100">
-								<i class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
-							</div>
-						</div>
-					</a>
-				</div>
-				{% endif %}
-
-				{% if detail.image12 %}
-                <div>
-					<a class="w-100 h-100" data-glightbox="" data-gallery="gallery" href="{{ detail.image12.url }}">
-						<div class="card card-element-hover card-overlay-hover overflow-hidden">
-							<!-- Image -->
-							<img src="{{ detail.image12.url }}" class="rounded-3" alt="">
-							<!-- Full screen button -->
-							<div class="hover-element w-100 h-100">
-								<i class="bi bi-fullscreen fs-6 text-white position-absolute top-50 start-50 translate-middle bg-dark rounded-1 p-2 lh-1"></i>
-							</div>
-						</div>
-					</a>
-				</div>
-				{% endif %}
+				{% endfor %}
 
 
 			</div>
@@ -1066,8 +897,13 @@ Image gallery START -->
 										<p class="mb-0">2.5 л. быстрее ветра!</p>
 									</div>
 								</div>
+
+
+
+
 							</div>
 						</div>
+
 					</div>
 					<!-- Best deal END -->
 				</div>

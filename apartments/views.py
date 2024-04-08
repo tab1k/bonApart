@@ -19,14 +19,12 @@ from users.forms import CommentForm
 import requests
 
 
-
 class SearchResultsView(View):
     template_name = 'website/search_results.html'
 
     def post(self, request):
         class_choice = request.POST.get('class_choice')
         price_choice = request.POST.get('price_choice')
-
 
         return redirect('search_results', class_choice=class_choice, price_choice=price_choice,
                         )
@@ -41,6 +39,7 @@ class ApartmentView(View):
         form = ApartmentFilterForm(request.GET)
         cities = City.objects.all()
         apartments = Apartment.objects.filter(status='approved', archived=False)
+
         discount = Discount.objects.filter(apartment__in=apartments)
         notifications = Notification.objects.filter(read=False).order_by('-timestamp')
         selected_city = request.GET.get('selected_city')
@@ -48,11 +47,9 @@ class ApartmentView(View):
         if selected_city:
             apartments = apartments.filter(city__name=selected_city)
 
-        apartments_list = list(apartments)
+            apartments_list = list(apartments)
 
-        shuffle(apartments_list)
-
-
+            shuffle(apartments_list)
 
         if form.is_valid():
             room_choice = form.cleaned_data['room_choice']
@@ -293,9 +290,9 @@ class ApartmentBuyView(ListView):
 
     def get_queryset(self):
         selected_city = self.request.GET.get('selected_city')
-        queryset = Apartment.objects.filter(deal_type='sale', status='approved')
+        queryset = Apartment.objects.filter(deal_type='sale', status='approved', archived=False)
         if selected_city:
-            queryset = queryset.filter(city__name=selected_city, status='approved')
+            queryset = queryset.filter(city__name=selected_city, status='approved', archived=False)
             # Получаем список квартир
             queryset_list = list(queryset)
             # Перемешиваем список квартир в случайном порядке
@@ -339,7 +336,7 @@ class ApartmentRentView(ListView):
 
     def get_queryset(self):
         selected_city = self.request.GET.get('selected_city')
-        queryset = Apartment.objects.filter(status='approved')
+        queryset = Apartment.objects.filter(status='approved', archived=False)
 
         if selected_city:
             queryset = queryset.filter(city__name=selected_city, status='approved')
@@ -373,7 +370,7 @@ class ApartmentRentBaseView(ListView):
     def get_queryset(self):
         selected_city = self.request.GET.get('selected_city')
         room_choice = self.request.GET.get('room_choice')  # Получаем выбор количества комнат из запроса
-        queryset = Apartment.objects.filter(deal_type=self.deal_type, status='approved')
+        queryset = Apartment.objects.filter(deal_type=self.deal_type, status='approved', archived=False)
 
         if selected_city:
             queryset = queryset.filter(city__name=selected_city)
@@ -422,6 +419,15 @@ class ApartmentAddView(LoginRequiredMixin, CreateView):
         # Сохраняем квартиру
         self.object = form.save()
 
+        # Обработка изображений
+        images_form = ApartmentImageForm(self.request.POST, self.request.FILES)
+        if images_form.is_valid():
+            for image in self.request.FILES.getlist('image'):
+                ApartmentImage.objects.create(apartment=self.object, image=image)
+        else:
+            # В случае ошибки с изображениями, вы можете обрабатывать ее здесь
+            print(images_form.errors)
+
         # Получаем текущего пользователя
         user = self.request.user
 
@@ -438,6 +444,7 @@ class ApartmentAddView(LoginRequiredMixin, CreateView):
         print(form.errors)
         # Возвращаем HTTP-ответ с формой и ошибками
         return super().form_invalid(form)
+
 
 
 class ApartmentApproveView(View):

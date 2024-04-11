@@ -27,6 +27,14 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'css/choices.min.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'css/tiny-slider.css' %}">
 
+		    <!-- Reset CSS -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+			<!-- Font Awesome CSS  -->
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet" />
+
+		<link href='https://unpkg.com/fullcalendar@5/main.min.css' rel='stylesheet' />
+
+
 		<!-- Theme CSS -->
 		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 
@@ -879,33 +887,192 @@ Image gallery START -->
                         </div>
 					<!-- Book now END -->
 
-					<!-- Best deal START -->
-					<div class="mt-4 d-none d-xl-block">
-						<h4 class="mb-3">Приезжай с комфортом!</h4>
+					<!-- CALENDAR -->
+					<div class="mt-4">
 
 						<div class="card shadow rounded-3 overflow-hidden">
 							<div class="row g-0 align-items-center">
-								<!-- Image -->
-								<div class="col-sm-6 col-md-12 col-lg-6">
-									<img src="{% static 'images/camry.jpeg' %}" class="card-img rounded-0" alt="">
+								<link href='https://unpkg.com/fullcalendar@5/main.min.css' rel='stylesheet' />
+								<style>
+									#calendar {
+										max-width: 1100px;
+										margin: 0 auto;
+										padding: 20px;
+										background-color: #ffffff;
+										border-radius: 8px;
+										box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+									}
+
+									.fc-toolbar-title {
+										font-size: 24px;
+										font-weight: bold;
+									}
+
+									.fc-button-primary {
+										background-color: green;
+										border-color: green;
+										color: #ffffff;
+									}
+
+									.fc-button-primary:hover {
+										background-color: green;
+										border-color: green;
+									}
+
+									.fc-day-occupied {
+										background-color: red !important;
+									}
+
+									.fc-toolbar-title {
+										color: green;
+									}
+
+									table {
+										border-radius: 10px;
+									}
+
+									.fc-toolbar-chunk {
+										font-size: 12px;
+									}
+
+									/* Модальное окно */
+									.modal {
+									  display: none; /* Скрыть по умолчанию */
+									  position: fixed; /* Положение фиксированное */
+									  z-index: 1; /* Положение поверх остального контента */
+									  left: 0;
+									  top: 0;
+									  width: 100%; /* Ширина на весь экран */
+									  height: 100%; /* Высота на весь экран */
+									  overflow: auto; /* Добавить прокрутку, если контент слишком высокий */
+									  background-color: rgb(0, 0, 0); /* Цвет фона */
+									  background-color: rgba(0, 0, 0, 0.4); /* Цвет фона с прозрачностью */
+									}
+
+									/* Контент модального окна */
+									.modal-content {
+									  background-color: #fefefe;
+									  margin: 15% auto; /* Отступы сверху и снизу, автоматические по бокам */
+									  padding: 20px;
+									  border: 1px solid #888;
+									  width: 80%; /* Ширина */
+									}
+
+									/* Закрыть кнопку */
+									.close {
+									  color: #aaa;
+									  float: right;
+									  font-size: 28px;
+									  font-weight: bold;
+									}
+
+									.close:hover,
+									.close:focus {
+									  color: black;
+									  text-decoration: none;
+									  cursor: pointer;
+									}
+
+
+								</style>
+
+								<div id='calendar'></div>
+
+								<div id="myModal" class="modal">
+								  <div class="modal-content">
+									<span class="close">&times;</span>
+									<p id="modal-message"></p>
+								  </div>
 								</div>
 
-								<!-- Title and content -->
-								<div class="col-sm-6 col-md-12 col-lg-6">
-									<div class="card-body p-3">
-										<h6 class="card-title"><a href="{% url 'website:transfers' %}" class="stretched-link">Toyota Camry 70</a></h6>
-										<p class="mb-0">2.5 л. быстрее ветра!</p>
-									</div>
-								</div>
+								<script>
+									function getCsrfToken() {
+										let csrfToken = null;
+										if (document.cookie && document.cookie !== '') {
+											const cookies = document.cookie.split(';');
+											for (let i = 0; i < cookies.length; i++) {
+												const cookie = cookies[i].trim();
+												if (cookie.substring(0, 'csrftoken'.length + 1) === ('csrftoken' + '=')) {
+													csrfToken = decodeURIComponent(cookie.substring('csrftoken'.length + 1));
+													break;
+												}
+											}
+										}
+										return csrfToken;
+									}
+								</script>
+
+								<script>
+									document.addEventListener('DOMContentLoaded', function() {
+									  var modal = document.getElementById('myModal');
+									  var span = document.getElementsByClassName('close')[0];
+									  var modalMessage = document.getElementById('modal-message');
+
+									  span.onclick = function() {
+										modal.style.display = 'none';
+									  };
+
+									  window.onclick = function(event) {
+										if (event.target == modal) {
+										  modal.style.display = 'none';
+										}
+									  };
+
+									  var calendarEl = document.getElementById('calendar');
+									  var APARTMENT_ID = '{{ detail.id }}'; // Убедитесь, что это значение корректно передается в шаблон
+									  var CSRFTOKEN = getCsrfToken(); // Получаем CSRF токен
+
+									  var calendar = new FullCalendar.Calendar(calendarEl, {
+										locale: 'ru',
+										initialView: 'dayGridMonth',
+										// Другие настройки...
+										dateClick: function(info) {
+										  fetch(`/apartments/apartaments-detail/${APARTMENT_ID}/toggle-booking/`, {
+											method: 'POST',
+											headers: {
+											  'Content-Type': 'application/x-www-form-urlencoded',
+											  'X-CSRFToken': CSRFTOKEN
+											},
+											body: `date=${info.dateStr}`
+										  })
+											.then(response => response.json())
+											.then(data => {
+											  console.log(data); // Проверим, что данные правильно получены
+											  var dayEl = info.dayEl;
+											  dayEl.classList.remove('fc-day-occupied'); // Сначала удалим класс, если он есть
+
+											  if (data.status === 'created') {
+												dayEl.classList.add('fc-day-occupied'); // Добавим класс, если день занят
+												showModal('Квартира забронирована.');
+											  } else {
+													showModal('Квартира свободна.');
+											  }
+
+											  calendar.refetchEvents(); // Обновим календарь
+											})
+											.catch(error => {
+											  console.error('Ошибка:', error);
+											});
+										}
+									  });
+
+									  calendar.render();
+
+									  function showModal(message) {
+										modalMessage.textContent = message;
+										modal.style.display = 'block';
+									  }
+									});
 
 
+								</script>
 
 
 							</div>
 						</div>
 
 					</div>
-					<!-- Best deal END -->
+					<!-- CALENDAR END -->
 				</div>
 			</aside>
 			<!-- Right side content END -->
@@ -1043,101 +1210,6 @@ About hotel END -->
 </div>
 <!-- Map modal END -->
 
-<!-- Room modal START -->
-<div class="modal fade" id="roomDetail" tabindex="-1" aria-labelledby="roomDetailLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content p-0">
-
-			<!-- Title -->
-			<div class="modal-header p-3">
-				<h5 class="modal-title mb-0" id="roomDetailLabel">Room detail</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-
-			<!-- Modal body -->
-			<div class="modal-body p-0">
-
-				<!-- Card START -->
-				<div class="card bg-transparent p-3">
-					<!-- Slider START -->
-					<div class="tiny-slider arrow-round arrow-dark overflow-hidden rounded-2">
-						<div class="tiny-slider-inner rounded-2 overflow-hidden" data-autoplay="true" data-arrow="true" data-dots="false" data-items="1">
-							<!-- Image item -->
-							<div> <img src="{% static 'images/16.jpg' %}" class="rounded-2" alt="Card image"></div>
-
-							<!-- Image item -->
-							<div> <img src="{% static 'images/15.jpg' %}" class="rounded-2" alt="Card image"> </div>
-
-							<!-- Image item -->
-							<div> <img src="{% static 'images/15.jpg' %}" class="rounded-2" alt="Card image"> </div>
-
-							<!-- Image item -->
-							<div> <img src="{% static 'images/15.jpg' %}" class="rounded-2" alt="Card image"> </div>
-						</div>
-					</div>
-					<!-- Slider END -->
-
-					<!-- Card header -->
-					<div class="card-header bg-transparent pb-0">
-						<h3 class="card-title mb-0">Deluxe Pool View</h3>
-					</div>
-
-					<!-- Card body START -->
-					<div class="card-body">
-						<!-- Content -->
-						<p>Club rooms are well furnished with air conditioner, 32 inch LCD television and a mini bar. They have attached bathroom with showerhead and hair dryer and 24 hours supply of hot and cold running water. Complimentary wireless internet access is available. Additional amenities include bottled water, a safe and a desk.</p>
-
-						<div class="row">
-							<h5 class="mb-0">Amenities</h5>
-
-							<!-- List -->
-							<div class="col-md-6">
-								<!-- List -->
-								<ul class="list-group list-group-borderless mt-2 mb-0">
-									<li class="list-group-item d-flex mb-0">
-										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">Swimming pool</span>
-									</li>
-									<li class="list-group-item d-flex mb-0">
-										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">Spa</span>
-									</li>
-									<li class="list-group-item d-flex mb-0">
-										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">Kids play area.</span>
-									</li>
-									<li class="list-group-item d-flex mb-0">
-										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">Gym</span>
-									</li>
-								</ul>
-							</div>
-
-							<!-- List -->
-							<div class="col-md-6">
-								<!-- List -->
-								<ul class="list-group list-group-borderless mt-2 mb-0">
-									<li class="list-group-item d-flex mb-0">
-										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">TV</span>
-									</li>
-									<li class="list-group-item d-flex mb-0">
-										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">Mirror</span>
-									</li>
-									<li class="list-group-item d-flex mb-0">
-										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">AC</span>
-									</li>
-									<li class="list-group-item d-flex mb-0">
-										<i class="fa-solid fa-check-circle text-success me-2"></i><span class="h6 fw-light mb-0">Slippers</span>
-									</li>
-								</ul>
-							</div>
-						</div> <!-- Row END -->
-					</div>
-					<!-- Card body END -->
-				</div>
-				<!-- Card END -->
-			</div>
-		</div>
-	</div>
-</div>
-<!-- Room modal END -->
-
 <!-- Back to top -->
 <style>
 .back-top {
@@ -1152,9 +1224,12 @@ About hotel END -->
     z-index: 1000; /* Make sure it's above other elements */
 }
 </style>
+
 <div class="back-top"></div>
 
 <!-- Bootstrap JS -->
+<script src='https://unpkg.com/fullcalendar@5/main.min.js'></script>
+<script src='https://unpkg.com/@fullcalendar/core/locales/ru.js'></script>
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 
 <!-- Vendors -->
@@ -1162,6 +1237,7 @@ About hotel END -->
 <script src="{% static 'js/flatpickr.min.js' %}"></script>
 <script src="{% static 'js/choices.min.js' %}"></script>
 <script src="{% static 'js/tiny-slider.js' %}"></script>
+
 
 <!-- ThemeFunctions -->
 <script src="{% static 'js/functions.js' %}"></script>

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Reservation, Apartment, ApartmentImage
+from .models import Reservation, Apartment, ApartmentImage, Booking
 
 
 class ApartmentForm(forms.ModelForm):
@@ -146,3 +146,10 @@ class ReservationForm(forms.ModelForm):
     class Meta:
         model = Reservation
         fields = ['name', 'surname', 'phone']
+
+
+
+class BookingForm(forms.ModelForm):
+    class Meta:
+        model = Booking
+        fields = ['start_date', 'end_date']

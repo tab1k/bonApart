@@ -1,5 +1,7 @@
 from random import shuffle
 from datetime import timedelta
+
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites import requests
 from django.core.exceptions import ImproperlyConfigured
@@ -7,6 +9,7 @@ from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, CreateView, UpdateView
 from django.contrib import messages
 from apartments.forms import *
@@ -175,12 +178,14 @@ class ApartamentsDetailView(View):
             apartments_detail = Apartment.objects.get(pk=pk)
             geo_queryset = GeoPosition.objects.filter(apartment=apartments_detail)
             geo = geo_queryset.first()
+
         except Apartment.DoesNotExist:
             raise Http404("Apartment does not exist")
         except GeoPosition.MultipleObjectsReturned:
-
             raise Http404("Multiple GeoPosition objects found for the Apartment")
         notifications = Notification.objects.filter(read=False).order_by('-timestamp')
+        booked_dates = Booking.objects.filter(apartment=apartments_detail).values_list('start_date', flat=True)
+
         comments = Comment.objects.filter(apartment=apartments_detail)
         comment_form = CommentForm()
 
@@ -190,6 +195,7 @@ class ApartamentsDetailView(View):
             owner_phone = None
         context = {
             'geo': geo,
+            'booked_dates': list(booked_dates),
             'detail': apartments_detail,
             'comments': comments,
             'notifications': notifications,
@@ -266,6 +272,29 @@ class ApartamentsDetailView(View):
         }
 
         return render(request, 'website/apartments_list.html', context)
+
+
+@csrf_exempt
+@login_required  # Убедитесь, что только аутентифицированные пользователи могут получить доступ к этому представлению
+def toggle_booking(request, pk):
+    # Проверяем, является ли текущий пользователь владельцем квартиры или администратором
+    if request.user.is_authenticated and (request.user == Apartment.objects.get(pk=pk).owner or request.user.is_superuser):
+        if request.method == 'POST':
+            date = request.POST.get('date')
+            date_parsed = datetime.strptime(date, '%Y-%m-%d').date()
+            booking, created = Booking.objects.get_or_create(
+                apartment_id=pk,
+                start_date=date_parsed,
+                end_date=date_parsed
+            )
+            if not created:
+                booking.delete()
+                return JsonResponse({'status': 'removed'})
+            return JsonResponse({'status': 'created'})
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    else:
+        return JsonResponse({'error': 'Permission denied'}, status=403)
+
 
 
 class ApartamentsUpdateView(LoginRequiredMixin, UpdateView):

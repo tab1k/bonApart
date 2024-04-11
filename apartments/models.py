@@ -139,6 +139,18 @@ class ApartmentImage(models.Model):
         verbose_name_plural = 'Фото квартир'
 
 
+class Booking(models.Model):
+    apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE, related_name='bookings')
+    start_date = models.DateField()
+    end_date = models.DateField()
+
+    def __str__(self):
+        return f'{self.apartment.name} | C {self.start_date} - До {self.end_date}'
+
+    class Meta:
+        verbose_name = 'Бронирование квартиры'
+        verbose_name_plural = 'Бронирование квартиры'
+
 
 class Discount(models.Model):
     apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE, blank=True, null=True, verbose_name='ЖК')

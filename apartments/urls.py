@@ -20,6 +20,7 @@ urlpatterns = [
     path('search_results/', SearchResultsView.as_view(), name='search_results'),
     path('', ApartmentView.as_view(), name='apartments'),
     path('apartaments-detail/<int:pk>/', ApartamentsDetailView.as_view(), name='apartaments-detail'),
+    path('apartaments-detail/<int:pk>/toggle-booking/', toggle_booking, name='toggle_booking'),
     path('apartaments-detail/<int:pk>/edit', ApartamentsUpdateView.as_view(), name='apartaments_edit'),
     path('<int:apartment_id>/reserve/', ApartmentView.as_view(), name='apartment_reserve'),
     path('success_reservation', SuccessReservation.as_view(), name='success_reservation'),

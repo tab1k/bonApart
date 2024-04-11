@@ -21,6 +21,7 @@ class ApartmentAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Apartment, ApartmentAdmin)
+admin.site.register(Booking)
 admin.site.register(ApartmentImage)
 admin.site.register(Reservation)
 admin.site.register(GeoPosition)

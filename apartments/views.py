@@ -1,5 +1,5 @@
 from random import shuffle
-from datetime import timedelta
+from datetime import timedelta, date
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -42,10 +42,13 @@ class ApartmentView(View):
         form = ApartmentFilterForm(request.GET)
         cities = City.objects.all()
         apartments = Apartment.objects.filter(status='approved', archived=False)
+        for apartment in apartments:
+            apartment.is_available = apartment.is_available()
 
         discount = Discount.objects.filter(apartment__in=apartments)
         notifications = Notification.objects.filter(read=False).order_by('-timestamp')
         selected_city = request.GET.get('selected_city')
+
 
         if selected_city:
             apartments = apartments.filter(city__name=selected_city)
@@ -88,6 +91,7 @@ class ApartmentView(View):
 
         context = {
             'apartment': page,
+            'apartments': apartments,
             'form': form,
             'discount': discount,
             'notifications': notifications,
@@ -178,14 +182,21 @@ class ApartamentsDetailView(View):
             apartments_detail = Apartment.objects.get(pk=pk)
             geo_queryset = GeoPosition.objects.filter(apartment=apartments_detail)
             geo = geo_queryset.first()
+            bookings = Booking.objects.filter(apartment=apartments_detail, end_date__gte=date.today()).order_by(
+                'start_date')
+            booked_days = []
+            for booking in bookings:
+                delta = booking.end_date - booking.start_date
+                for i in range(delta.days + 1):
+                    day = booking.start_date + timedelta(days=i)
+                    if day not in booked_days:
+                        booked_days.append(day)
 
         except Apartment.DoesNotExist:
             raise Http404("Apartment does not exist")
         except GeoPosition.MultipleObjectsReturned:
             raise Http404("Multiple GeoPosition objects found for the Apartment")
         notifications = Notification.objects.filter(read=False).order_by('-timestamp')
-        booked_dates = Booking.objects.filter(apartment=apartments_detail).values_list('start_date', flat=True)
-
         comments = Comment.objects.filter(apartment=apartments_detail)
         comment_form = CommentForm()
 
@@ -195,12 +206,12 @@ class ApartamentsDetailView(View):
             owner_phone = None
         context = {
             'geo': geo,
-            'booked_dates': list(booked_dates),
             'detail': apartments_detail,
             'comments': comments,
             'notifications': notifications,
             'comment_form': comment_form,
             'owner_phone': owner_phone,
+            'booked_days': booked_days,
         }
 
         return render(request, 'website/detail.html', context)

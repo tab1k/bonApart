@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.conf import settings
 from PIL import Image
+from django.db.models import Q
 from django.utils import timezone
 from datetime import timedelta
 
@@ -118,6 +119,11 @@ class Apartment(models.Model):
 
     def get_status_type(self):
         return self.get_status_display()
+
+    def is_available(self):
+        today = timezone.now().date()
+        # Проверяем, есть ли активные бронирования на сегодняшний день или будущие даты
+        return not self.bookings.filter(end_date__gte=today).exists()
 
     def __str__(self):
         return f'{self.name} {self.price}'

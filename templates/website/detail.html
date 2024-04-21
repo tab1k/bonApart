@@ -985,85 +985,130 @@ Image gallery START -->
 								</div>
 
 								<script>
-									function getCsrfToken() {
-										let csrfToken = null;
-										if (document.cookie && document.cookie !== '') {
-											const cookies = document.cookie.split(';');
-											for (let i = 0; i < cookies.length; i++) {
-												const cookie = cookies[i].trim();
-												if (cookie.substring(0, 'csrftoken'.length + 1) === ('csrftoken' + '=')) {
-													csrfToken = decodeURIComponent(cookie.substring('csrftoken'.length + 1));
-													break;
+									document.addEventListener('DOMContentLoaded', function() {
+										var modal = document.getElementById('myModal');
+										var span = document.getElementsByClassName('close')[0];
+										var modalMessage = document.getElementById('modal-message');
+										var calendarEl = document.getElementById('calendar');
+										var APARTMENT_ID = '{{ detail.id }}'; // Убедитесь, что это значение корректно передается в шаблон
+										var CSRFTOKEN = getCsrfToken(); // Получаем CSRF токен
+
+										// Функция для получения CSRF токена
+										function getCsrfToken() {
+											let csrfToken = null;
+											if (document.cookie && document.cookie !== '') {
+												const cookies = document.cookie.split(';');
+												for (let i = 0; i < cookies.length; i++) {
+													const cookie = cookies[i].trim();
+													if (cookie.substring(0, 'csrftoken'.length + 1) === ('csrftoken' + '=')) {
+														csrfToken = decodeURIComponent(cookie.substring('csrftoken'.length + 1));
+														break;
+													}
+												}
+											}
+											return csrfToken;
+										}
+
+										// Обработчик события клика по дате
+										function handleDateClick(info) {
+											fetch(`/apartments/apartaments-detail/${APARTMENT_ID}/toggle-booking/`, {
+												method: 'POST',
+												headers: {
+													'Content-Type': 'application/x-www-form-urlencoded',
+													'X-CSRFToken': CSRFTOKEN
+												},
+												body: `date=${info.dateStr}`
+											})
+											.then(response => response.json())
+											.then(data => {
+												console.log(data); // Проверим, что данные правильно получены
+												var dayEl = info.dayEl;
+												dayEl.classList.remove('fc-day-occupied'); // Сначала удалим класс, если он есть
+
+												if (data.status === 'created') {
+													dayEl.classList.add('fc-day-occupied'); // Добавим класс, если день занят
+													showModal('Квартира забронирована.');
+												} else {
+													showModal('Квартира свободна.');
+												}
+
+												calendar.refetchEvents(); // Обновим календарь
+											})
+											.catch(error => {
+												console.error('Ошибка:', error);
+											});
+										}
+
+
+										// Загрузка и отображение занятых дат
+										function loadAndDisplayOccupiedDates() {
+											fetch(`/apartments/apartaments-detail/${APARTMENT_ID}/occupied-dates/`)
+												.then(response => response.json())
+												.then(data => {
+													data.occupied_dates.forEach(dateString => {
+														console.log('pervyi', dateString);
+														var date = new Date(dateString); // Преобразуем строку в объект Date
+														var dayElement = findDayElement(calendar, date); // Передаем объект календаря в функцию
+
+														if (dayElement) {
+															dayElement.classList.add('fc-day-occupied');
+														}
+													});
+												})
+												.catch(error => console.error('Ошибка:', error));
+										}
+
+
+										// Определение функции findDayElement в той же области видимости, где и loadAndDisplayOccupiedDates
+										function findDayElement(calendar, date) {
+											var dateString = date.toISOString().slice(0, 10); // Преобразуем дату в строку формата 'YYYY-MM-DD'
+											console.log('check', dateString)
+											var dayElements = calendar.el.querySelectorAll('.fc-day'); // Находим все элементы дней на календаре
+
+											// Проходим по всем элементам дней и ищем нужный день
+											for (var i = 0; i < dayElements.length; i++) {
+												var dayElement = dayElements[i];
+												var dayDateString = dayElement.getAttribute('data-date');
+
+												// Если нашли нужный день, возвращаем его элемент
+												if (dayDateString === dateString) {
+													return dayElement;
 												}
 											}
 										}
-										return csrfToken;
-									}
-								</script>
 
-								<script>
-									document.addEventListener('DOMContentLoaded', function() {
-									  var modal = document.getElementById('myModal');
-									  var span = document.getElementsByClassName('close')[0];
-									  var modalMessage = document.getElementById('modal-message');
 
-									  span.onclick = function() {
-										modal.style.display = 'none';
-									  };
-
-									  window.onclick = function(event) {
-										if (event.target == modal) {
-										  modal.style.display = 'none';
+										// Показ модального окна
+										function showModal(message) {
+											modalMessage.textContent = message;
+											modal.style.display = 'block';
 										}
-									  };
 
-									  var calendarEl = document.getElementById('calendar');
-									  var APARTMENT_ID = '{{ detail.id }}'; // Убедитесь, что это значение корректно передается в шаблон
-									  var CSRFTOKEN = getCsrfToken(); // Получаем CSRF токен
+										// Назначаем обработчики событий для модального окна
+										span.onclick = function() {
+											modal.style.display = 'none';
+										};
 
+										window.onclick = function(event) {
+											if (event.target == modal) {
+												modal.style.display = 'none';
+											}
+										};
 
-									  var calendar = new FullCalendar.Calendar(calendarEl, {
-										locale: 'ru',
-										initialView: 'dayGridMonth',
-										// Другие настройки...
-										dateClick: function(info) {
-										  fetch(`/apartments/apartaments-detail/${APARTMENT_ID}/toggle-booking/`, {
-											method: 'POST',
-											headers: {
-											  'Content-Type': 'application/x-www-form-urlencoded',
-											  'X-CSRFToken': CSRFTOKEN
-											},
-											body: `date=${info.dateStr}`
-										  })
-											.then(response => response.json())
-											.then(data => {
-											  console.log(data); // Проверим, что данные правильно получены
-											  var dayEl = info.dayEl;
-											  dayEl.classList.remove('fc-day-occupied'); // Сначала удалим класс, если он есть
+										// Создаем календарь
+										var calendar = new FullCalendar.Calendar(calendarEl, {
+											locale: 'ru',
+											initialView: 'dayGridMonth',
+											// Другие настройки...
+											dateClick: handleDateClick // Передаем обработчик события клика по дате
+										});
 
-											  if (data.status === 'created') {
-												dayEl.classList.add('fc-day-occupied'); // Добавим класс, если день занят
-												showModal('Квартира забронирована.');
-											  } else {
-													showModal('Квартира свободна.');
-											  }
+										// Загружаем и отображаем занятые даты после создания календаря
+										loadAndDisplayOccupiedDates();
 
-											  calendar.refetchEvents(); // Обновим календарь
-											})
-											.catch(error => {
-											  console.error('Ошибка:', error);
-											});
-										}
-									  });
-
-									  calendar.render();
-
-									  function showModal(message) {
-										modalMessage.textContent = message;
-										modal.style.display = 'block';
-									  }
+										// Рендерим календарь
+										calendar.render();
 									});
-
 
 								</script>
 							</div>

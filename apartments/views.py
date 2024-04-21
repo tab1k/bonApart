@@ -1,6 +1,6 @@
 from random import shuffle
 from datetime import timedelta, date
-
+from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites import requests
@@ -8,6 +8,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, CreateView, UpdateView
@@ -49,13 +50,12 @@ class ApartmentView(View):
         notifications = Notification.objects.filter(read=False).order_by('-timestamp')
         selected_city = request.GET.get('selected_city')
 
-
         if selected_city:
             apartments = apartments.filter(city__name=selected_city)
 
-            apartments_list = list(apartments)
-
-            shuffle(apartments_list)
+        # Сначала перемешаем все квартиры
+        apartments_list = list(apartments)
+        shuffle(apartments_list)
 
         if form.is_valid():
             room_choice = form.cleaned_data['room_choice']
@@ -82,9 +82,7 @@ class ApartmentView(View):
                 elif price_choice == '5':
                     apartments = apartments.filter(price__gte=25000)
 
-
-
-        paginator = Paginator(apartments, 10)  # 10 - количество элементов на странице
+        paginator = Paginator(apartments_list, 10)  # 10 - количество элементов на странице
 
         page_number = request.GET.get('page')
         page = paginator.get_page(page_number)
@@ -285,14 +283,18 @@ class ApartamentsDetailView(View):
         return render(request, 'website/apartments_list.html', context)
 
 
-@csrf_exempt
-@login_required  # Убедитесь, что только аутентифицированные пользователи могут получить доступ к этому представлению
-def toggle_booking(request, pk):
-    # Проверяем, является ли текущий пользователь владельцем квартиры или администратором
-    if request.user.is_authenticated and (request.user == Apartment.objects.get(pk=pk).owner or request.user.is_superuser):
-        if request.method == 'POST':
+
+
+class ToggleBookingView(View):
+    @method_decorator(csrf_exempt)
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def post(self, request, pk):
+        if request.user == Apartment.objects.get(pk=pk).owner or request.user.is_superuser:
             date = request.POST.get('date')
-            date_parsed = datetime.strptime(date, '%Y-%m-%d').date()
+            date_parsed = datetime.datetime.strptime(date, '%Y-%m-%d').date()
             booking, created = Booking.objects.get_or_create(
                 apartment_id=pk,
                 start_date=date_parsed,
@@ -302,10 +304,22 @@ def toggle_booking(request, pk):
                 booking.delete()
                 return JsonResponse({'status': 'removed'})
             return JsonResponse({'status': 'created'})
-        return JsonResponse({'error': 'Invalid request'}, status=400)
-    else:
         return JsonResponse({'error': 'Permission denied'}, status=403)
 
+
+import datetime
+
+class OccupiedDatesView(View):
+    def get(self, request, pk):
+        bookings = Booking.objects.filter(apartment__pk=pk)
+        dates = []
+        for booking in bookings:
+            current_date = booking.start_date
+            while current_date <= booking.end_date:
+                dates.append(current_date.strftime('%Y-%m-%d'))
+                current_date += datetime.timedelta(days=1)
+        dates = list(set(dates))
+        return JsonResponse({'occupied_dates': dates})
 
 
 class ApartamentsUpdateView(LoginRequiredMixin, UpdateView):
@@ -331,14 +345,14 @@ class ApartmentBuyView(ListView):
     def get_queryset(self):
         selected_city = self.request.GET.get('selected_city')
         queryset = Apartment.objects.filter(deal_type='sale', status='approved', archived=False)
+
         if selected_city:
             queryset = queryset.filter(city__name=selected_city, status='approved', archived=False)
-            # Получаем список квартир
-            queryset_list = list(queryset)
-            # Перемешиваем список квартир в случайном порядке
-            shuffle(queryset_list)
-        else:
-            queryset_list = queryset
+
+        # Получаем список квартир
+        queryset_list = list(queryset)
+        # Перемешиваем список квартир в случайном порядке
+        shuffle(queryset_list)
 
         form = self.form_class(self.request.GET)
 
@@ -361,7 +375,7 @@ class ApartmentBuyView(ListView):
             if price_to:
                 queryset = queryset.filter(price__lte=price_to)
 
-        return queryset.order_by('-timestamp')
+        return queryset_list
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -380,16 +394,15 @@ class ApartmentRentView(ListView):
 
         if selected_city:
             queryset = queryset.filter(city__name=selected_city, status='approved')
-            # Получаем список квартир
-            queryset_list = list(queryset)
-            # Перемешиваем список квартир в случайном порядке
-            shuffle(queryset_list)
-        else:
-            queryset_list = queryset
+
+        # Получаем список квартир
+        queryset_list = list(queryset)
+        # Перемешиваем список квартир в случайном порядке
+        shuffle(queryset_list)
 
         queryset = queryset.filter(Q(deal_type='monthly_rent') | Q(deal_type='daily_rent'))
 
-        return queryset.order_by('-timestamp')
+        return queryset_list
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -414,17 +427,16 @@ class ApartmentRentBaseView(ListView):
 
         if selected_city:
             queryset = queryset.filter(city__name=selected_city)
-            # Получаем список квартир
-            queryset_list = list(queryset)
-            # Перемешиваем список квартир в случайном порядке
-            shuffle(queryset_list)
-        else:
-            queryset_list = queryset
+
+        # Получаем список квартир
+        queryset_list = list(queryset)
+        # Перемешиваем список квартир в случайном порядке
+        shuffle(queryset_list)
 
         if room_choice:  # Если выбрано количество комнат, фильтруем по нему
-            queryset = queryset.filter(room=room_choice)
+            queryset_list = [apt for apt in queryset_list if apt.room == room_choice]
 
-        return queryset.order_by('-timestamp')
+        return queryset_list
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -441,6 +453,7 @@ class ApartmentRentDayView(ApartmentRentBaseView):
 class ApartmentRentMonthView(ApartmentRentBaseView):
     template_name = 'apartments/apartments_rent_month.html'
     deal_type = 'monthly_rent'
+
 
 
 class ApartmentAddView(LoginRequiredMixin, CreateView):
@@ -484,7 +497,6 @@ class ApartmentAddView(LoginRequiredMixin, CreateView):
         print(form.errors)
         # Возвращаем HTTP-ответ с формой и ошибками
         return super().form_invalid(form)
-
 
 
 class ApartmentApproveView(View):

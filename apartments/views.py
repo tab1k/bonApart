@@ -53,10 +53,6 @@ class ApartmentView(View):
         if selected_city:
             apartments = apartments.filter(city__name=selected_city)
 
-        # Сначала перемешаем все квартиры
-        apartments_list = list(apartments)
-        shuffle(apartments_list)
-
         if form.is_valid():
             room_choice = form.cleaned_data['room_choice']
             price_choice = form.cleaned_data['price_choice']
@@ -82,7 +78,13 @@ class ApartmentView(View):
                 elif price_choice == '5':
                     apartments = apartments.filter(price__gte=25000)
 
-        paginator = Paginator(apartments_list, 10)  # 10 - количество элементов на странице
+        if not form.is_bound or not form.is_valid():  # Проверка, была ли форма использована или она невалидна
+            # Применение shuffle() только если форма не использовалась или она невалидна
+            apartments_list = list(apartments)
+            shuffle(apartments_list)
+            paginator = Paginator(apartments_list, 10)
+        else:
+            paginator = Paginator(apartments, 10)  # Использование отфильтрованного списка для paginator
 
         page_number = request.GET.get('page')
         page = paginator.get_page(page_number)
@@ -337,6 +339,8 @@ class SuccessReservation(View):
         return render(request, 'website/success.html')
 
 
+from random import shuffle
+
 class ApartmentBuyView(ListView):
     template_name = 'apartments/apartments_buy.html'
     context_object_name = 'apartment'
@@ -347,12 +351,7 @@ class ApartmentBuyView(ListView):
         queryset = Apartment.objects.filter(deal_type='sale', status='approved', archived=False)
 
         if selected_city:
-            queryset = queryset.filter(city__name=selected_city, status='approved', archived=False)
-
-        # Получаем список квартир
-        queryset_list = list(queryset)
-        # Перемешиваем список квартир в случайном порядке
-        shuffle(queryset_list)
+            queryset = queryset.filter(city__name=selected_city)
 
         form = self.form_class(self.request.GET)
 
@@ -375,6 +374,11 @@ class ApartmentBuyView(ListView):
             if price_to:
                 queryset = queryset.filter(price__lte=price_to)
 
+        queryset_list = list(queryset)
+
+        if not form.is_bound or not form.is_valid():
+            shuffle(queryset_list)
+
         return queryset_list
 
     def get_context_data(self, **kwargs):
@@ -383,6 +387,9 @@ class ApartmentBuyView(ListView):
         context['form'] = self.form_class(self.request.GET)
         return context
 
+
+
+from random import shuffle
 
 class ApartmentRentView(ListView):
     template_name = 'apartments/apartments_rent.html'
@@ -393,14 +400,14 @@ class ApartmentRentView(ListView):
         queryset = Apartment.objects.filter(status='approved', archived=False)
 
         if selected_city:
-            queryset = queryset.filter(city__name=selected_city, status='approved')
-
-        # Получаем список квартир
-        queryset_list = list(queryset)
-        # Перемешиваем список квартир в случайном порядке
-        shuffle(queryset_list)
+            queryset = queryset.filter(city__name=selected_city)
 
         queryset = queryset.filter(Q(deal_type='monthly_rent') | Q(deal_type='daily_rent'))
+
+        queryset_list = list(queryset)
+
+        if not self.request.GET or not queryset_list:
+            shuffle(queryset_list)
 
         return queryset_list
 
@@ -409,6 +416,9 @@ class ApartmentRentView(ListView):
         context['cities'] = City.objects.all()
         return context
 
+
+
+from random import shuffle
 
 class ApartmentRentBaseView(ListView):
     template_name = ''
@@ -423,18 +433,31 @@ class ApartmentRentBaseView(ListView):
     def get_queryset(self):
         selected_city = self.request.GET.get('selected_city')
         room_choice = self.request.GET.get('room_choice')  # Получаем выбор количества комнат из запроса
+        price_choice = self.request.GET.get('price_choice')  # Получаем выбор цены из запроса
         queryset = Apartment.objects.filter(deal_type=self.deal_type, status='approved', archived=False)
 
         if selected_city:
             queryset = queryset.filter(city__name=selected_city)
 
-        # Получаем список квартир
-        queryset_list = list(queryset)
-        # Перемешиваем список квартир в случайном порядке
-        shuffle(queryset_list)
+        if room_choice:
+            queryset = queryset.filter(room=room_choice)
 
-        if room_choice:  # Если выбрано количество комнат, фильтруем по нему
-            queryset_list = [apt for apt in queryset_list if apt.room == room_choice]
+        if price_choice:
+            if price_choice == '1':
+                queryset = queryset.filter(price__gte=10000)
+            elif price_choice == '2':
+                queryset = queryset.filter(price__range=(10000, 15000))
+            elif price_choice == '3':
+                queryset = queryset.filter(price__range=(15000, 20000))
+            elif price_choice == '4':
+                queryset = queryset.filter(price__range=(20000, 25000))
+            elif price_choice == '5':
+                queryset = queryset.filter(price__gte=25000)
+
+        queryset_list = list(queryset)
+
+        if not self.request.GET or not queryset_list:
+            shuffle(queryset_list)
 
         return queryset_list
 
@@ -453,6 +476,7 @@ class ApartmentRentDayView(ApartmentRentBaseView):
 class ApartmentRentMonthView(ApartmentRentBaseView):
     template_name = 'apartments/apartments_rent_month.html'
     deal_type = 'monthly_rent'
+
 
 
 

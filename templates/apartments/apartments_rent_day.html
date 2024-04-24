@@ -730,19 +730,19 @@ Hotel list START -->
 					<nav class="d-flex justify-content-center" aria-label="navigation">
                         <ul class="pagination pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
                           {% if apartment.has_previous %}
-                            <li class="page-item mb-0"><a style="background-color: green;" class="page-link" href="?page=1" tabindex="-1"><i class="fa-solid fa-angle-left"></i></a></li>
-                            <li class="page-item mb-0"><a style="background-color: green;"  class="page-link" href="?page={{ apartment.previous_page_number }}">Предыдущая</a></li>
+                            <li class="page-item mb-0"><a style="background-color: green; color: white;" class="page-link" href="?page=1" tabindex="-1"><i class="fa-solid fa-angle-left"></i></a></li>
+                            <li class="page-item mb-0"><a style="background-color: green; color: white;"  class="page-link" href="?page={{ apartment.previous_page_number }}">Предыдущая</a></li>
                           {% endif %}
 
                           {% for page_number in apartment.paginator.page_range %}
                             <li class="page-item mb-0 {% if page_number == apartment.number %}active{% endif %}">
-                              <a style="background-color: green;"  class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                              <a style="background-color: green; color: white;"  class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
                             </li>
                           {% endfor %}
 
                           {% if apartment.has_next %}
-                            <li class="page-item mb-0"><a style="background-color: green;"  class="page-link" href="?page={{ apartment.next_page_number }}">Следующая</a></li>
-                            <li class="page-item mb-0"><a style="background-color: green;" class="page-link" href="?page={{ apartment.paginator.num_pages }}"><i class="fa-solid fa-angle-right"></i></a></li>
+                            <li class="page-item mb-0"><a style="background-color: green; color: white;"  class="page-link" href="?page={{ apartment.next_page_number }}">Следующая</a></li>
+                            <li class="page-item mb-0"><a style="background-color: green; color: white;" class="page-link" href="?page={{ apartment.paginator.num_pages }}"><i class="fa-solid fa-angle-right"></i></a></li>
                           {% endif %}
                         </ul>
                       </nav>

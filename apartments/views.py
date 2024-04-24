@@ -34,6 +34,8 @@ class SearchResultsView(View):
                         )
 
 
+from random import shuffle
+
 class ApartmentView(View):
     template_name = 'website/apartments_list.html'
     TELEGRAM_BOT_TOKEN = '6709416090:AAFayt-eVfuaYUYKUHjkt4FGKEHUgO7Oo6E'
@@ -78,8 +80,9 @@ class ApartmentView(View):
                 elif price_choice == '5':
                     apartments = apartments.filter(price__gte=25000)
 
-        if not form.is_bound or not form.is_valid():  # Проверка, была ли форма использована или она невалидна
-            # Применение shuffle() только если форма не использовалась или она невалидна
+        if not self.request.GET or not self.request.GET.get('selected_city') or not self.request.GET.get('room_choice') or not self.request.GET.get('price_choice'):
+            # Проверка, были ли переданы параметры в запросе или валидны ли они
+            # Если не переданы или не валидны, то перемешиваем список квартир
             apartments_list = list(apartments)
             shuffle(apartments_list)
             paginator = Paginator(apartments_list, 10)
@@ -454,12 +457,11 @@ class ApartmentRentBaseView(ListView):
             elif price_choice == '5':
                 queryset = queryset.filter(price__gte=25000)
 
-        queryset_list = list(queryset)
+        if not self.request.GET or not self.request.GET.get('selected_city') or not self.request.GET.get('room_choice') or not self.request.GET.get('price_choice'):
+            queryset = list(queryset)
+            shuffle(queryset)
 
-        if not self.request.GET or not queryset_list:
-            shuffle(queryset_list)
-
-        return queryset_list
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
